@@ -79,7 +79,7 @@ cp .env.example .env.local   # add TAVILY_API_KEY + gateway/pro creds
 bun run bifrost       # npx -y @maximhq/bifrost  → http://localhost:8080
 #   in the Bifrost web UI: add the nebius provider with your key,
 #   create a virtual key, and put it in BIFROST_API_KEY below.
-#   (or set a BIFROST_SETUP_TOKEN and use the API — see scripts/bootstrap-bifrost.sh)
+#   (or set a BIFROST_SETUP_TOKEN and use the API — see scripts/bootstrap-bifrost.mjs)
 
 bun run dev           # http://localhost:3000
 ```
