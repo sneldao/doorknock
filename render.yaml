@@ -1,0 +1,59 @@
+services:
+  # Doorknock — pre-meeting briefing agent (Global AI Hackathon, PS-05).
+  # Two services: the Next.js app and the Bifrost AI Gateway it routes
+  # every model call through. The app never talks to a model provider
+  # directly — Bifrost holds the provider key and a governance virtual key
+  # scopes the app's access.
+
+  - type: web
+    name: doorknock
+    runtime: node
+    plan: starter
+    autoDeploy: true
+    buildCommand: npm install && npm run build
+    startCommand: node scripts/boot.mjs
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 22.12.0
+      # 30-day research sweep (track partner).
+      - key: TAVILY_API_KEY
+        sync: false
+      # Provider key, held only to provision the gateway at boot (idempotent).
+      - key: NEBIUS_API_KEY
+        sync: false
+      # Gateway management token (secret).
+      - key: BIFROST_SETUP_TOKEN
+        sync: false
+      # Gateway model in provider/model form.
+      - key: BRIEF_MODEL
+        value: nebius/nvidia/nemotron-3-super-120b-a12b
+      # Internal address of the Bifrost private service.
+      - key: BIFROST_HOST
+        fromService:
+          name: doorknock-bifrost
+          type: pserv
+          property: host
+      - key: BIFROST_PORT
+        fromService:
+          name: doorknock-bifrost
+          type: pserv
+          property: port
+
+  # Bifrost AI Gateway (title partner) — private, internal only.
+  - type: pserv
+    name: doorknock-bifrost
+    runtime: image
+    image:
+      url: docker.io/maximhq/bifrost:latest
+    plan: starter
+    # Bifrost listens on 8080.
+    envVars:
+      - key: BIFROST_SETUP_TOKEN
+        sync: false
+      - key: PORT
+        value: 8080
+    disk:
+      name: bifrost-config
+      mountPath: /app/data
+      sizeGB: 1
