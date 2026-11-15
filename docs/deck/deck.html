@@ -1,0 +1,322 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Doorknock — deck</title>
+<style>
+  @font-face { font-family: "Fraunces"; src: url("fonts/fraunces.woff2") format("woff2-variations"); font-weight: 300 900; }
+  @font-face { font-family: "Inter"; src: url("fonts/inter.woff2") format("woff2-variations"); font-weight: 100 900; }
+  @font-face { font-family: "JetBrains Mono"; src: url("fonts/jono.woff2") format("woff2-variations"); font-weight: 100 800; }
+
+  * { box-sizing: border-box; margin: 0; }
+  :root {
+    --paper: #f6f1e7; --deep: #efe8d8; --ink: #1d1a15; --soft: #4d4638;
+    --rule: #d8cfbc; --stamp: #8c2f24; --verified: #2e5e3f;
+  }
+  body { font-family: "Inter", sans-serif; background: #3a352c; }
+  .slide {
+    width: 1280px; height: 720px; background: var(--paper);
+    margin: 20px auto; position: relative; overflow: hidden;
+    color: var(--ink);
+    background-image: radial-gradient(rgba(29,26,21,0.045) 1px, transparent 1px);
+    background-size: 22px 22px;
+    page-break-after: always;
+  }
+  .pad { padding: 54px 64px; height: 100%; display: flex; flex-direction: column; }
+  .mono { font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--soft); }
+  .telex { border-bottom: 1.5px solid var(--rule); background: var(--deep); display: flex; justify-content: space-between; padding: 10px 24px; position: absolute; top: 0; left: 0; right: 0; }
+  h1 { font-family: "Fraunces", serif; font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1; letter-spacing: -0.02em; line-height: .98; }
+  h2 { font-family: "Fraunces", serif; font-variation-settings: "opsz" 72, "SOFT" 0, "WONK" 0; font-weight: 640; font-size: 42px; line-height: 1.06; margin: 26px 0 18px; }
+  .rule { border: none; border-top: 1px solid var(--rule); margin: 14px 0; }
+  .rule.d { border-top: 3px double var(--rule); }
+  .stamp { font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--stamp); border: 1.5px solid var(--stamp); padding: 4px 12px; transform: rotate(-2deg); display: inline-block; border-radius: 2px; }
+  .stamp.p { color: var(--verified); border-color: var(--verified); }
+  .cols { display: flex; gap: 28px; flex: 1; min-height: 0; }
+  .card { border: 1px solid var(--rule); background: #fbf8f0; padding: 18px 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th { font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); text-align: left; padding: 6px 10px 6px 0; border-bottom: 1.5px solid var(--rule); }
+  td { padding: 9px 10px 9px 0; border-bottom: 1px dashed var(--rule); vertical-align: top; line-height: 1.4; }
+  .chip { font-family: "JetBrains Mono", monospace; font-size: 10.5px; border: 1px solid var(--rule); background: var(--deep); padding: 3px 8px; border-radius: 2px; color: var(--soft); white-space: nowrap; display: inline-block; margin: 2px 4px 2px 0; }
+  img.shot { border: 1px solid var(--rule); box-shadow: 6px 8px 0 rgba(29,26,21,0.08); width: 100%; }
+  .arch { font-family: "JetBrains Mono", monospace; font-size: 12.5px; line-height: 1.9; }
+  .big { font-family: "Fraunces", serif; font-size: 64px; font-weight: 700; line-height: 1; }
+  ul.tight { padding-left: 18px; font-size: 15.5px; line-height: 1.55; }
+  ul.tight li { margin-bottom: 10px; }
+
+  @page { size: 1280px 720px; margin: 0; }
+  @media print {
+    body { background: none; }
+    .slide { margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 1 · title -->
+<div class="slide">
+  <div class="telex"><span class="mono">Global AI Hackathon · Problem Statement 05</span><span class="mono">15 November 2026</span></div>
+  <div class="pad" style="justify-content: center; align-items: flex-start;">
+    <span class="mono">DOORKNOCK · PRE-MEETING BRIEFING AGENT</span>
+    <h1 style="font-size: 92px; margin-top: 22px;">Read the room<br/>before you walk in.</h1>
+    <hr class="rule d" style="width: 100%; margin: 34px 0 22px;"/>
+    <p style="font-size: 18px; max-width: 760px; line-height: 1.5; color: var(--soft);">
+      A research crew that sweeps the last 30 days of news about the company or person you're about to meet —
+      through Tavily, models behind the Bifrost gateway — and hands you a one-page brief where
+      <em>every claim is traced to a source the crew actually fetched.</em>
+    </p>
+  </div>
+</div>
+
+<!-- 2 · problem -->
+<div class="slide">
+  <div class="telex"><span class="mono">Doorknock</span><span class="mono">02 / 10</span></div>
+  <div class="pad">
+    <h2>The meeting is tomorrow. The research takes an hour you don't have.</h2>
+    <div class="cols">
+      <div style="flex: 1;">
+        <ul class="tight">
+          <li><strong>Scattered.</strong> Preparing for an important meeting means digging through news, launches, leadership changes, funding announcements — spread across a dozen sources.</li>
+          <li><strong>Slow.</strong> Manual research eats the morning before the meeting; most people walk in under-read.</li>
+          <li><strong>Untrustworthy.</strong> Off-the-shelf AI summaries are fluent and often fabricated — invented launches, invented hires, presented with total confidence.</li>
+        </ul>
+      </div>
+      <div class="card" style="width: 460px;">
+        <span class="mono">Problem statement 05 — the ask</span>
+        <p style="margin-top: 12px; font-size: 15px; line-height: 1.55;">
+          “An AI-powered research agent that takes a company or person and a meeting time,
+          produces a <strong>one-page briefing</strong> covering developments from the <strong>previous 30 days</strong> —
+          news, launches, hires — with <strong>sources for factual claims</strong>,
+          <strong>open questions</strong>, and verified findings <strong>distinguished from uncertain information</strong>.”
+        </p>
+        <p style="margin-top: 12px; font-size: 14px; color: var(--soft);">Tavily: research. Bifrost: model gateway. Doorknock is that agent, built for the statement, not adapted to it.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 · solution -->
+<div class="slide">
+  <div class="telex"><span class="mono">Doorknock</span><span class="mono">03 / 10</span></div>
+  <div class="pad">
+    <h2>Meeting context in. Source-backed brief out.</h2>
+    <div class="cols" style="align-items: stretch;">
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 14px;">
+        <div class="card">
+          <span class="mono">Input</span>
+          <p style="margin-top: 8px; font-size: 15.5px; line-height: 1.5;">Company or person · meeting time · meeting type (sales, partnership, investor, BD, general) · one line of context</p>
+        </div>
+        <div class="card">
+          <span class="mono">Crew</span>
+          <p style="margin-top: 8px; font-size: 15.5px; line-height: 1.5;">Scout plans and runs a <strong>multi-query Tavily sweep</strong> (news, ≤ 30 days + evergreen identity). Clerk clusters hits into developments. Scribe writes the one-pager. <strong>Auditor gates it.</strong></p>
+        </div>
+        <div class="card">
+          <span class="mono">Output</span>
+          <p style="margin-top: 8px; font-size: 15.5px; line-height: 1.5;">Headline · situation · key developments with source links · discussion points · open questions · <strong>grounding score</strong> · research trail — a real document, print-styled, not a chat blob.</p>
+        </div>
+      </div>
+      <div style="width: 520px; display: flex; flex-direction: column;">
+        <span class="mono">Real output — Stripe, partnership meeting</span>
+        <img class="shot" style="margin-top: 10px; height: 470px; object-fit: cover; object-position: top;" src="assets/brief-top.png"/>
+        <p style="margin-top: 10px;" class="mono"><span class="stamp p">Verified · grounding 100%</span>&nbsp;&nbsp;26 sources · 5 queries · 30-day window</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 · crew -->
+<div class="slide">
+  <div class="telex"><span class="mono">Doorknock</span><span class="mono">04 / 10</span></div>
+  <div class="pad">
+    <h2>Four agents. One is not a model.</h2>
+    <table>
+      <tr><th style="width: 200px;">Agent</th><th>Job</th></tr>
+      <tr><td><strong>SCOUT</strong> · research</td><td>Derives 4–6 queries from the meeting context; runs the Tavily sweep — <span class="chip">topic: news</span><span class="chip">days: 30</span><span class="chip">depth: advanced</span> — plus one evergreen identity query. <strong>The transcript is sealed here.</strong></td></tr>
+      <tr><td><strong>CLERK</strong> · synthesis</td><td>Clusters hits into distinct developments — launches, hires, funding, partnerships — each citing <strong>exact transcript URLs</strong>, each flagged in-window or background.</td></tr>
+      <tr><td><strong>SCRIBE</strong> · drafting</td><td>Writes the one-page brief for the meeting at hand; must carry the Clerk's source URLs forward unaltered.</td></tr>
+      <tr><td><strong>AUDITOR</strong> · verification</td><td><strong>Deterministic code, zero model calls.</strong> Every development must trace to a URL in the sealed transcript. Untraced claim → <span class="chip" style="border-color: var(--stamp); color: var(--stamp);">REJECT → redraft</span> → still failing → repair: stripped to the <em>uncertain — treat with caution</em> section, kept visible.</td></tr>
+    </table>
+    <p style="margin-top: 16px; font-size: 16px;"><em>Agents propose, code disposes.</em> The entire run streams live — every query, hit count, verdict and rejection is on screen as it happens.</p>
+  </div>
+</div>
+
+<!-- 5 · the gate -->
+<div class="slide">
+  <div class="telex"><span class="mono">Doorknock</span><span class="mono">05 / 10</span></div>
+  <div class="pad">
+    <h2>The gate: hallucination insurance in ~100 lines of code</h2>
+    <div class="cols">
+      <div style="flex: 1;">
+        <ul class="tight">
+          <li><strong>Ground truth is sealed before drafting.</strong> The Scout's fetched-URL set is the only allowed citation set. The drafting agents cannot add to it.</li>
+          <li><strong>Claim → source check.</strong> Each development needs ≥1 transcript URL (hash- and slash-normalized).</li>
+          <li><strong>Grounding score</strong> = traced ÷ total; threshold 0.8. Below → <span style="color: var(--stamp); font-family: 'JetBrains Mono'; font-size: 13px;">REJECT</span> with a machine-readable report naming each offending claim.</li>
+          <li><strong>Never silent.</strong> One redraft; if it still fails, untraceable items move to a flagged <em>uncertain</em> section — verified findings stay distinguishable, exactly as the statement asks.</li>
+          <li><strong>Fully tested.</strong> 8 deterministic unit tests — fabricated URL, unsourced claim, out-of-window flag, URL normalization, threshold math, repair semantics. No network, no keys, no models.</li>
+        </ul>
+      </div>
+      <div style="width: 470px; display: flex; flex-direction: column; gap: 12px;">
+        <div class="card" style="border-left: 3px solid var(--stamp);">
+          <span class="mono" style="color: var(--stamp);">Auditor — a real rejection</span>
+          <pre class="arch" style="margin-top: 10px; white-space: pre-wrap;">“Acme opens a moon office” cites source(s)
+the crew never fetched — likely fabricated:
+https://made-up.example.com/moon
+→ REJECT — 1 of 3 developments fail
+  source tracing (grounding 67%)</pre>
+        </div>
+        <div class="card" style="border-left: 3px solid var(--verified);">
+          <span class="mono" style="color: var(--verified);">Auditor — shipped only after</span>
+          <pre class="arch" style="margin-top: 10px; white-space: pre-wrap;">“Stripe launches global stablecoin payouts
+to 160+ markets” → 2/2 transcript URLs
+→ PASS — 5/5 developments source-traced
+  (grounding 100%)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 6 · bifrost -->
+<div class="slide">
+  <div class="telex"><span class="mono">Doorknock</span><span class="mono">06 / 10</span></div>
+  <div class="pad">
+    <h2>Bifrost — the only door to the models</h2>
+    <p style="font-size: 16px; max-width: 900px; line-height: 1.5; color: var(--soft);">Every model call in Doorknock — planning, synthesis, drafting — routes through the Bifrost gateway. The application holds no provider key and cannot reach any model directly.</p>
+    <div class="cols" style="margin-top: 18px;">
+      <div class="card" style="flex: 1.2;">
+        <span class="mono">Request path</span>
+        <pre class="arch" style="margin-top: 10px;">
+  app (Next.js, AI SDK)
+      │  OpenAI-compatible, one base URL
+      ▼
+  ┌─────────────────────────────────┐
+  │  BIFROST GATEWAY v2.5           │
+  │  · provider routing: nebius     │
+  │  · virtual-key governance       │
+  │  · provider key never leaves   │
+  └───────────────┬─────────────────┘
+                  ▼
+   Nebius · NVIDIA Nemotron 3
+   open models (nvidia/nemotron-3-super-120b-a12b)</pre>
+      </div>
+      <div style="flex: 1;">
+        <ul class="tight">
+          <li><strong>Governance in action:</strong> a Bifrost <em>virtual key</em> scopes the app to the nebius provider and an explicit model allowlist — the gateway enforces least privilege, not decoration.</li>
+          <li><strong>Drop-in:</strong> Bifrost speaks OpenAI-compatible; switching Doorknock from a direct provider to the gateway was <strong>one base-URL env var</strong> — zero code changes.</li>
+          <li><strong>Deploy shape:</strong> runs as a private Docker service (Render) with persistent config disk; the app provisions it idempotently at boot (<code style="font-family:'JetBrains Mono'; font-size: 12px;">scripts/bootstrap-bifrost.mjs</code>).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7 · tavily -->
+<div class="slide">
+  <div class="telex"><span class="mono">Doorknock</span><span class="mono">07 / 10</span></div>
+  <div class="pad">
+    <h2>Tavily — the research layer, visible end to end</h2>
+    <div class="cols">
+      <div style="flex: 1;">
+        <ul class="tight">
+          <li><strong>The 30-day window is a first-class parameter:</strong> <span class="chip">topic: "news"</span> + <span class="chip">days: 30</span> on every news query — the recency contract of the problem statement, enforced by the search API itself.</li>
+          <li><strong>Query derivation, not one search:</strong> Scout generates 4–6 subject-specific queries (funding, launches, hires, partnerships…), plus an evergreen identity query for background.</li>
+          <li><strong>Nothing hidden:</strong> every query, hit count and source URL renders live in the run feed and in the finished brief's research trail. Tavily isn't a black box inside the agent — it's the visible spine.</li>
+          <li><strong>The transcript is the ground truth:</strong> URLs enter the audit set <em>only</em> via Tavily results — which is what makes the gate's source-tracing meaningful.</li>
+        </ul>
+      </div>
+      <div style="width: 500px;">
+        <span class="mono">Live feed — queries as they fly</span>
+        <div class="card" style="margin-top: 10px;">
+          <pre class="arch" style="white-space: pre-wrap;">SCOUT   planning — deriving queries for a
+        partnership discussion
+SCOUT   [tavily · news ≤30d] Stripe stablecoin
+        payouts news → 6 hits
+SCOUT   [tavily · news ≤30d] Stripe new product
+        launches 2026 → 5 hits
+SCOUT   [tavily · news ≤30d] Stripe leadership
+        changes hires → 4 hits
+SCOUT   [tavily · news ≤30d] Stripe partnerships
+        announcements → 6 hits
+AUDITOR source transcript sealed —
+        26 URLs recorded</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8 · implementation -->
+<div class="slide">
+  <div class="telex"><span class="mono">Doorknock</span><span class="mono">08 / 10</span></div>
+  <div class="pad">
+    <h2>Implementation</h2>
+    <div class="cols">
+      <div style="flex: 1;">
+        <table>
+          <tr><th style="width: 170px;">Surface</th><th>What</th></tr>
+          <tr><td>App</td><td>Next.js 16 (App Router, Turbopack), React 19, TypeScript strict</td></tr>
+          <tr><td>Model I/O</td><td>AI SDK over OpenAI-compatible → Bifrost; JSON in/out with zod validation and retry, shape spec travels in-band (portable across any gateway)</td></tr>
+          <tr><td>Research</td><td>Tavily search API (news topic, 30-day window, advanced depth), per-round failure isolation, transcript sealing</td></tr>
+          <tr><td>Live run</td><td>Server-Sent Events — stage / search / sources / gate / done — every agent action visible as it happens</td></tr>
+          <tr><td>Gate</td><td>Pure deterministic TypeScript; 8 unit tests, no keys, no network</td></tr>
+          <tr><td>Ops</td><td>render.yaml blueprint: web + private Bifrost Docker service; idempotent gateway bootstrap at boot</td></tr>
+        </table>
+      </div>
+      <div style="width: 430px; display: flex; flex-direction: column; gap: 14px;">
+        <div class="card" style="text-align: left;">
+          <span class="mono">A real run (through Bifrost)</span>
+          <div style="display: flex; gap: 26px; margin-top: 12px;">
+            <div><div class="big">26</div><span class="mono">sources</span></div>
+            <div><div class="big">5</div><span class="mono">queries</span></div>
+            <div><div class="big" style="color: var(--verified);">100%</div><span class="mono">grounding</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <span class="mono">Repo</span>
+          <p style="font-size: 14px; margin-top: 8px; font-family: 'JetBrains Mono';">github.com/sneldao/doorknock<br/>MIT · tests: bun test · tsc strict</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 9 · demo -->
+<div class="slide">
+  <div class="telex"><span class="mono">Doorknock</span><span class="mono">09 / 10</span></div>
+  <div class="pad">
+    <h2>The demo</h2>
+    <div class="cols">
+      <div style="width: 620px;">
+        <img class="shot" style="height: 470px; object-fit: cover; object-position: top left;" src="assets/brief-full.png"/>
+      </div>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 14px;">
+        <ul class="tight">
+          <li>Enter <strong>Stripe</strong>, meeting tomorrow, type <em>partnership</em>.</li>
+          <li>Watch the crew live: queries fly, Tavily hit counts land, the transcript seals.</li>
+          <li>The auditor's verdict stamps the brief: <span class="stamp p">Verified · grounding 100%</span></li>
+          <li>Read the brief — current developments (stablecoin payouts, Stripe Pay plugin, the Mercedes-AMG F1 partnership…), each with its sources, discussion points tuned to the meeting type, open questions worth asking.</li>
+          <li>Print it. It's a one-pager — that's the product.</li>
+        </ul>
+        <p class="mono">Live: doorknock.onrender.com · repo: github.com/sneldao/doorknock</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 · close -->
+<div class="slide">
+  <div class="telex"><span class="mono">Doorknock</span><span class="mono">10 / 10</span></div>
+  <div class="pad" style="justify-content: center;">
+    <h1 style="font-size: 72px;">Agents propose.<br/>Code disposes.</h1>
+    <hr class="rule d" style="margin: 30px 0;"/>
+    <ul class="tight" style="max-width: 860px; font-size: 17px;">
+      <li>Purpose-built for Problem Statement 05 — the 30-day window, one-page brief, source attribution, open questions, verified-vs-uncertain distinction are all in the product, not the pitch.</li>
+      <li>Sponsor tech doing real work: <strong>Tavily</strong> is the research layer with the recency window enforced by its API; <strong>Bifrost</strong> is the only route to the models, with virtual-key governance active.</li>
+      <li>The differentiator is legible in one sentence: <strong>the most important agent is deterministic</strong> — a brief ships only if every claim traces to a fetched source.</li>
+      <li>Built 15 November 2026, inside the hackathon window. MIT, open source, tests included.</li>
+    </ul>
+    <p style="margin-top: 24px;" class="mono">DOORKNOCK · GLOBAL AI HACKATHON · PS-05 · GITHUB.COM/SNELDAO/DOORKNOCK</p>
+  </div>
+</div>
+
+</body>
+</html>
