@@ -8,6 +8,8 @@ A pre-meeting briefing agent built for the [Global AI Hackathon](https://hackcul
 
 Built 15 November 2026, inside the hackathon build window (1–15 Nov).
 
+**Deck:** [`docs/deck/Doorknock.pdf`](docs/deck/Doorknock.pdf) · **Demo video:** [`docs/video/doorknock-demo.mp4`](docs/video/doorknock-demo.mp4) (1:38, real run)
+
 ## Why
 
 Preparing for an important meeting means researching the other party — recent launches, leadership changes, funding, announcements. That information is scattered, manual research takes an hour nobody has, and off-the-shelf AI summaries quietly invent things. The problem statement asks for exactly the fix: *recent, source-backed information, concisely presented, with verified findings distinguished from uncertain ones.*
