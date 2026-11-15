@@ -9,7 +9,7 @@ Target: https://hackculture.io/hackathons/ai-global-hackathon · Problem Stateme
 - **GitHub repo:** https://github.com/sneldao/doorknock
 - **PPT:** `docs/deck/Doorknock.pdf`
 - **Demo video (optional):** `docs/video/doorknock-demo.mp4` (1:38 captioned cut of a real run; raw footage + VO script in `docs/video/`) — upload unlisted to YouTube and paste the link
-- **Live demo (optional):** Render deployment (web + private Bifrost gateway service) — URL after deploy
+- **Live demo:** https://doorknock-2azp.onrender.com (web + private Bifrost gateway service on Render)
 
 ## If there is a free-text project description
 
@@ -40,6 +40,6 @@ Built 15 November 2026, inside the hackathon build window. MIT, open source, tes
 - [x] README explains Bifrost + Tavily contributions
 - [x] PPT exports (problem / solution / architecture / implementation / demo / sponsor tech)
 - [x] Demo video: real run, includes live Tavily queries + gate verdict
-- [ ] Deploy live (needs Render login approval → apply render.yaml blueprint → set TAVILY_API_KEY, NEBIUS_API_KEY, BIFROST_SETUP_TOKEN env vars)
+- [x] Deploy live: https://doorknock-2azp.onrender.com (validated in production: real brief, grounding 100% PASS)
 - [ ] Upload PPT + (optional) video link in the Submissions tab
 - [ ] Confirm team members on the hackathon dashboard (up to 4)
