@@ -1,0 +1,156 @@
+# Anna Founding Builder Program — Doorknock plan
+
+Program: Anna (Anima AI OS) × DoraHacks — <https://dorahacks.io/hackathon/2349/detail> ·
+rules: [forum topic 205](https://forum.anna.partners/t/turn-your-ai-agents-apps-into-recurring-monthly-grants-join-the-anna-ai-os-founding-builder-program-up-to-80k-month-pool/205)
+(read 2026-11-16) · developer docs: <https://anna.partners/llms-full.txt>.
+Lessons below come from Brume's six review rounds on the same builder
+account (`brume/docs/ANNA.md` §12, `brume/anna/README.md`).
+
+## What the program actually pays
+
+The first version of this file had three facts wrong. Corrected from topic 205:
+
+| | |
+|---|---|
+| Window | **1 Sep 2026 – 31 Mar 2027.** Any single calendar month inside it can qualify; each month is its own cycle. 30 November is not a cutoff |
+| Grant | Tier E 200+ MAU **$50/mo** · D 500+ $100 · C 1,000+ $200 · B 4,000+ $1,000 · A 10,000+ $2,500 · S 20,000+ $5,000. Highest tier only. "$5,000" needs 20,000 users |
+| Portfolio | Since 1 Oct: **one grant per builder per month**, users deduplicated across all the builder's apps. A second app adds its *distinct* users to the same total; it is not a second grant |
+| Qualified run | Signed-in user, declared primary function, meaningful result, read from Anna's server logs. Opening or installing does not count; developer, team and QA accounts do not count. A `storage.set` alone does not count; a successful `llm.complete` that produces the result can (forum topic 351) |
+| Review | Complete app with UI, **AI-native core**, no broken external dependencies. "3–5 business days" per round — Brume has been in review since 17 October |
+| Upkeep | One meaningful improvement per month to keep a grant |
+
+So the money at a realistic size is $50–$200 a month, plus the 70% revenue
+share. The reasons to do this are the Anna team's featured promotion for
+strong apps and a real user base for the product, not the grant.
+
+## Why Doorknock is the lead app for the portfolio
+
+- **AI-native without argument.** The result is research synthesis. Brume was
+  rejected for a core that was a timer with an AI line; Doorknock has no
+  non-AI version of its result.
+- **The qualifying step is the product.** The draft is an `llm.complete` in
+  the window, so the server log shows exactly the declared function.
+- **The gate is what Anna's reviewers test for.** Brume's rounds 4–6 were all
+  one finding: a reviewer quoting a fact the model invented. Doorknock already
+  refuses unsourced developments.
+- **Distinct users.** Brume's audience is people preparing a hard
+  conversation; Doorknock's is people preparing a meeting with a company.
+  Overlap is plausible (the portfolio dedups it) but the entry points differ.
+
+## Design decisions (settled 2026-11-16)
+
+1. **Bundle-only. No executa, no Render dependency.** Anna's host API has
+   `anna.web.search` (Tavily behind the host, with `topic: "news"` and
+   `time_range`) and `anna.llm.complete`, both available to any installed app
+   and billed to the user's own quota. That removes the Tavily key, the
+   Bifrost gateway and the Render service from the Anna path — and with them
+   the "broken external dependency" review risk, the four-platform binary
+   build that caused Brume's first rejection, and the chat-tool sampling that
+   is off by default after install.
+2. **Chat only opens the window.** Every tool argument is model-written and
+   nothing can check it against the transcript, so there is no chat tool that
+   returns a briefing. `#doorknock` prefills subject and kind through
+   `open_app_view`; the person presses the button.
+3. **Three model calls at most on the happy path, basic search depth.** A free
+   Anna account has 1,000 CU; advanced search is ~28 CU a call. One query-plan
+   call with a deterministic fallback, four searches (one identity, three
+   30-day news), one merged Clerk+Scribe draft, one redraft only on rejection.
+4. **The gate checks figures, not only URLs.** Before today a development
+   citing a real URL with an invented "$40M" passed at "grounding 100%". The
+   model sees title + 320 characters of snippet per hit, so any number,
+   amount, percentage or date absent from the cited excerpts came from model
+   memory. The gate now withholds it, in developments and in the headline,
+   situation, discussion points and open questions. One contract, two
+   implementations (`src/lib/gate.ts`, `anna/bundle/gate.js`), one fixture
+   (`tests/gate-cases.json`).
+5. **A closed window loses nothing.** Brume's second rejection was lost
+   progress. The sealed transcript checkpoints to `doorknock/active-task`; a
+   reopen resumes at the draft without searching again.
+6. **Startup cannot hang.** Brume's third rejection was an endless "Checking
+   for unfinished work…". Connect and checkpoint reads are time-boxed and the
+   whole init ends in an error with Retry.
+7. **The app cannot pin the model.** `llm.complete` runs on whatever the user
+   chose. Strict hand-written parser, model-agnostic prompts, and
+   `stopReason: maxTokens` treated as a failed draft.
+
+## Known gaps in the gate (say them before a reviewer does)
+
+- Names are not checked. A development can still name a person who is not in
+  the excerpt. Brume needed three releases to get a name gate right
+  (openers such as Will, May, Hope); do it as its own change with a fixture.
+- `happenedWithinWindow` is the model's word. Hits carry `published_at` when
+  the provider supplies it; a development whose every cited hit is dated
+  outside the window should be demoted by code.
+- A figure that is in the excerpt can still be attached to the wrong claim.
+  The gate proves presence, not meaning. The brief should say "figures appear
+  in the cited excerpts", never "verified".
+- Person subjects: a briefing on a private individual is a review and privacy
+  risk. Lead the listing with companies; the form copy asks for a company or
+  a person in a public role.
+
+## Sequence
+
+- [x] Gate: cited URLs, figures, names (unsupported and misattributed) and
+      stale dates; one fixture for the web gate (62 tests) and the bundle
+      (68 tests + 33 smoke checks)
+- [x] Browser QA suite, 23 checks (`npm run test:browser`)
+- [x] Truncation: the draft runs at 8,192 tokens with thinking off; a
+      truncated draft gets one retry at 24,000 over the streaming channel and
+      no longer uses up the gate's redraft
+- [x] Design pass: bundled Fraunces / Inter / JetBrains Mono, the stamp, the
+      wire feed, numbered citations, cited sources listed apart from the
+      rest of the sweep, print stylesheet, reduced-motion and contrast modes
+- [x] Listing images in `anna/listing/`: real model output (Reflection Beam +
+      live search, 16 Nov) replayed in a local host — Shopify (passed) and
+      Monzo (repaired, one Uncertain item). Not captured inside Anna.
+      Rule: no listing image shows a named private individual
+- [x] Real-model checks, 16 Nov (`anna/scripts/prompt-check.mjs`):
+  - **Reflection Beam**, a heavy reasoning model, after the name rules and
+    the truncation retry: 5 of 5 subjects saved a brief — 1 passed first
+    time, 2 after a redraft, 2 repaired; 3 of 5 needed the long retry. The
+    last two gate fixes (dotted initialisms, tokens with digits) came after
+    this run and are covered by fixtures only
+  - **Gemini 3 Flash** (Anna's default): 5 of 5 early in the day, before the
+    name and date rules; every later attempt was rate-limited. The current
+    gate is untested on the default model
+- [ ] Re-run all ten subjects on Gemini when its quota allows
+- [x] Published and submitted for review (see Status)
+- [ ] Fresh-install Cloud Agent pass (steps in `anna/README.md`)
+- [ ] File the DoraHacks BUIDL (allowed while review is pending)
+
+Known limits: the name rules work on capitalised words, so three-letter
+acronyms that are not in the sweep ("SME") still raise a finding, and a name
+written in lower case is never checked. The long retry relies on the Anna
+SDK delivering `llm.complete` above 8,192 tokens over its streaming channel
+(documented for app-runtime 0.17.0 and later) — untested on a real host.
+`next build` printed a security-advisory notice for the installed Next.js
+version once during these runs; the upgrade has not been done.
+
+**Blocker shared with Brume:** the developer account's Anna quota is spent
+(1,000/1,000, §12.8), and chat is gated on Anna quota even with BYOK enabled.
+The Cloud Agent pass needs add-on quota or the weekly contribution rewards.
+Brume submitted its last candidate without that pass; do not repeat it here —
+it is the one check that finds what local tests cannot.
+
+## Distribution
+
+Target **December** as the first full measurement month, not the last days of
+November. Store browsing will not deliver 200 users (leaders sit at 550–930
+installs after months), and our own accounts do not count. Channels that are
+allowed and that we have: the Global AI Hackathon submission and its
+community, the live demo at doorknock-2azp.onrender.com with an "open in
+Anna" link, the DoraHacks BUIDL page, and the forum's show-your-build thread.
+Paying or trading for runs is prohibited and audited.
+
+## Status, 2026-11-16
+
+**Submitted for review.** App id 938, slug `doorknock`, review candidate
+**v0.1.1** (`version_id=2399`), status `pending_review`. v0.1.0 was cut first
+to obtain the app id; v0.1.1 adds the id to the system prompt addendum and is
+otherwise identical.
+
+Submitted without a fresh-install Cloud Agent pass (the developer account's
+Anna quota is spent) and without listing images in the Developer Console —
+the eight images in `anna/listing/` are ready to upload there. Local work is
+uncommitted. A version cut after this point is not part of the review until
+`anna-app apps submit-review` is run again.

@@ -1,6 +1,6 @@
 import { askObject } from "./llm";
 import { auditBriefing, rejectionReport, repairBriefing, GATE_THRESHOLD } from "./gate";
-import { dedupedHits, runSearchRounds, transcriptUrls } from "./tavily";
+import { dedupedHits, EXCERPT_CHARS, runSearchRounds, transcriptUrls } from "./tavily";
 import {
   BriefRequestSchema,
   BriefingSchema,
@@ -34,10 +34,21 @@ function hitList(rounds: SearchRound[]): string {
     .flatMap((r) =>
       r.hits.map(
         (h) =>
-          `- [${r.topic}${r.days ? ` · ≤${r.days}d` : ""}] ${h.title}\n  ${h.url}${h.published ? `\n  published: ${h.published}` : ""}\n  ${h.snippet.slice(0, 320)}`,
+          `- [${r.topic}${r.days ? ` · ≤${r.days}d` : ""}] ${h.title}\n  ${h.url}${h.published ? `\n  published: ${h.published}` : ""}\n  ${h.snippet.slice(0, EXCERPT_CHARS)}`,
       ),
     )
     .join("\n");
+}
+
+/** "2026-11-17T20:27" -> "17 November 2026, 20:27" for the prompt;
+    unparseable values pass through unchanged. */
+export function formatMeetingAt(meetingAt: string): string {
+  const d = new Date(meetingAt);
+  if (Number.isNaN(d.getTime())) return meetingAt;
+  const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mm = String(d.getMinutes()).padStart(2, "0");
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}, ${hh}:${mm}`;
 }
 
 export async function runBriefing(
@@ -51,6 +62,11 @@ export async function runBriefing(
   }
   const req: BriefRequest = parsed.data;
   const meetingLabel = KIND_LABEL[req.kind] ?? "a meeting";
+  // Figures the operator supplied (subject, meeting time, notes) and today's
+  // date are legitimate in the brief — the gate allows them verbatim.
+  // both forms of the meeting time so either passes the figure rule
+  const context = `${req.subject} ${req.meetingAt} ${formatMeetingAt(req.meetingAt)} ${req.notes} ${new Date().toISOString().slice(0, 10)}`;
+  const today = new Date().toISOString().slice(0, 10);
 
   // ── 1. SCOUT plans the sweep ───────────────────────────────────────────────
   emit({ type: "stage", agent: AGENTS.scout, stage: "planning", note: `Deriving queries for ${meetingLabel}` });
@@ -59,7 +75,7 @@ export async function runBriefing(
     QueryPlanSchema,
     [
       `Today's date is ${new Date().toISOString().slice(0, 10)}.`,
-      `You are preparing research for ${meetingLabel} with "${req.subject}"${req.notes ? ` (context: ${req.notes})` : ""}, scheduled for ${req.meetingAt}.`,
+      `You are preparing research for ${meetingLabel} with "${req.subject}"${req.notes ? ` (context: ${req.notes})` : ""}, scheduled for ${formatMeetingAt(req.meetingAt)}.`,
       `Plan a web-search sweep covering the preceding 30 days: news, launches, hires, leadership changes, funding, partnerships, legal or regulatory developments — anything that would change what matters in this meeting.`,
       `Return 3-6 news queries, each a focused web-search phrase (not a question). Include the subject's name in each.`,
       `Also return exactly one evergreen "identityQuery" that establishes who or what the subject is (no recency intent).`,
@@ -111,7 +127,7 @@ export async function runBriefing(
   // ── 4. SCRIBE drafts, AUDITOR gates ─────────────────────────────────────────
   const basePrompt = [
     `Today's date is ${new Date().toISOString().slice(0, 10)}.`,
-    `You are writing a one-page pre-meeting briefing for ${meetingLabel} with "${req.subject}", scheduled for ${req.meetingAt}.${req.notes ? ` Operator context: ${req.notes}.` : ""}`,
+    `You are writing a one-page pre-meeting briefing for ${meetingLabel} with "${req.subject}", scheduled for ${formatMeetingAt(req.meetingAt)}.${req.notes ? ` Operator context: ${req.notes}.` : ""}`,
     ``,
     `The research crew established these developments (each with verified source URLs):`,
     JSON.stringify(synthesis.developments, null, 2),
@@ -125,6 +141,9 @@ export async function runBriefing(
     `- headline: the single most meeting-relevant line, one sentence.`,
     `- situation: two-to-four sentences situating the reader.`,
     `- discussionPoints: 2-6 concrete talking points for the meeting.`,
+    `- Use no number, amount, percentage or date that is not in the developments, the background, or the meeting details above — the auditor rejects unsupported figures.`,
+    `- Name no person, company or product that is not in the developments, the background, or the meeting details above.`,
+    `- Do not restate today's date or the meeting time in the brief — the reader knows them.`,
     `- openQuestions: 2-6 questions the reader should ask or resolve before walking in.`,
   ].join("\n");
 
@@ -136,17 +155,17 @@ export async function runBriefing(
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     emit({ type: "stage", agent: AGENTS.scribe, stage: "drafting", note: attempt === 1 ? "First draft" : "Redraft after auditor rejection" });
     briefing = await askObject(BriefingSchema, attempt === 1 ? basePrompt : `${basePrompt}\n\n${rejectionReport(verdict!)}`);
-    verdict = auditBriefing(briefing, rounds);
+    verdict = auditBriefing(briefing, rounds, context, today);
     emit({ type: "gate", attempt, verdict });
     if (verdict.pass) break;
   }
 
   if (verdict && briefing && !verdict.pass) {
     emit({ type: "stage", agent: AGENTS.auditor, stage: "repairing", note: "Stripping untraceable claims to the uncertain section" });
-    const repaired = repairBriefing(briefing, rounds);
+    const repaired = repairBriefing(briefing, rounds, context, today);
     briefing = repaired.briefing;
     uncertain = repaired.uncertain;
-    verdict = { ...verdict, verdictLine: `REPAIRED — ${briefing.keyDevelopments.length} verified developments retained; ${uncertain.length} moved to uncertain` };
+    verdict = { ...verdict, verdictLine: `REPAIRED — ${briefing.keyDevelopments.length} source-traced developments retained; ${uncertain.length} moved to uncertain` };
     if (briefing.keyDevelopments.length === 0) {
       emit({ type: "error", message: "No development could be source-traced — the sweep found nothing recent for this subject." });
       return;

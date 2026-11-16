@@ -1,0 +1,8 @@
+{
+  "$schema": "anna-app-identity/v1",
+  "host": "https://anna.partners",
+  "app_id": 938,
+  "slug": "doorknock",
+  "handle": "papa",
+  "first_published_at": "2026-11-16T23:07:03.895Z"
+}

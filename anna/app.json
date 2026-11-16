@@ -1,0 +1,8 @@
+{
+  "name": "Doorknock",
+  "version": "0.1.1",
+  "tagline": "Read the room before you walk in.",
+  "description": "Doorknock writes a one-page briefing for the meeting you're about to walk into.\n\nTell it who you're meeting — a company or a person — and when. It sweeps the last 30 days of the web through Anna's managed search, drafts a brief from the transcript it fetched, and a deterministic auditor rejects anything it cannot trace: every development must cite a URL the sweep actually returned, and every number, amount, percentage or date must appear in the excerpt the model actually saw. A real citation does not rescue an invented figure. Claims that survive land in the brief; claims that don't are kept — flagged — under Uncertain.\n\nThe result is a saved, source-audited one-page briefing: headline, situation, key developments each with their source links, discussion points, open questions, a grounding score, and the full source list. Briefs are saved to your own Anna storage and can be reopened or copied as text. If a run is interrupted, Doorknock offers to resume where the sweep left off.\n\nDoorknock has no model and no search key of its own: it spends your Anna quota on one query-planning call, one search sweep, and up to two drafting calls per brief. Nothing leaves except the searches and the drafting prompts.",
+  "category": "productivity",
+  "slug": "doorknock"
+}
