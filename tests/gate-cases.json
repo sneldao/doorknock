@@ -1,0 +1,2272 @@
+[
+ {
+  "name": "passes a fully transcript-traced brief",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     },
+     {
+      "title": "Acme hires new CFO",
+      "url": "https://news.example.com/acme-cfo",
+      "snippet": "Acme Corp appointed Dana Reyes as chief financial officer.",
+      "published": "2026-11-05",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital, per the announcement.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "rejects a claim citing a fabricated URL",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital, per the announcement.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    },
+    {
+     "headline": "Acme opens a moon office",
+     "summary": "Acme reportedly opened a lunar office, an extraordinary expansion step.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://made-up.example.com/moon"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 0.5,
+   "kinds": [
+    "unknown_source"
+   ]
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "rejects an unsourced claim",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital, per the announcement.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 0,
+   "kinds": [
+    "unsourced"
+   ]
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "flags pre-window developments but does not fail them",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital, per the announcement.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": false
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": [
+    "outside_window"
+   ]
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "normalizes URLs \u2014 trailing slash and hash do not break tracing",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c/",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital, per the announcement.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c#section"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "fails on score below threshold",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital, per the announcement.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    },
+    {
+     "headline": "Fake zero",
+     "summary": "Summary for a fabricated development that is long enough.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://fake.example.com/0"
+     ],
+     "happenedWithinWindow": true
+    },
+    {
+     "headline": "Fake one",
+     "summary": "Summary for a fabricated development that is long enough.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://fake.example.com/1"
+     ],
+     "happenedWithinWindow": true
+    },
+    {
+     "headline": "Fake two",
+     "summary": "Summary for a fabricated development that is long enough.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://fake.example.com/2"
+     ],
+     "happenedWithinWindow": true
+    },
+    {
+     "headline": "Fake three",
+     "summary": "Summary for a fabricated development that is long enough.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://fake.example.com/3"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 0.2,
+   "kinds": [
+    "unknown_source",
+    "unknown_source",
+    "unknown_source",
+    "unknown_source"
+   ]
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "rejects a brief with no developments",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 0,
+   "kinds": [
+    "no_developments"
+   ]
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "rejects an invented $40M despite a real URL, and repair moves it to uncertain",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme hires new CFO",
+      "url": "https://news.example.com/acme-cfo",
+      "snippet": "Acme Corp appointed Dana Reyes as chief financial officer.",
+      "published": "2026-11-05",
+      "days": 30
+     },
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises $40M",
+     "summary": "Acme raised $40M according to sources familiar with the round.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-cfo"
+     ],
+     "happenedWithinWindow": true
+    },
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised $40M in a Series C led by North Peak Capital.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 0.5,
+   "kinds": [
+    "unsupported_figure"
+   ],
+   "repaired": {
+    "kept": 1,
+    "uncertain": 1
+   }
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "matches figures across spellings \u2014 $40 million excerpt supports $40M claim",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme lands US$40m",
+   "situation": "Acme raised $40M this month, a 40 million dollar round by any spelling.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises $40M Series C",
+     "summary": "Acme raised US$40m in a Series C led by North Peak Capital.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the $40M Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "rejects a figure that only appears beyond the excerpt window",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme quarterly update",
+      "url": "https://news.example.com/acme-update",
+      "snippet": "Acme published its quarterly update. The filing covers routine operational detail across regions, headcount and supplier terms. The filing covers routine operational detail across regions, headcount and supplier terms. The filing covers routine operational detail across regions, headcount and supplier terms. Analysts peg the market at $9 billion.",
+      "published": "2026-11-08",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme chases a $9B market",
+     "summary": "The update points at a $9 billion market opportunity for Acme.",
+     "whyItMatters": "It reframes the meeting's stakes.",
+     "sourceUrls": [
+      "https://news.example.com/acme-update"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 0,
+   "kinds": [
+    "unsupported_figure",
+    "unsupported_name"
+   ]
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "allows figures supplied in the request context (meeting date)",
+  "context": "Acme Corp 2026-11-20 investor check-in 2026-11-16",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "Investor briefing \u2014 Acme Corp",
+   "headline": "Acme heads into the 2026-11-20 meeting freshly funded",
+   "situation": "The investor check-in on 2026-11-20 lands days after Acme's raise.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital, per the announcement.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "rejects an invented percentage in the situation and repair drops the sentence",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month. Adoption is up 55% internally.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital, per the announcement.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 1,
+   "kinds": [
+    "unsupported_figure"
+   ],
+   "repaired": {
+    "kept": 1,
+    "uncertain": 0
+   }
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "the 30-day window figure is always allowed",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "This brief covers Acme's last 30 days of public developments.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital, per the announcement.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the last 30 days.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "repair keeps traced developments and moves untraceable ones to uncertain",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital, per the announcement.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    },
+    {
+     "headline": "Acme opens a moon office",
+     "summary": "Acme reportedly opened a lunar office, an extraordinary expansion step.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://made-up.example.com/moon"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask about the CFO hire."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 0.5,
+   "kinds": [
+    "unknown_source"
+   ],
+   "repaired": {
+    "kept": 1,
+    "uncertain": 1
+   }
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "repair drops discussion points carrying an unsupported figure",
+  "rounds": [
+   {
+    "query": "Acme Corp news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital, per the announcement.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Acme grew headcount 300 percent this quarter."
+   ],
+   "openQuestions": [
+    "What does the raise imply?",
+    "Who is the new CFO?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 1,
+   "kinds": [
+    "unsupported_figure"
+   ],
+   "repaired": {
+    "kept": 1,
+    "uncertain": 0,
+    "discussionPoints": 1
+   }
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "rejects an invented person named in a development",
+  "rounds": [
+   {
+    "query": "Acme news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital and partner Ana Ruiz, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     },
+     {
+      "title": "Acme hires new CFO",
+      "url": "https://news.example.com/acme-cfo",
+      "snippet": "Acme Corp appointed Dana Reyes as chief financial officer.",
+      "published": "2026-11-05",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast.",
+   "situation": "Acme has changed materially in the last month.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital.",
+     "whyItMatters": "New board member Theo Falk joins.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C."
+   ],
+   "openQuestions": [
+    "What does the raise imply?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 0,
+   "kinds": [
+    "unsupported_name"
+   ],
+   "repaired": {
+    "kept": 0,
+    "uncertain": 1
+   }
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "passes when a named person appears in the cited excerpt",
+  "rounds": [
+   {
+    "query": "Acme news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital and partner Ana Ruiz, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     },
+     {
+      "title": "Acme hires new CFO",
+      "url": "https://news.example.com/acme-cfo",
+      "snippet": "Acme Corp appointed Dana Reyes as chief financial officer.",
+      "published": "2026-11-05",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast.",
+   "situation": "Acme has changed materially in the last month.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital and partner Ana Ruiz.",
+     "whyItMatters": "Ana Ruiz now sits across the table.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C."
+   ],
+   "openQuestions": [
+    "What does the raise imply?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "a multi-word name from an uncited hit is misattributed",
+  "rounds": [
+   {
+    "query": "Acme news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital and partner Ana Ruiz, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     },
+     {
+      "title": "Acme hires new CFO",
+      "url": "https://news.example.com/acme-cfo",
+      "snippet": "Acme Corp appointed Dana Reyes as chief financial officer.",
+      "published": "2026-11-05",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast.",
+   "situation": "Acme has changed materially in the last month.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital.",
+     "whyItMatters": "Partner Dana Reyes can now spend it.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C."
+   ],
+   "openQuestions": [
+    "What does the raise imply?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 0,
+   "kinds": [
+    "misattributed_name"
+   ],
+   "repaired": {
+    "kept": 0,
+    "uncertain": 1
+   }
+  },
+  "today": "2026-11-20",
+  "comment": "Single-word names keep the whole-transcript rule; multi-word runs must be evidenced by the development's own citations."
+ },
+ {
+  "name": "allows a subject name supplied via context even when absent from excerpts",
+  "rounds": [
+   {
+    "query": "Globex news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital and partner Ana Ruiz, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Globex Dynamics should care about Acme's pace.",
+   "situation": "Acme has changed materially in the last month.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C."
+   ],
+   "openQuestions": [
+    "What does the raise imply?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20",
+  "context": "Globex Dynamics 2026-11-21  2026-11-20"
+ },
+ {
+  "name": "ignores a single capitalised word at the start of a sentence",
+  "rounds": [
+   {
+    "query": "Acme news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital and partner Ana Ruiz, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     },
+     {
+      "title": "Acme hires new CFO",
+      "url": "https://news.example.com/acme-cfo",
+      "snippet": "Acme Corp appointed Dana Reyes as chief financial officer.",
+      "published": "2026-11-05",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast.",
+   "situation": "Growth is the story at Acme this month.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C."
+   ],
+   "openQuestions": [
+    "What does the raise imply?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "supports a possessive name whose stem is in the excerpt",
+  "rounds": [
+   {
+    "query": "Acme news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital and partner Ana Ruiz, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     },
+     {
+      "title": "Acme hires new CFO",
+      "url": "https://news.example.com/acme-cfo",
+      "snippet": "Acme Corp appointed Dana Reyes as chief financial officer.",
+      "published": "2026-11-05",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast.",
+   "situation": "Acme has changed materially in the last month.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme's raise was led by North Peak Capital.",
+     "whyItMatters": "Acme's war chest changes the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C."
+   ],
+   "openQuestions": [
+    "What does the raise imply?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "treats a joiner run as one name and supports it from the excerpt",
+  "rounds": [
+   {
+    "query": "Acme news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme rates note",
+      "url": "https://news.example.com/acme-rates",
+      "snippet": "Acme Corp borrowing costs tracked Bank of England guidance this quarter.",
+      "published": "2026-11-08",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme tracks the Bank of England.",
+   "situation": "Acme has changed materially in the last month.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme borrowing costs shift",
+     "summary": "Acme borrowing costs tracked Bank of England guidance this quarter.",
+     "whyItMatters": "Bank of England policy now moves Acme's cost of capital.",
+     "sourceUrls": [
+      "https://news.example.com/acme-rates"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the office and the funding position."
+   ],
+   "openQuestions": [
+    "What does the raise imply?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "drops a discussion point carrying an invented name in repair",
+  "rounds": [
+   {
+    "query": "Acme news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital and partner Ana Ruiz, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     },
+     {
+      "title": "Acme hires new CFO",
+      "url": "https://news.example.com/acme-cfo",
+      "snippet": "Acme Corp appointed Dana Reyes as chief financial officer.",
+      "published": "2026-11-05",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast.",
+   "situation": "Acme has changed materially in the last month.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital.",
+     "whyItMatters": "Fresh capital changes what Acme can commit to.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C.",
+    "Ask how Theo Falk voted."
+   ],
+   "openQuestions": [
+    "What does the raise imply?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 1,
+   "kinds": [
+    "unsupported_name"
+   ],
+   "repaired": {
+    "kept": 1,
+    "uncertain": 0,
+    "discussionPoints": 1
+   }
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "rejects a development whose dated sources are all older than 45 days",
+  "rounds": [
+   {
+    "query": "Acme news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme opens Berlin office",
+      "url": "https://news.example.com/acme-old",
+      "snippet": "Acme Corp opened a Berlin office.",
+      "published": "2026-09-01",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast.",
+   "situation": "Acme has changed materially in the last month.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme opens Berlin office",
+     "summary": "Acme opened a Berlin office, per the item.",
+     "whyItMatters": "The Berlin team may join the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/acme-old"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the office and the funding position."
+   ],
+   "openQuestions": [
+    "What does the raise imply?"
+   ]
+  },
+  "expect": {
+   "pass": false,
+   "score": 0,
+   "kinds": [
+    "stale_source"
+   ],
+   "repaired": {
+    "kept": 0,
+    "uncertain": 1
+   }
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "passes a development when at least one cited source is fresh",
+  "rounds": [
+   {
+    "query": "Acme news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme opens Berlin office",
+      "url": "https://news.example.com/acme-old",
+      "snippet": "Acme Corp opened a Berlin office.",
+      "published": "2026-09-01",
+      "days": 30
+     },
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital and partner Ana Ruiz, the company announced Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast.",
+   "situation": "Acme has changed materially in the last month.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme expands",
+     "summary": "Acme opened a Berlin office and raised a Series C.",
+     "whyItMatters": "Acme's footprint and funding both moved.",
+     "sourceUrls": [
+      "https://news.example.com/acme-old",
+      "https://news.example.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the Series C."
+   ],
+   "openQuestions": [
+    "What does the raise imply?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "never flags stale when sources carry no parseable date",
+  "rounds": [
+   {
+    "query": "Acme news",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme hires again",
+      "url": "https://news.example.com/acme-hires",
+      "snippet": "Acme Corp kept hiring engineers this month.",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast.",
+   "situation": "Acme has changed materially in the last month.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme keeps hiring",
+     "summary": "Acme kept hiring engineers this month.",
+     "whyItMatters": "The org is still growing.",
+     "sourceUrls": [
+      "https://news.example.com/acme-hires"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask about the office and the funding position."
+   ],
+   "openQuestions": [
+    "What does the raise imply?"
+   ]
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "outlet names are supported by the cited hits' hostnames",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://www.cnbc.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital.",
+      "published": "2026-11-10",
+      "days": 30
+     },
+     {
+      "title": "Acme hires CFO",
+      "url": "https://www.scmp.com/acme-cfo",
+      "snippet": "Acme Corp appointed Dana Reyes as chief financial officer.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round led by North Peak Capital.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://www.cnbc.com/acme-series-c"
+     ],
+     "happenedWithinWindow": true
+    },
+    {
+     "headline": "Acme hires CFO",
+     "summary": "Acme appointed Dana Reyes as CFO.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://www.scmp.com/acme-cfo"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "What did CNBC and SCMP report about the raise?"
+   ],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "a possessive outlet name is supported",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raise",
+      "url": "https://news.example.com/acme",
+      "snippet": "Morningstar called the Acme raise defensive.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raise noted",
+     "summary": "Morningstar's coverage framed the Acme raise as defensive.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/acme"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "hyphenated compounds are not invented names",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme filing",
+      "url": "https://news.example.com/filing",
+      "snippet": "The China-related IPO-filing was drawn up by a PricewaterhouseCoopers-designed process.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme filing",
+     "summary": "The China-related IPO-filing followed a PricewaterhouseCoopers-designed process.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/filing"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "sentence-initial verb is not part of the name \u2014 supported",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme tooling",
+      "url": "https://news.example.com/tools",
+      "snippet": "Acme's engineers use Claude Code daily.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme tooling",
+     "summary": "Acme's engineers use Claude Code daily.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/tools"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Discuss Claude Code with the CIO."
+   ],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "sentence-initial verb is not part of the name \u2014 rejected",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme tooling",
+      "url": "https://news.example.com/tools",
+      "snippet": "Acme's engineers ship fast.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme tooling",
+     "summary": "Acme's engineers ship fast.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/tools"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Discuss Claude Code with the CIO."
+   ],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": false,
+   "score": 1,
+   "kinds": [
+    "unsupported_name"
+   ],
+   "repaired": {
+    "kept": 1,
+    "uncertain": 0,
+    "discussionPoints": 0
+   }
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "a comma-separated firm list does not merge into one name",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme counsel",
+      "url": "https://news.example.com/counsel",
+      "snippet": "Acme retained Goodwin Procter, Foley & Lardner, Harvey and PricewaterhouseCoopers for the filing.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme counsel",
+     "summary": "Acme retained Goodwin Procter, Foley & Lardner, Harvey and PricewaterhouseCoopers.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/counsel"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "month abbreviations are not names",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raise",
+      "url": "https://news.example.com/acme",
+      "snippet": "Acme closed the round in Oct and announced it Tuesday.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raise",
+     "summary": "Acme closed the round in Oct, per the announcement.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/acme"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "pluralised stopwords are not names",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme APIs",
+      "url": "https://news.example.com/apis",
+      "snippet": "Acme opened its APIs to partners.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme APIs",
+     "summary": "Acme opened its APIs to partners and three early adopters.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/apis"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask which APIs opened first."
+   ],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "a Title-Case development headline is not name-checked",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme biotech",
+      "url": "https://news.example.com/bio",
+      "snippet": "Acme's biotech unit published early results.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Biotech Momentum Builds For Acme",
+     "summary": "Acme's biotech unit published early results.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/bio"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "a role title after a real name is not invented",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Shopify hire",
+      "url": "https://news.example.com/shopify",
+      "snippet": "Shopify's VP of Product spoke about the roadmap.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Shopify roadmap",
+     "summary": "Shopify's VP of Product spoke about the roadmap this week.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/shopify"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [
+    "Ask how the Shopify VP of Product frames the roadmap."
+   ],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "a name is supported when its hit IS cited",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme raises Series C",
+      "url": "https://news.example.com/acme-series-c",
+      "snippet": "Acme Corp raised $40 million in a Series C led by North Peak Capital.",
+      "published": "2026-11-10",
+      "days": 30
+     },
+     {
+      "title": "Acme hires CFO",
+      "url": "https://news.example.com/acme-cfo",
+      "snippet": "Acme Corp appointed Dana Reyes as chief financial officer.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme raises Series C",
+     "summary": "Acme raised a fresh round; partner Dana Reyes backed it.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/acme-series-c",
+      "https://news.example.com/acme-cfo"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "a product word borrowed from an uncited hit is misattributed",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Stripe launch",
+      "url": "https://news.example.com/stripe",
+      "snippet": "Stripe announced quarterly results.",
+      "published": "2026-11-10",
+      "days": 30
+     },
+     {
+      "title": "Atlas beta",
+      "url": "https://news.example.com/atlas",
+      "snippet": "The Atlas beta opened to developers.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Stripe launch",
+     "summary": "The new Stripe Atlas product opened its beta.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/stripe"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": false,
+   "score": 0,
+   "kinds": [
+    "misattributed_name"
+   ],
+   "repaired": {
+    "kept": 0,
+    "uncertain": 1
+   }
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "derivational names are supported \u2014 Congressional/Chinese/Japanese/European",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme trade",
+      "url": "https://news.example.com/trade",
+      "snippet": "The Congressional hearing covered Europe and China trade after Japan raised rates.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme trade",
+     "summary": "Congressional pressure grew as Chinese, Japanese and European markets reacted.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/trade"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "lookalike words are not derivational support",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Stripe raise",
+      "url": "https://news.example.com/stripe",
+      "snippet": "Stripe raised prices; Ruin theory aside.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Stripe raise",
+     "summary": "Analysts Striker and Ruiz both weighed in on the Stripe raise.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/stripe"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": false,
+   "score": 0,
+   "kinds": [
+    "unsupported_name"
+   ],
+   "repaired": {
+    "kept": 0,
+    "uncertain": 1
+   }
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "two-letter all-caps tokens are not names",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme VC",
+      "url": "https://news.example.com/vc",
+      "snippet": "Acme's VC round drew PR and HR questions.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme VC round",
+     "summary": "Acme's VC round drew PR and HR questions from staff.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/vc"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "dotted initialisms are not names \u2014 U.S",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme U.S. push",
+      "url": "https://news.example.com/acme-us",
+      "snippet": "Acme expanded its U.S. sales operation.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme U.S. push",
+     "summary": "Acme expanded in the U.S market this quarter.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/acme-us"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "dotted initialisms are not names \u2014 U.S.",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme U.S. push",
+      "url": "https://news.example.com/acme-us",
+      "snippet": "Acme expanded its U.S. sales operation.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme U.S. push",
+     "summary": "Acme grew across the U.S. and beyond.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/acme-us"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ },
+ {
+  "name": "tokens with digits are not names \u2014 FY2027",
+  "rounds": [
+   {
+    "query": "q",
+    "topic": "news",
+    "days": 30,
+    "hits": [
+     {
+      "title": "Acme FY2027 plan",
+      "url": "https://news.example.com/acme-fy",
+      "snippet": "Acme published FY2027 targets for its U.S. sales operation.",
+      "published": "2026-11-10",
+      "days": 30
+     }
+    ]
+   }
+  ],
+  "briefing": {
+   "masthead": "General briefing \u2014 Acme Corp",
+   "headline": "Acme is moving fast",
+   "situation": "Acme has changed materially in the last month across several fronts.",
+   "keyDevelopments": [
+    {
+     "headline": "Acme U.S. push",
+     "summary": "Acme set FY2027 targets after the raise.",
+     "whyItMatters": "It matters for the meeting.",
+     "sourceUrls": [
+      "https://news.example.com/acme-fy"
+     ],
+     "happenedWithinWindow": true
+    }
+   ],
+   "discussionPoints": [],
+   "openQuestions": []
+  },
+  "expect": {
+   "pass": true,
+   "score": 1,
+   "kinds": []
+  },
+  "today": "2026-11-20"
+ }
+]

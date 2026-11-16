@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Doorknock</title>
+    <link rel="stylesheet" href="./app.css" />
+    <script src="./app.js" type="module"></script>
+  </head>
+  <body>
+    <div class="telex-bar">
+      <span class="mono-label">Doorknock · pre-meeting briefing</span>
+      <span class="mono-label telex-right">30-day sweep · audited</span>
+    </div>
+
+    <div id="startup-panel" role="status">
+      <p id="startup-message">Opening your desk…</p>
+      <button id="btn-startup-retry" type="button" hidden>Retry</button>
+      <p class="hint" id="startup-help" hidden>
+        Something went wrong during start-up. Your saved briefs have not been
+        changed. Retry, or check the app connection.
+      </p>
+    </div>
+
+    <main id="root" hidden>
+      <div id="resume-banner" class="resume-banner" hidden>
+        <p id="resume-text"></p>
+        <div class="resume-actions">
+          <button id="btn-resume" type="button" hidden>Resume this brief</button>
+          <button id="btn-start-over" type="button" hidden>Start over</button>
+          <button id="btn-discard-checkpoint" type="button" hidden>Discard</button>
+        </div>
+      </div>
+
+      <section id="screen-form" class="screen" hidden>
+        <header class="masthead">
+          <h1>Read the room<br />before you walk in.</h1>
+          <p class="lede">
+            Tell Doorknock who you're meeting and when. It sweeps the last 30
+            days, drafts a one-page brief, and an auditor rejects any claim —
+            and any figure — that can't be traced to a fetched source.
+          </p>
+        </header>
+
+        <div id="last-brief-card" class="last-brief" hidden>
+          <span class="mono-label">Last brief</span>
+          <p id="last-brief-line"></p>
+          <button id="btn-last-brief" type="button" class="textlink">Reopen it</button>
+        </div>
+
+        <form id="brief-form">
+          <label class="field-label">
+            <span class="mono-label">Who are you meeting? — company, or a person in a public role</span>
+            <input id="in-subject" class="field" type="text" maxlength="120" required
+              placeholder="e.g. Stripe" />
+          </label>
+          <div class="field-row">
+            <label class="field-label">
+              <span class="mono-label">Meeting time</span>
+              <input id="in-when" class="field" type="datetime-local" required />
+            </label>
+            <label class="field-label">
+              <span class="mono-label">Meeting type</span>
+              <select id="in-kind" class="field">
+                <option value="sales">Sales call</option>
+                <option value="partnership">Partnership discussion</option>
+                <option value="investor">Investor meeting</option>
+                <option value="bizdev">Business development</option>
+                <option value="general" selected>General meeting</option>
+              </select>
+            </label>
+          </div>
+          <label class="field-label">
+            <span class="mono-label">Anything the crew should know? (optional)</span>
+            <textarea id="in-notes" class="field" rows="2" maxlength="600"
+              placeholder="e.g. first meeting; we're pitching payments infrastructure"></textarea>
+          </label>
+          <button id="btn-knock" class="knock" type="submit">Knock</button>
+        </form>
+      </section>
+
+      <section id="screen-run" class="screen" hidden>
+        <p class="mono-label">Run in progress <span class="caret-blink">▌</span></p>
+        <div id="run-feed" class="run-feed" aria-live="polite"></div>
+        <button id="btn-cancel-run" type="button" class="textlink">Cancel this run</button>
+      </section>
+
+      <section id="screen-brief" class="screen" hidden>
+        <div class="brief-actions">
+          <span id="brief-stamp" class="stamp"></span>
+          <span id="brief-meta" class="mono-label"></span>
+          <span class="brief-buttons">
+            <button id="btn-copy" type="button" class="knock small">Copy as text</button>
+            <button id="btn-again" type="button" class="knock small">Another knock</button>
+          </span>
+        </div>
+        <p class="hint" id="save-warn" hidden>
+          This brief could not be saved to your library — it is only on screen.
+          <button id="btn-save-retry" type="button" class="textlink">Retry save</button>
+        </p>
+        <p class="hint">Sources and figures were checked against the fetched excerpts. Read the sources before you rely on a claim.</p>
+        <article id="brief-doc" class="brief-doc"></article>
+      </section>
+
+      <section id="screen-error" class="screen" hidden>
+        <p class="mono-label">The desk stopped</p>
+        <p id="error-message" class="error-message"></p>
+        <div class="resume-actions">
+          <button id="btn-error-retry" class="knock" type="button">Retry</button>
+          <button id="btn-error-home" type="button" class="textlink">Back to the form</button>
+        </div>
+      </section>
+    </main>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <filter id="stamp-rough">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/>
+  </filter>
+</svg>
+</body>
+</html>

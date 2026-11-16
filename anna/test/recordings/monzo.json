@@ -1,0 +1,179 @@
+{
+  "model": "Beam-1.0-501B-A23B",
+  "recordedAt": "2026-11-16T21:04:54.403Z",
+  "outcome": "repaired",
+  "request": {
+    "subject": "Monzo",
+    "kind": "general",
+    "meetingAt": "2026-11-17T21:02",
+    "notes": ""
+  },
+  "searches": [
+    {
+      "args": {
+        "query": "Monzo UK digital bank overview",
+        "max_results": 4
+      },
+      "result": {
+        "results": [
+          {
+            "title": "UK digital bank Monzo plans to hire 500 and relaunch paid accounts",
+            "url": "https://finance.yahoo.com/news/uk-digital-bank-monzo-plans-051738329.html",
+            "snippet": "Launched in 2015, Monzo has attracted 3.8 million customers in Britain with its bright coral card and spend-tracking data.\n\nSome younger customers in particular have become fierce advocates, with the digital bank ranked as the most likely brand in Britain to be recommended to a friend in a YouGov survey in November.\n\nTom Blomfield, the 34-year-old founder and CEO, told Reuters he expected Monzo to top 2,000 staff this year, up from 1,500. [...] The bank, which reported a loss of 47.2 million pounds in 2018, is in talks with investors to raise between 50 to 100 million pounds. Blomfield declined to comment on the talks.\n\n\"Our real focus is on monetization,\" he said. \"We're looking to drive revenue and do it in a way that's transparent and fair.\"\n\nMonzo wants to do that by lending more and rolling out paid-for services like the premium account.\n\nIt currently lends out 120 million pounds, compared with deposits of 2 billion pounds. [...] LONDON (Reuters) - Fast-growing British digital bank Monzo plans to hire up to 500 people and forecasts it will get 5.5 million users this year, as it prepares to have another crack at charging some customers to turn a profit.\n\nThe loss-making firm has burned through cash to fuel growth and launch in the United States, but has had no problems raising capital and is valued at over 2 billion pounds ($2.6 billion)."
+          },
+          {
+            "title": "Monzo - Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Monzo",
+            "snippet": "Originally operating through a mobile app and a prepaid debit card, in April 2017 its UK banking licence restrictions were lifted, enabling it to offer a full current account \"Current account (banking)\"). As of May 2026, Monzo reported having more than 15.2 million customers and customer deposits exceeding £25 billion.\n\n## History\n\n[edit]\n\n### 2015–2017: Early growth\n\n[edit] [...] Monzo Bank Limited, trading as Monzo (/ˈmɒnzoʊ/), is a British online bank based in London, England. Monzo launched as part of a number of app-based challenger banks entering the UK market."
+          },
+          {
+            "title": "Open a Free Online Bank Account in Minutes with Monzo",
+            "url": "https://monzo.com/current-account/personal",
+            "snippet": "Your Monzo card should arrive within 3-5 working days after you open your account. You can use a virtual card in the app right away while you wait.\n\n### How does Monzo keep my money safe?\n\nWe're a fully-regulated UK bank and a member of the Financial Services Compensation Scheme (FSCS), so your eligible deposits are protected up to a value of £120,000 per person. We help keep your money safe with industry-first security features, humans on hand 24/7, and advanced fraud protection. [...] + A UK current account\n  + Your eligible deposits are protected by the FSCS up to £120,000 per person\n  + All the Monzo features you know and love\n  + 2.80% AER (variable) interest, paid monthly on Instant Access savings\n  + 3.45% AER (variable) interest on Select Access savings, paid monthly – £500 minimum deposit\n  + Connect one external bank account or credit card\n  + Create one virtual card\n  + Fee-free withdrawals up to £200\n  + Credit insights - TransUnion Score only\n Monzo bank card [...] FSCS protected\n\nYour eligible money in Monzo is protected by the FSCS up to £120,000 per person.\n\nFSCS protected logo\n\n## A regulated bank that lives on your phone\n\nWhich means 24/7 support, FSCS protection, and no complicated paperwork.\n\nOpen a free current account\n\n24/7 support\n\nYou can speak to us through our in-app chat – whenever, wherever. We're here for you 24/7.\n\nDeposit cash and cheques"
+          },
+          {
+            "title": "Monzo Plus: UK digital bank relaunches premium accounts",
+            "url": "https://www.cnbc.com/2020/07/16/monzo-plus-uk-digital-bank-relaunches-premium-accounts.html",
+            "snippet": "Monzo makes most of its revenue from fees generated every time a customer uses their card. But it has increasingly been diversifying its revenue streams by introducing loans and overdrafts, as well as taking a cut of revenues from third-party services. [...] It has relaunched Monzo Plus as a subscription service that costs £5 ($6.30) a month and comes with perks including 1% interest on balances of up to £2000 and credit score checks. That may prove attractive to current users of the firm's \"Pots\" savings feature, who have seen interest rates decline recently on the back of central bank action resulting from the coronavirus crisis. [...] British financial technology start-up Monzo is giving paid-for checking accounts another go, with a revamped premium service it hopes will help generate a new source of revenue.\n\nMonzo, which provides banking services through an app, initially tried to launch a premium offering last year. Dubbed Monzo Plus, the packaged account was eventually scrapped by the firm due to complaints from customers."
+          }
+        ]
+      }
+    },
+    {
+      "args": {
+        "query": "Monzo news October November 2026",
+        "topic": "news",
+        "time_range": "month",
+        "max_results": 6
+      },
+      "result": {
+        "results": [
+          {
+            "title": "Monzo in talks to raise up to £500m, reports say | Sifted",
+            "url": "https://sifted.eu/articles/monzo-to-raise-up-to-500m",
+            "snippet": "UK digital bank Monzo is reportedly in talks to raise between £300m and £500m at a valuation of around £7bn, weeks after talks for a potential takeover apparently collapsed.\n\nNews\n\nNovember 9, 2026\n\n# Monzo in talks to raise up to £500m, reports say\n\n## US fund management firm DE Shaw & Co is reportedly in the mix to lead\n\n2min read [...] Tue\n\nYour weekly update on the latest trends across (neo)banking, buy now pay later, payments and the fintech startup scene.\n\nRecommended\n\n The winners and losers of Europe's fintech growth funding drought\n\n  The sector’s Series B and C deals have almost halved\n Early Revolut employees emerge from stealth with AI wealthtech Haido\n\n  Early Monzo backer Eileen Burbidge has invested in the startup\n Starling Bank CEO to step down after just two years, reports say [...] London-based fintech has struggled to match growth of rivals Revolut and Monzo",
+            "published_at": "Mon, 09 Nov 2026 17:02:43 GMT"
+          },
+          {
+            "title": "Monzo IPO 2026: Valuation, Nubank Exit and PE Stake Talks",
+            "url": "https://admiralmarkets.com/education/articles/shares/monzo-ipo-2026",
+            "snippet": "| Who | View | Date | Source |\n ---  --- |\n| Needham | Buy, $19 target | 28 September 2026 | TIKR |\n| Street mean target | $18.69 | Late September 2026 | TIKR |\n| Itaú BBA | Market Perform, target cut to $18 from $20 | 16 September 2026 | TIKR |\n| Consensus (4 analysts) | Q3 EPS of $0.23, against $0.17 a year earlier | October 2026 | ChartRow |\n| Next results | Thursday 12 November 2026, time to be announced | n/a | ChartRow | [...] Monzo Bank Ltd is still a private company. As of 28 October 2026 it has not set an IPO date, and its shares do not trade on any exchange. Talks over a sale to Nu Holdings, the owner of Nubank, ended on 30 September. In early October, Monzo was in early talks to sell a stake of up to 15% to private equity, as the Financial Times reported via Investing.com. [...] Monzo board reportedly pushed out CEO Anil over IPO timing, TechCrunch, accessed 28 October 2026.\n Monzo, Wikipedia, accessed 28 October 2026.\n Nubank's owner is in talks to buy Monzo at up to £10bn, The Next Web, accessed 28 October 2026.\n Monzo is shutting down its US operation, The Next Web, accessed 28 October 2026.\n Nu Holdings Stock Fell 10% in a Day on Reported Monzo Talks, TIKR, accessed 28 October 2026.",
+            "published_at": "Wed, 28 Oct 2026 00:00:00 GMT"
+          },
+          {
+            "title": "Neobanks – News on Digital & Challenger Banks | FF News",
+            "url": "https://ffnews.com/neobanks",
+            "snippet": "Expansion: Digital Banking License Talks Underway with BSP 30 Oct 2026Image 33 #### Revolut Real Estate Lending Head Duncan Batty Departs Amid Global Expansion Push 30 Oct 2026Image 34 #### Revolut Appoints Nilesh Khatwani as Global Head of Institutional Sales for Crypto Expansion 30 Oct 2026Image 35 #### Bitget Wallet Launches Neobanking Features with Auto-Converting USD and EUR Accounts 29 Oct 2026Image 36 #### Monzo Accelerates European Expansion with Official Launch in Spain 28 Oct [...] as reported in our coverage. Expansion remains a priority; Revolut has registered as New Zealand’s first digital bank and is in talks for a licence in the Philippines, while Monzo has officially launched in Spain. [...] Who are the largest neobanks by valuation and user base?\n\nRevolut is one of the most highly valued neobanks globally, reaching a $115 billion valuation as reported in our coverage. Nubank is another major player, serving 140 million users and recently undergoing a brand refresh to support global expansion. Other significant providers include Monzo, which recently launched in Spain, and N26, which maintains a strong presence across Europe and is currently focusing on primary banking strategies.",
+            "published_at": "Mon, 16 Nov 2026 11:00:00 GMT"
+          },
+          {
+            "title": "Monzo Weighs New Funding at £7.5 Billion Valuation as Buyout Talks Stall - Fintech Schweiz Digital Finance News - FintechNewsCH",
+            "url": "https://fintechnews.ch/london/monzo-valuation-fundraising-nubank-private-equity/86866",
+            "snippet": "Monzo turned to private equity after its talks over a £10 billion takeover by Nubank ended without agreement on valuation. Nubank is now likely to focus on growth in the US.\n\nThe bank wants the funds to support its expansion in Europe. It already operates in Ireland and launched in Spain in October.\n\nIn 2024, an employee share sale valued the bank at £4.5 billion. For the year to March 2026, pre-tax profit rose to £87.3 million from £60.5 million. Revenue grew 39 per cent to £1.7 billion. [...] Free Newsletter\n\nGet the hottest Fintech Switzerland News once a month in your Inbox\n\nMonzo is weighing a new funding round that would value the UK digital bank at around £7.5 billion, the Financial Times reported.\n\nA takeover by Brazil’s Nubank did not go ahead, and talks to sell a minority stake to private equity firms have stalled.\n\nAdvent International, TPG and CVC were among the firms in those talks, which covered a stake of up to 15 per cent. [...] #### CTO Craft Con: Fintech Brings Tech Leaders to London This November\n\n#### Stripe Pay Launches Instant Business Transfers in US and UK\n\n#### Wealthsimple Valued at About US$9.8 Billion in GIC-Led Funding Round\n\n#### Revolut Ventures to Let Clients Invest in Unlisted Tech from 2027\n\nFintech Schweiz Digital Finance News - FintechNewsCH\n\nManage Consent\n\nYour Privacy Matters to Us",
+            "published_at": "Fri, 06 Nov 2026 08:07:05 GMT"
+          },
+          {
+            "title": "October 2026: Top five new launch stories of the month",
+            "url": "https://www.fintechfutures.com/fintech-start-ups/october-2026-top-five-new-launch-stories-of-the-month",
+            "snippet": "Notably, Navra operates with keyless self-custody, providing users ownership of their assets without a seed phrase. For institutional customers, Navra offers a white label solution, which enables them to embed Navra's technology into their own apps.\n\nRead more here\n\nRead more about:\n\nCrédit AgricoleIKB Deutsche IndustriebankMonzoMIZANQivalisNavra\n\n\n\n#### Blockchain-powered infrastructure start-up Alta bags $80m in combined funding by Francis Bignell Nov 11, 2026",
+            "published_at": "Fri, 30 Oct 2026 06:00:00 GMT"
+          },
+          {
+            "title": "CTO Craft Con: Fintech Brings Tech Leaders to London This November - Fintech Schweiz Digital Finance News - FintechNewsCH",
+            "url": "https://fintechnews.ch/aifintech/cto-craft-con-fintech-2026-london/86724",
+            "snippet": "Free Newsletter\n\nFintech Schweiz Digital Finance News – FintechNewsCH\n\nAI London Sponsored\n\n# CTO Craft Con: Fintech Brings Tech Leaders to London This November\n\nTech leaders from HSBC, Monzo, Wise and others gather on 2-3 November to share how they balance faster AI-driven delivery with regulatory scrutiny.\n\nCompany AnnouncementCompany Announcement3 Mins Read\n\nLinkedIn   Facebook   Twitter\")   Telegram   Copy Link   Email\n\nCTO Craft Con: Fintech Brings Tech Leaders to London This November [...] The agenda focuses on real issues engineering leaders are dealing with right now. Harry Jell, CTO at Yonder, opens Day 1 with a keynote titled “Borrowing from the future: a lender’s perspective on managing tech debt”.\n\nHe’ll draw on his experience scaling a regulated credit card business.\n\nSteve Martin, VP Engineering at Monzo, will deliver a keynote on Day 2. Steve has built and delivered intelligent products in multiple industries. [...] It’s a chance for technology leaders and innovators to get together under one roof for inspiring talks, thought-provoking discussions and unparalleled networking opportunities.\n\nParticipating companies include HSBC, Barclays, Lloyds Banking Group, Morgan Stanley, Monzo, Yonder, BlackRock, Amazon, Wise, Xero, Zopa, Funding Circle and more.\n\n#### What’s on the agenda",
+            "published_at": "Thu, 29 Oct 2026 07:48:17 GMT"
+          }
+        ]
+      }
+    },
+    {
+      "args": {
+        "query": "Monzo launches hires funding November 2026",
+        "topic": "news",
+        "time_range": "month",
+        "max_results": 6
+      },
+      "result": {
+        "results": [
+          {
+            "title": "Monzo continues European expansion with Spain launch",
+            "url": "https://www.fintechfutures.com/challenger-banks/monzo-launches-in-spain",
+            "snippet": "Co-branded card fintech Imprint hits $1.9bn valuation with $130m funding round\n\nCo-branded card fintech Imprint hits $1.9bn valuation with $130m funding round\n\nNov 13, 2026\n\nImage 27: ICYMI - FinTech Funding News\n\nVenture Capital Funding\n\nICYMI fintech funding round-up: Ancep, Planky, Seva Money, and more\n\nICYMI fintech funding round-up: Ancep, Planky, Seva Money, and more\n\nNov 13, 2026\n\nSee all\n\nImage 28: fintech futures - preferred source Google\n\nGet more out of your news on Google [...] Digital BankingImage 21: Michael Carney, Monzo - FinTech News\n\n#### Monzo EU CEO Michael Carney to step down by Cameron Emanuel-Burns Sep 23, 2026\n\nJob Cuts & New HiresImage 22: Gary Hoffman, Monzo - FinTech News\n\n#### Gary Hoffman to step down as Monzo group chair by Cameron Emanuel-Burns Aug 18, 2026\n\nChallenger BanksImage 23: Monzo - FinTech News\n\n#### Monzo Mobile to launch this summer by Tyler Pathe May 29, 2026\n\n### Latest News\n\nSee all chevron_right [...] Image 24: PayTech Awards USA - fintech news.png?width=300&auto=webp&quality=80&disable=upscale)\n\nPayTech\n\nPayTech Awards USA 2026 shortlist announced\n\nPayTech Awards USA 2026 shortlist announced\n\nNov 13, 2026\n\nImage 25: FinTech News\n\nFinTech\n\nFinTech Futures: Top five news stories of the week – 13 November 2026\n\nFinTech Futures: Top five news stories of the week – 13 November 2026\n\nNov 13, 2026\n\nImage 26: Imprint - FinTech News\n\nVenture Capital Funding",
+            "published_at": "Thu, 29 Oct 2026 11:10:19 GMT"
+          },
+          {
+            "title": "Monzo",
+            "url": "https://tavily.com/knowledge/company/0w6wANoRQxtV",
+            "snippet": "# Monzo\nID: 0w6wANoRQxtV\nWebsite: www.monzo.com\nHeadquarters: London, England, United Kingdom\nLinkedIn: www.linkedin.com/company/monzo · 747,278 followers\nIndustry: Financial Services\nIndustry codes: SIC 60, 602, NAICS 52, 522\nCompany type: Privately Held\nBusiness model: B2C\nSaaS: no\nSocial profiles: www.facebook.com/monzobank, www.twitter.com/monzo, www.crunchbase.com/organization/monzo, www.instagram.com/monzo, www.youtube.com/@monzobank, www.youtube.com/monzobank\nPhone: 44-800-802-1281 [...] ## Funding\n- Rounds: 25\n- Total raised: 815.19M USD\n- Total raised: 969.49M GBP [...] - Last round: 2025-08-01 15.00M GBP\n- 2025-08-01 15.00M GBP\n- Venture Round 2025-03-01 115.00M GBP\n- Secondary Market 2024-10-01\n- Venture Round 2024-05-01 190.00M USD\n- Venture Round 2024-03-01 340.00M GBP\n- Venture Round 2021-12-01 100.00M USD\n- Venture Round 2021-12-01 500.00M USD\n- Series H 2021-02-01 50.00M GBP\n- Series G 2020-12-01 60.00M GBP\n- Series G 2020-06-01 65.00M GBP\n- Series F 2019-06-01 113.00M GBP\n- Non Equity Assistance 2019-03-01\n- Venture Round 2018-12-01 19.93M GBP"
+          },
+          {
+            "title": "October 2026: Top five new launch stories of the month",
+            "url": "https://www.fintechfutures.com/fintech-start-ups/october-2026-top-five-new-launch-stories-of-the-month",
+            "snippet": "Notably, Navra operates with keyless self-custody, providing users ownership of their assets without a seed phrase. For institutional customers, Navra offers a white label solution, which enables them to embed Navra's technology into their own apps.\n\nRead more here\n\nRead more about:\n\nCrédit AgricoleIKB Deutsche IndustriebankMonzoMIZANQivalisNavra\n\n\n\n#### Blockchain-powered infrastructure start-up Alta bags $80m in combined funding by Francis Bignell Nov 11, 2026 [...] ### Latest News\n\nSee all chevron_right\n\nImage 24: FinTech News\n\nFinTech\n\nFinTech Futures: Top five news stories of the week – 13 November 2026\n\nFinTech Futures: Top five news stories of the week – 13 November 2026\n\nNov 13, 2026\n\nImage 25: Imprint - FinTech News\n\nVenture Capital Funding\n\nCo-branded card fintech Imprint hits $1.9bn valuation with $130m funding round\n\nCo-branded card fintech Imprint hits $1.9bn valuation with $130m funding round\n\nNov 13, 2026 [...] Job Cuts & New HiresImage 21: OpenTrade - FinTech News\n\n#### Former Swift CEO appointed as chair of stablecoin start-up OpenTrade by Tyler Pathe Nov 03, 2026\n\nDigital BankingImage 22: Crédit Agricole - FinTech News\n\n#### Crédit Agricole to launch new digital retail bank in Germany, agrees to buy IKB by Tyler Pathe Oct 13, 2026\n\nRegulatory ActionsImage 23: Mal - FinTech News\n\n#### Mal secures in-principle regulatory approval for UAE bank licence by Francis Bignell May 20, 2026\n\n### Latest News",
+            "published_at": "Fri, 30 Oct 2026 06:00:00 GMT"
+          }
+        ]
+      }
+    },
+    {
+      "args": {
+        "query": "Monzo regulatory legal developments 2026",
+        "topic": "news",
+        "time_range": "month",
+        "max_results": 6
+      },
+      "result": {
+        "results": [
+          {
+            "title": "Monzo IPO 2026: Valuation, Nubank Exit and PE Stake Talks",
+            "url": "https://admiralmarkets.com/education/articles/shares/monzo-ipo-2026",
+            "snippet": "| Market | Status | Key detail | Source |\n ---  --- |\n| United States | Closed | Exit announced 1 April 2026. Accounts closed by June | The Next Web |\n| EU licence | Granted 17 December 2025 | Issued with the ECB and the Central Bank of Ireland | The Next Web |\n| Ireland | Live since 14 April 2026 | Savings up to 1.6% at launch | Irish Times |\n| Spain | Live since 28 October 2026 | 4% AER on the first €5,000 for 12 months. A 2.5% rate applies outside the offer | ADSLZone | [...] Monzo announced on 1 April 2026 that it would leave the United States. It stopped new US sign-ups and cut about 50 roles. Existing US accounts closed by June, according to The Next Web. Europe became the focus after the bank received an EU banking licence on 17 December 2025.\n\n### Monzo Ireland Launch [...] | Bank surcharge, Budget 2026 | 6%, a temporary rise | 1 January 2027 to 31 March 2028 | GOV.UK |",
+            "published_at": "Wed, 28 Oct 2026 00:00:00 GMT"
+          },
+          {
+            "title": "Regtech News – AML, KYB & Compliance Technology | FF News",
+            "url": "https://ffnews.com/regtech",
+            "snippet": "Image 49\n\n### ComplyAdvantage Fintea Chats: Jodie Gayet on Why Early Support Matters in Financial Crime Prevention\n\n4 Feb 2026\n\nImage 50\n\n### ComplyAdvantage Fintea Chats: Fighting Financial Crime in an Age of Faster, Smarter Criminals\n\n2 Feb 2026\n\nImage 51\n\n### ComplyAdvantage Fintea Chats: Customer Decisioning, AI and Financial Crime, with Monzo\n\n30 Jan 2026\n\nImage 52\n\n### FF News Tattoo Studio: Neterium on Mission-Critical Sanctions Screening\n\n29 Oct 2025 [...] The sector is currently under intense pressure as regulatory bodies increase their scrutiny. According to reports from spektr, FCA fines have recently exceeded £300 million, highlighting the high cost of compliance failures. Furthermore, new frameworks like the EU AI Act and DORA are forcing firms to modernise their infrastructure. For investors and regulators, Regtech provides the transparency needed to maintain market integrity, while for fintechs, it offers a path to scale across borders [...] Home›Regtech\n\nFF News\n\n# Regtech News\n\nUpdated 16 Nov 2026\n\nRegtech news from FF News: AML and KYB, sanctions screening, transaction monitoring, financial crime compliance and regulatory reporting technology.\n\n## On this page\n\n   Latest news\n   Video interviews\n   Thought leadership\n   About\n   FAQs\n\n## Latest news",
+            "published_at": "Mon, 16 Nov 2026 09:00:00 GMT"
+          },
+          {
+            "title": "Monzo",
+            "url": "https://tavily.com/knowledge/company/0w6wANoRQxtV",
+            "snippet": "# Monzo\nID: 0w6wANoRQxtV\nWebsite: www.monzo.com\nHeadquarters: London, England, United Kingdom\nLinkedIn: www.linkedin.com/company/monzo · 747,278 followers\nIndustry: Financial Services\nIndustry codes: SIC 60, 602, NAICS 52, 522\nCompany type: Privately Held\nBusiness model: B2C\nSaaS: no\nSocial profiles: www.facebook.com/monzobank, www.twitter.com/monzo, www.crunchbase.com/organization/monzo, www.instagram.com/monzo, www.youtube.com/@monzobank, www.youtube.com/monzobank\nPhone: 44-800-802-1281 [...] ## M&A\n- Hey Habito Ltd. (2025-12-01)\n\n## Technology\n- Detected: 178\n- google meet · last seen 2026-09-14\n- dbt · last seen 2026-09-14\n- google cloud · last seen 2026-09-14\n- microservices · last seen 2026-09-14\n- postgresql · last seen 2026-09-14\n- looker · last seen 2026-09-14\n- enps · last seen 2026-09-14\n- microsoft project · last seen 2026-09-14\n\n## Reputation\n- Open roles: 0\n\n## Similar companies\n- wise solutions\n- revolut\n- starling bank\n- n26\n- numbrs\n- monese\n- tide\n- satispay [...] - Last round: 2025-08-01 15.00M GBP\n- 2025-08-01 15.00M GBP\n- Venture Round 2025-03-01 115.00M GBP\n- Secondary Market 2024-10-01\n- Venture Round 2024-05-01 190.00M USD\n- Venture Round 2024-03-01 340.00M GBP\n- Venture Round 2021-12-01 100.00M USD\n- Venture Round 2021-12-01 500.00M USD\n- Series H 2021-02-01 50.00M GBP\n- Series G 2020-12-01 60.00M GBP\n- Series G 2020-06-01 65.00M GBP\n- Series F 2019-06-01 113.00M GBP\n- Non Equity Assistance 2019-03-01\n- Venture Round 2018-12-01 19.93M GBP"
+          }
+        ]
+      }
+    }
+  ],
+  "replies": [
+    {
+      "content": {
+        "type": "text",
+        "text": "{\"queries\": [\"Monzo news October November 2026\", \"Monzo launches hires funding November 2026\", \"Monzo regulatory legal developments 2026\"], \"identityQuery\": \"Monzo UK digital bank overview\"}"
+      },
+      "stopReason": "endTurn"
+    },
+    {
+      "content": {
+        "type": "text",
+        "text": ""
+      },
+      "stopReason": "maxTokens"
+    },
+    {
+      "content": {
+        "type": "text",
+        "text": "{\n  \"masthead\": \"General meeting briefing — Monzo\",\n  \"headline\": \"Monzo's recent coverage centers on fundraising, valuation and European expansion ahead of the 17 Nov 2026 meeting.\",\n  \"situation\": \"Monzo is a UK digital bank launched in 2015; as of May 2026 it reported more than 15.2 million customers and customer deposits exceeding £25 billion. Coverage in the last 30 days focuses on funding and valuation discussions after stalled takeover talks, expansion in Europe including Spain and Ireland, and analyst and market commentary. A general meeting with Monzo is scheduled for 2026-11-17T21:02.\",\n  \"keyDevelopments\": [\n    {\n      \"headline\": \"Monzo reportedly in talks to raise £300m-£500m at around £7bn valuation\",\n      \"summary\": \"Sifted reports Monzo is in talks to raise between £300m and £500m at a valuation of around £7bn, weeks after talks for a potential takeover apparently collapsed. DE Shaw & Co is reportedly in the mix. Fintech Schweiz reports Monzo turned to private equity after £10bn takeover talks with Nubank ended without agreement on valuation, and that Nubank is now likely to focus on growth in the US.\",\n      \"whyItMatters\": \"Clarifies current financing posture and valuation expectations after the stalled Nubank process.\",\n      \"sourceUrls\": [\n        \"https://sifted.eu/articles/monzo-to-raise-up-to-500m\",\n        \"https://fintechnews.ch/london/monzo-valuation-fundraising-nubank-private-equity/86866\"\n      ],\n      \"happenedWithinWindow\": true\n    },\n    {\n      \"headline\": \"Monzo seeks funding to support European expansion, including Spain launch\",\n      \"summary\": \"Fintech Schweiz says the bank wants funds to support expansion in Europe, already operates in Ireland, and launched in Spain in October. A Fintech Futures headline says Monzo continues European expansion with Spain launch.\",\n      \"whyItMatters\": \"Links fundraising to concrete market expansion and gives a current growth footprint.\",\n      \"sourceUrls\": [\n        \"https://fintechnews.ch/london/monzo-valuation-fundraising-nubank-private-equity/86866\",\n        \"https://www.fintechfutures.com/challenger-banks/monzo-launches-in-spain\"\n      ],\n      \"happenedWithinWindow\": true\n    },\n    {\n      \"headline\": \"Coverage summarizes analyst views and Monzo market footprint\",\n      \"summary\": \"An Admiral Markets article published 28 Oct 2026 discusses Monzo valuation, Nubank exit and private-equity stake talks. It lists Needham Buy with a $19 target, a street mean target of $18.69, Itaú BBA Market Perform with target cut to $18 from $20, and consensus Q3 EPS of $0.23 versus $0.17 a year earlier. It also notes the US market is closed with exit announced 1 April 2026, an EU licence granted 17 December 2025, and Ireland live since 14 April 2026 with savings up to 1.6%.\",\n      \"whyItMatters\": \"Provides external valuation and footprint context that may shape expectations.\",\n      \"sourceUrls\": [\n        \"https://admiralmarkets.com/education/articles/shares/monzo-ipo-2026\"\n      ],\n      \"happenedWithinWindow\": true\n    }\n  ],\n  \"discussionPoints\": [\n    \"Confirm whether the reported £300m-£500m fundraising is still active and what valuation is currently expected.\",\n    \"Clarify how new funding would support European expansion, including Ireland operations and the Spain launch.\",\n    \"Discuss implications of the stalled £10bn Nubank takeover talks and Nubank's likely US focus.\",\n    \"Review external analyst views alongside Monzo's market footprint, including US exit and EU licence status.\",\n    \"Ask how Monzo balances faster AI-driven delivery with regulatory scrutiny in light of CTO Craft Con participation.\"\n  ],\n  \"openQuestions\": [\n    \"Has any part of the reported fundraising been signed, and on what timeline?\",\n    \"What are the next European markets after Spain and Ireland?\",\n    \"How does Monzo view the gap between the reported £7bn valuation and the prior £10bn takeover discussion?\",\n    \"Which customer or revenue metrics support the expansion and funding needs?\",\n    \"Are AI and regulatory priorities changing product delivery timelines?\"\n  ]\n}"
+      },
+      "stopReason": "endTurn"
+    },
+    {
+      "content": {
+        "type": "text",
+        "text": "{\n  \"masthead\": \"Partnership briefing — Monzo\",\n  \"headline\": \"Monzo is reportedly in PE funding talks after Nubank takeover talks collapsed, while expanding in Europe.\",\n  \"situation\": \"Monzo is a UK digital bank launched in 2015. As of May 2026, it reported more than 15.2 million customers and customer deposits exceeding £25 billion, and it is a fully regulated UK bank and FSCS member. Recent reports say it is in funding talks and expanding in Europe, including a Spain launch, after takeover talks with Nubank ended without agreement.\",\n  \"keyDevelopments\": [\n    {\n      \"headline\": \"Monzo reportedly in talks to raise £300m–£500m at around £7bn valuation\",\n      \"summary\": \"Sifted reports Monzo is reportedly in talks to raise between £300m and £500m at a valuation of around £7bn, weeks after talks for a potential takeover apparently collapsed; DE Shaw & Co is reportedly in the mix.\",\n      \"whyItMatters\": \"Reported funding talks and valuation set expectations for Monzo's capital position and strategic options ahead of the meeting.\",\n      \"sourceUrls\": [\n        \"https://sifted.eu/articles/monzo-to-raise-up-to-500m\"\n      ],\n      \"happenedWithinWindow\": true\n    },\n    {\n      \"headline\": \"Monzo turns to private equity after Nubank takeover talks stall\",\n      \"summary\": \"Fintech Schweiz reports Monzo turned to private equity after talks over a £10bn takeover by Nubank ended without agreement on valuation; Nubank is now likely to focus on growth in the US.\",\n      \"whyItMatters\": \"Clarifies the shift from a sale process to fundraising and the current partner landscape.\",\n      \"sourceUrls\": [\n        \"https://fintechnews.ch/london/monzo-valuation-fundraising-nubank-private-equity/86866\"\n      ],\n      \"happenedWithinWindow\": true\n    },\n    {\n      \"headline\": \"Monzo continues European expansion with Spain launch\",\n      \"summary\": \"Fintech Futures reports Monzo continues European expansion with Spain launch; Fintech Schweiz reports Monzo already operates in Ireland and launched in Spain in October.\",\n      \"whyItMatters\": \"Europe expansion is a stated use of funds and relevant to market-entry and partnership discussions.\",\n      \"sourceUrls\": [\n        \"https://www.fintechfutures.com/challenger-banks/monzo-launches-in-spain\",\n        \"https://fintechnews.ch/london/monzo-valuation-fundraising-nubank-private-equity/86866\"\n      ],\n      \"happenedWithinWindow\": true\n    }\n  ],\n  \"discussionPoints\": [\n    \"Ask how the reported £300m–£500m raise would be used across product, hiring, and European expansion.\",\n    \"Clarify the status of Nubank takeover talks and whether a future sale process remains open.\",\n    \"Discuss Spain launch execution, Ireland operations, and European market-entry priorities.\",\n    \"Understand the differing reported valuation figures of around £7bn and £7.5bn.\",\n    \"Review how Monzo balances card-fee revenue with loans, overdrafts, and third-party services.\"\n  ],\n  \"openQuestions\": [\n    \"Which reported valuation figure is current for discussions: around £7bn or £7.5bn?\",\n    \"What is the intended use of proceeds for the reported raise?\",\n    \"What are Monzo's near-term milestones for Spain and Ireland?\",\n    \"Is DE Shaw & Co involved, and what role would it play?\",\n    \"How does Monzo view IPO timing relative to private funding?\"\n  ]\n}"
+      },
+      "stopReason": "endTurn"
+    }
+  ]
+}

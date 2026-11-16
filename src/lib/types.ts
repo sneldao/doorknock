@@ -80,7 +80,17 @@ export type Briefing = z.infer<typeof BriefingSchema>;
 // ── Gate (deterministic) ────────────────────────────────────────────────────
 
 export interface GateFinding {
-  kind: "unsourced" | "unknown_source" | "outside_window" | "no_developments";
+  kind:
+    | "unsourced"
+    | "unknown_source"
+    | "outside_window"
+    | "no_developments"
+    | "unsupported_figure"
+    | "unsupported_name"
+    | "misattributed_name"
+    | "stale_source";
+  /** Briefing field the finding applies to (set for per-field findings). */
+  field?: string;
   detail: string;
   urls: string[];
 }

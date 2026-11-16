@@ -5,6 +5,10 @@ import type { SearchRound, WebHit } from "./types";
 
 const TAVILY_ENDPOINT = "https://api.tavily.com/search";
 
+/** Characters of each hit's snippet shown to the model — the gate audits
+ *  against exactly this window. */
+export const EXCERPT_CHARS = 320;
+
 export function tavilyEnabled(): boolean {
   return Boolean(process.env.TAVILY_API_KEY);
 }

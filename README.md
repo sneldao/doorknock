@@ -38,11 +38,13 @@ The whole run streams live over SSE: you watch each query fly, see Tavily hit co
 The interesting part of Doorknock is that its most important agent isn't a model. The Scribe is *allowed* to hallucinate; the auditor won't let it ship. `src/lib/gate.ts` is ~100 lines of deterministic code:
 
 1. The Scout's transcript (every URL Tavily actually returned) is sealed before any drafting begins.
-2. Each key development must cite ≥1 transcript URL (normalized: hash and trailing-slash insensitive).
-3. **Grounding score** = traced developments ÷ total developments, threshold 0.8.
-4. Fail → REJECT with a machine-readable report naming the offending claims → the Scribe redrafts once → still failing, the repair pass strips untraceable developments into the *uncertain — treat with caution* section. The user always sees what was kept, what was flagged, and why.
+2. Each key development must cite ≥1 transcript URL (normalized: hash and trailing-slash insensitive on both sides).
+3. Every figure a development or a top-level line states — any number, amount, percentage or date — must appear in the excerpt the model actually saw for the cited sources (title + first 320 chars of the snippet + published date). A real URL does not rescue an invented number: "$40M" citing a fetched page that never mentions 40 million is a fabrication, rejected like a fake URL. Figures the operator supplied (subject, meeting time, notes, today's date — and the 30-day window itself) are allowed.
+4. Every capitalised name — person, company or product — must likewise appear in the cited excerpts (or the operator-supplied context). The extractor ignores ordinary sentence capitalisation and strips possessives; "Bank of England" counts as one name. A development that claims to be in-window but cites only sources older than 45 days is flagged `stale_source`.
+5. **Grounding score** = traced developments ÷ total developments, threshold 0.8.
+6. Fail → REJECT with a machine-readable report naming the offending claims → the Scribe redrafts once → still failing, the repair pass strips untraceable, name-unsupported, figure-unsupported or stale developments into the *uncertain — treat with caution* section and cuts offending sentences from the prose. The user always sees what was kept, what was flagged, and why.
 
-This is a small instance of a general pattern for making LLM agents safe to ship: **models draft, deterministic code verifies against ground truth the models can't touch.** The gate's unit tests (`tests/gate.test.ts`) run with no network, no keys, no models — the auditor's behavior is fully specified in code.
+This is a small instance of a general pattern for making LLM agents safe to ship: **models draft, deterministic code verifies against ground truth the models can't touch.** The gate's tests (`tests/gate.test.ts`, driven by the shared fixture `tests/gate-cases.json` — 44 cases plus targeted tests, shared verbatim with the Anna app) run with no network, no keys, no models — the auditor's behavior is fully specified in code.
 
 ## Architecture
 
@@ -99,7 +101,7 @@ Try it: subject **"Stripe"**, meeting tomorrow, type *partnership* → watch the
 ## Checks
 
 ```bash
-bun test          # the auditor gate: 8 deterministic tests, no keys, no network
+bun test          # the auditor gate: 62 deterministic tests, no keys, no network
 bun run typecheck
 bun run lint
 bun run build
@@ -117,6 +119,10 @@ bun run build
 Next.js 16 (App Router, Turbopack) · TypeScript strict · Tailwind CSS v4 · AI SDK (`generateText` over OpenAI-compatible) · zod v4 · Tavily search API · Bifrost AI Gateway v2 · fonts: Fraunces / Inter / JetBrains Mono.
 
 The design is a deliberate *intelligence brief*: paper, ink, telex rules, an oxblood grounding stamp. A brief should read like a document, not a dashboard.
+
+## The Anna app
+
+`anna/` is a bundle-only port of the same pipeline to the Anna AI OS marketplace — host `web.search` + `llm.complete` replace Tavily/Bifrost, `bundle/gate.js` is a 1:1 port of the auditor. Submitted for review 16 Nov 2026 (app id 938, `pending_review`). See `anna/README.md` and `docs/plan/anna-app-builder.md`.
 
 ## Provenance & license
 

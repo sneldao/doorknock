@@ -24,3 +24,6 @@ tsconfig.tsbuildinfo
 
 # render
 render.yaml.orig
+
+# anna app (own toolchain)
+anna/node_modules/
