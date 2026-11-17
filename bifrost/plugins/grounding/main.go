@@ -152,11 +152,11 @@ func HTTPTransportPostHook(ctx *schemas.BifrostContext, req *schemas.HTTPRequest
 	defer func() { ctx.SetValue(ctxVerdictKey, v) }()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		v.Verdict, v.Reason = "SKIP", "upstream returned non-2xx — not audited"
+		v.Verdict, v.Reason = "SKIP", "upstream returned non-2xx -- not audited"
 		return nil
 	}
 	if len(resp.Body) == 0 {
-		v.Verdict, v.Reason = "SKIP", "empty or streamed body — not audited"
+		v.Verdict, v.Reason = "SKIP", "empty or streamed body -- not audited"
 		return nil
 	}
 	ev := store.get(ref)
@@ -165,7 +165,7 @@ func HTTPTransportPostHook(ctx *schemas.BifrostContext, req *schemas.HTTPRequest
 	}
 	text := extractAssistantText(resp.Body)
 	if text == "" {
-		v.Verdict, v.Reason = "SKIP", "no assistant text in response — not audited"
+		v.Verdict, v.Reason = "SKIP", "no assistant text in response -- not audited"
 		return nil
 	}
 	v = audit(text, ev, cfg.MinCitations)

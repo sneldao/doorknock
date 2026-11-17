@@ -42,6 +42,6 @@ Built 15 November 2026, inside the hackathon build window. MIT, open source, tes
 - [x] PPT exports (problem / solution / architecture / implementation / demo / sponsor tech)
 - [x] Demo video: real run, includes live Tavily queries + gate verdict
 - [x] Deploy live: https://doorknock-2azp.onrender.com (validated in production: real brief, grounding 100% PASS)
-- [ ] PS-04 plugin wired live: `bifrost/plugins/grounding` loaded in the deployed gateway and a real verdict shown in the demo
+- [x] PS-04 plugin wired live: `grounding-gate` active on the deployed gateway (custom dynamic image — official Bifrost images are fully static and cannot `dlopen` plugins). Live run 2026-11-17: gateway `REJECT` (unsupported figure) on draft 1 → `PASS` on draft 2, verdicts surfaced as `gatewayGate` events in the feed
 - [ ] Upload PPT + (optional) video link in the Submissions tab
 - [ ] Confirm team members on the hackathon dashboard (up to 4)

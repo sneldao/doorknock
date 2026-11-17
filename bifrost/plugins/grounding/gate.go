@@ -184,16 +184,16 @@ func audit(text string, ev *evidenceDoc, minCitations int) Verdict {
 		v.Pass = false
 		v.Verdict = "REJECT"
 		v.UnknownURLs = unknown
-		v.Reason = "unknown source — cites URL(s) absent from the evidence transcript"
+		v.Reason = "unknown source -- cites URL(s) absent from the evidence transcript"
 	case len(cited) < minCitations:
 		v.Pass = false
 		v.Verdict = "REJECT"
-		v.Reason = "insufficient citations — the reply cites no URL from the evidence transcript"
+		v.Reason = "insufficient citations -- the reply cites no URL from the evidence transcript"
 	case len(unsupported) > 0:
 		v.Pass = false
 		v.Verdict = "REJECT"
 		v.UnsupportedFigures = unsupported
-		v.Reason = "unsupported figure — states quantities absent from the evidence excerpts"
+		v.Reason = "unsupported figure -- states quantities absent from the evidence excerpts"
 	}
 	return v
 }
