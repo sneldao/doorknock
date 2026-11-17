@@ -99,6 +99,9 @@ export default function Page() {
   const searchEvents = events.filter(
     (e): e is Extract<RunEvent, { type: "search" }> => e.type === "search",
   );
+  const gatewayVerdict = [...events].reverse().find(
+    (e): e is Extract<RunEvent, { type: "gatewayGate" }> => e.type === "gatewayGate",
+  )?.verdict;
 
   return (
     <div className="mx-auto max-w-3xl px-5">
@@ -214,6 +217,11 @@ export default function Page() {
                 {gate.pass ? "Verified" : "Repaired"} · grounding{" "}
                 {(gate.score * 100).toFixed(0)}%
               </span>
+              {gatewayVerdict && (
+                <span className={`stamp ${gatewayVerdict.pass ? "stamp-pass" : ""}`}>
+                  gateway · {gatewayVerdict.verdict}
+                </span>
+              )}
               <span className="mono-label">
                 {sources.length} sources · {searchEvents.length} Tavily queries · 30-day window
               </span>
