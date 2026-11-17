@@ -6,13 +6,16 @@
 #
 # Keep BIFROST_REF (source tag) and BIFROST_IMAGE (runtime tag) in lockstep:
 # transports/v2.5.1 pins core v1.15.2 and ships as docker.io/maximhq/bifrost:v2.5.1.
+# FROM-usable ARGs must be declared before the first stage.
+ARG BIFROST_REF=transports/v2.5.1
+ARG BIFROST_IMAGE=docker.io/maximhq/bifrost:v2.5.1
 
 # --- Plugin build stage ---------------------------------------------------
 FROM golang:1.27.3-alpine3.24 AS plugin-builder
 
 RUN apk upgrade --no-cache && apk add --no-cache gcc musl-dev git
 
-ARG BIFROST_REF=transports/v2.5.1
+ARG BIFROST_REF
 WORKDIR /bifrost
 RUN git clone --depth 1 --branch "${BIFROST_REF}" https://github.com/maximhq/bifrost .
 
@@ -32,6 +35,6 @@ RUN go build -buildmode=plugin -a -trimpath -ldflags="-w -s" \
       -o /out/grounding-gate.so ./plugins_grounding
 
 # --- Runtime --------------------------------------------------------------
-ARG BIFROST_IMAGE=docker.io/maximhq/bifrost:v2.5.1
+ARG BIFROST_IMAGE
 FROM ${BIFROST_IMAGE}
 COPY --from=plugin-builder /out/grounding-gate.so /app/plugins/grounding-gate.so
