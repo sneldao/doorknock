@@ -32,5 +32,23 @@ curl -N -X POST localhost:3000/api/verify \
 
 Kane needs `kane-cli` installed + logged in and Chrome on the app's host
 (`KANE_VERIFY=off` disables `/api/verify`; `KANE_CLI_BIN`,
-`KANE_CHROME_PROFILE`, `KANE_TARGET_ORIGIN` tune it). The committed replayable
-test lives at `tests/kane/doorknock-home_test.md`.
+`KANE_CHROME_PROFILE`, `KANE_TARGET_ORIGIN`, `KANE_POLICY` tune it). The app
+probes the binary once — hosts without it report verification unavailable.
+
+Every verdict also seals a Kane evidence pack judged against
+[`kane/policy.yaml`](../../kane/policy.yaml) (`doorknock-brief-gate`, also in
+Test Manager): zero failed/broken steps, zero unexplained failures, every
+test asserting — warnings on heal-drift and flaky tests. The policy result
+shows on the brief stamp and print footer.
+
+## Committed tests & CI
+
+- `tests/kane/doorknock-home_test.md` — landing-page audit; replays in CI.
+- `tests/kane/doorknock-brief-flow_test.md` — Kane drove the full
+  form → crew → rendered-brief loop on prod (passed, 268s, ~45cr;
+  [watch](https://test-manager.lambdatest.com/projects/01M7NPNZQ7KW5WZGTJQR1EC99S/test-cases/01M7NXCHD04K1J84A2XRK28V7P/dashboard/share/US_XIISG6LREKQBZ41N1CF12ZZ6PZCPG8FK4IO1XONPGUZZBRKVYL212V8KBZ4G93A9?type=summary&agentView=true&fqdn=summary-page)).
+  Manual/dispatch only — it spends a real research run.
+- `.github/workflows/kane.yml` — `pull_request` builds the app, serves :3000,
+  replays the home test with `--policy`; the `kane-verify / kane` check is
+  **required** on `main`. `workflow_dispatch` replays against the live deploy.
+  Secrets: `KANE_USERNAME` / `KANE_ACCESS_KEY` (TestMu dashboard → Settings → Keys).
