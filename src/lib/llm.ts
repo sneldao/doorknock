@@ -1,5 +1,5 @@
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
-import { generateText } from "ai";
+import { generateText, type JSONValue } from "ai";
 import { z } from "zod";
 
 // Every model call in Doorknock routes through the Bifrost gateway — the
@@ -82,7 +82,17 @@ function extractJson(text: string): string {
 export async function askObject<SCHEMA extends z.ZodType>(
   schema: SCHEMA,
   prompt: string,
-  opts: { maxRetries?: number } = {},
+  opts: {
+    maxRetries?: number;
+    // Extra request headers (e.g. the grounding-gate ref) and a peek at the
+    // response headers — the gateway plugin's verdict rides them.
+    headers?: Record<string, string>;
+    // Merged into the request body's top level by the openai-compatible
+    // provider — this is how the grounding-gate transcript reaches the
+    // gateway plugin inside the chat call it audits.
+    providerOptions?: Record<string, Record<string, JSONValue>>;
+    onResponseHeaders?: (headers: Record<string, string>) => void;
+  } = {},
 ): Promise<z.infer<SCHEMA>> {
   let lastError: unknown;
   for (let attempt = 0; attempt <= (opts.maxRetries ?? 2); attempt++) {
@@ -92,11 +102,14 @@ export async function askObject<SCHEMA extends z.ZodType>(
         temperature: 0.4,
         maxRetries: 0,
         abortSignal: AbortSignal.timeout(180_000),
+        headers: opts.headers,
+        providerOptions: opts.providerOptions,
         instructions:
           "You are a precise research analyst. Reply with a single JSON object and nothing else — no markdown fences, no commentary, no fields beyond the required shape. Match this exact JSON shape (types, array lengths, required keys):\n" +
           schemaSpec(schema),
         prompt,
       });
+      if (result.response.headers) opts.onResponseHeaders?.(result.response.headers);
       const parsed = schema.safeParse(JSON.parse(extractJson(result.text)));
       if (!parsed.success) {
         throw new Error(

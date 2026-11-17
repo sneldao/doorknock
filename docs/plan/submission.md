@@ -4,7 +4,8 @@ Target: https://hackculture.io/hackathons/ai-global-hackathon · Problem Stateme
 
 ## Form fields
 
-- **Problem statement:** PS-05 — Tavily Research Agent (Build a Pre-Meeting Briefing Agent)
+- **Submission type:** Combined project — one problem statement from each track
+- **Problem statements:** PS-05 — Tavily Research Agent (Build a Pre-Meeting Briefing Agent) **and** PS-04 — Open-Source Bifrost Gateway (the `bifrost/plugins/grounding/` plugin — deterministic output auditing in the gateway, used by doorknock and available to any app behind it)
 - **Project title:** Doorknock — the pre-meeting briefing agent that refuses to ship an unsourced claim
 - **GitHub repo:** https://github.com/sneldao/doorknock
 - **PPT:** `docs/deck/Doorknock.pdf`
@@ -41,5 +42,6 @@ Built 15 November 2026, inside the hackathon build window. MIT, open source, tes
 - [x] PPT exports (problem / solution / architecture / implementation / demo / sponsor tech)
 - [x] Demo video: real run, includes live Tavily queries + gate verdict
 - [x] Deploy live: https://doorknock-2azp.onrender.com (validated in production: real brief, grounding 100% PASS)
+- [ ] PS-04 plugin wired live: `bifrost/plugins/grounding` loaded in the deployed gateway and a real verdict shown in the demo
 - [ ] Upload PPT + (optional) video link in the Submissions tab
 - [ ] Confirm team members on the hackathon dashboard (up to 4)
