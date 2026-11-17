@@ -1,5 +1,7 @@
-import { runBriefing } from "@/lib/crew";
+import { runBriefing, type RunResult } from "@/lib/crew";
+import { kaneEnabled } from "@/lib/kane";
 import { llmEnabled } from "@/lib/llm";
+import { newRunId, saveRun } from "@/lib/runs";
 import { tavilyEnabled } from "@/lib/tavily";
 
 // POST /api/brief — start a briefing run, stream the crew's events as SSE,
@@ -44,10 +46,39 @@ export async function POST(req: Request): Promise<Response> {
       };
       const emit = (e: unknown) => {
         const typed = e as { type: string };
+        if (typed.type === "done") {
+          // Persist the finished run so it re-opens at /?run=<id> — the
+          // stable URL Kane CLI audits in a real browser.
+          const result = captured;
+          if (result) {
+            // Demo affordance: DOORKNOCK_SABOTAGE=strip-source-links injects a
+            // real defect into the artifact (every development loses its
+            // source links) so Kane CLI has something true to catch and the
+            // FIXER loop has something real to repair. Off by default.
+            if (process.env.DOORKNOCK_SABOTAGE === "strip-source-links") {
+              for (const d of result.briefing.keyDevelopments) d.sourceUrls = [];
+            }
+            const runId = newRunId();
+            saveRun({ id: runId, ...result, createdAt: Date.now() });
+            send("done", {
+              ...(typed as object),
+              runId,
+              autoVerify: kaneEnabled() && process.env.KANE_AUTO_VERIFY !== "off",
+            });
+            return;
+          }
+        }
         send(typed.type, typed);
       };
+      let captured: RunResult | null = null;
       try {
-        await runBriefing(body, emit);
+        await runBriefing(
+          body,
+          emit,
+          (r) => {
+            captured = r;
+          },
+        );
       } catch (err) {
         send("error", {
           type: "error",

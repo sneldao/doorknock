@@ -58,9 +58,21 @@ export function formatMeetingAt(meetingAt: string): string {
   return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}, ${hh}:${mm}`;
 }
 
+export interface RunResult {
+  request: BriefRequest;
+  briefing: Briefing;
+  uncertain: Development[];
+  gate: GateVerdict;
+  sources: string[];
+  rounds: SearchRound[];
+  context: string;
+  today: string;
+}
+
 export async function runBriefing(
   raw: unknown,
   emit: (event: RunEvent) => void,
+  onResult?: (result: RunResult) => void,
 ): Promise<void> {
   const parsed = BriefRequestSchema.safeParse(raw);
   if (!parsed.success) {
@@ -214,6 +226,17 @@ export async function runBriefing(
     ...briefing,
     ...(uncertain.length ? { uncertain } : {}),
   };
+
+  onResult?.({
+    request: req,
+    briefing: briefingWithRepair as Briefing,
+    uncertain,
+    gate: verdict,
+    sources: [...transcriptUrls(rounds)],
+    rounds,
+    context,
+    today,
+  });
 
   emit({
     type: "done",

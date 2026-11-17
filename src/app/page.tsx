@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import type { Briefing, Development, GateVerdict, RunEvent } from "@/lib/types";
+import { useEffect, useRef, useState } from "react";
+import type { Briefing, Development, GateVerdict, KaneVerdict, RunEvent } from "@/lib/types";
 
 type Phase = "form" | "running" | "brief";
 
@@ -24,13 +24,74 @@ export default function Page() {
   const [uncertain, setUncertain] = useState<Development[]>([]);
   const [gate, setGate] = useState<GateVerdict | null>(null);
   const [sources, setSources] = useState<string[]>([]);
+  const [runId, setRunId] = useState<string | null>(null);
+  const [verifyEvents, setVerifyEvents] = useState<RunEvent[]>([]);
+  const [verifying, setVerifying] = useState(false);
+  const [kaneVerdict, setKaneVerdict] = useState<KaneVerdict | null>(null);
+  const [kaneTestUrl, setKaneTestUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const runId = useRef(0);
+  const runIdRef = useRef(0);
+
+  // Re-open a stored brief at /?run=<id> — the stable URL Kane audits.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("run");
+    if (!id) return;
+    fetch(`/api/runs/${encodeURIComponent(id)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (j?.briefing && j?.gate) {
+          setBriefing(j.briefing);
+          setUncertain(j.uncertain ?? []);
+          setGate(j.gate);
+          setSources(j.sources ?? []);
+          setRunId(j.id);
+          setPhase("brief");
+        } else {
+          setError("That run has expired — finished runs are kept for 30 minutes.");
+        }
+      })
+      .catch(() => setError("Could not load that run."));
+  }, []);
+
+  async function readSSE(
+    body: ReadableStream<Uint8Array>,
+    myRun: number,
+    onEvent: (ev: RunEvent) => boolean | void,
+  ): Promise<void> {
+    const reader = body.getReader();
+    const decoder = new TextDecoder();
+    let buf = "";
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (runIdRef.current !== myRun) return;
+      buf += decoder.decode(value, { stream: true });
+      const frames = buf.split("\n\n");
+      buf = frames.pop() ?? "";
+      for (const frame of frames) {
+        const dataLine = frame.split("\n").find((l) => l.startsWith("data: "));
+        if (!dataLine) continue;
+        const ev = JSON.parse(dataLine.slice(6)) as RunEvent;
+        if (onEvent(ev) === false) return;
+      }
+    }
+  }
+
+  async function loadRun(id: string) {
+    const r = await fetch(`/api/runs/${encodeURIComponent(id)}`);
+    if (!r.ok) return;
+    const j = await r.json();
+    setBriefing(j.briefing);
+    setUncertain(j.uncertain ?? []);
+    setGate(j.gate);
+    setSources(j.sources ?? []);
+    setRunId(j.id);
+  }
 
   async function knock(e: React.FormEvent) {
     e.preventDefault();
     if (!subject.trim() || !meetingAt) return;
-    const myRun = ++runId.current;
+    const myRun = ++runIdRef.current;
     setPhase("running");
     setEvents([]);
     setError(null);
@@ -54,45 +115,80 @@ export default function Page() {
         const j = (await res.json().catch(() => null)) as { error?: string } | null;
         throw new Error(j?.error ?? `The desk refused the run (${res.status}).`);
       }
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buf = "";
-      for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        if (runId.current !== myRun) return;
-        buf += decoder.decode(value, { stream: true });
-        const frames = buf.split("\n\n");
-        buf = frames.pop() ?? "";
-        for (const frame of frames) {
-          const dataLine = frame.split("\n").find((l) => l.startsWith("data: "));
-          if (!dataLine) continue;
-          const ev = JSON.parse(dataLine.slice(6)) as RunEvent;
-          setEvents((prev) => [...prev, ev]);
-          if (ev.type === "sources") setSources(ev.urls);
-          if (ev.type === "done") {
-            setBriefing(ev.briefing);
-            setUncertain(ev.uncertain ?? []);
-            setGate(ev.gate);
-            setPhase("brief");
-            return;
-          }
-          if (ev.type === "error") {
-            setError(ev.message);
-            setPhase("form");
-            return;
-          }
+      let finished = false;
+      await readSSE(res.body, myRun, (ev) => {
+        setEvents((prev) => [...prev, ev]);
+        if (ev.type === "sources") setSources(ev.urls);
+        if (ev.type === "done") {
+          finished = true;
+          setBriefing(ev.briefing);
+          setUncertain(ev.uncertain ?? []);
+          setGate(ev.gate);
+          setRunId(ev.runId ?? null);
+          setKaneVerdict(null);
+          setKaneTestUrl(null);
+          setVerifyEvents([]);
+          setPhase("brief");
+          // Every brief ships verified: the server asks for an automatic
+          // Kane audit; KANE_AUTO_VERIFY=off on the host disables it.
+          if (ev.autoVerify && ev.runId) void verifyWithKane(ev.runId);
+          return false;
         }
-      }
-      if (runId.current === myRun) {
+        if (ev.type === "error") {
+          finished = true;
+          setError(ev.message);
+          setPhase("form");
+          return false;
+        }
+      });
+      if (runIdRef.current === myRun && !finished) {
         setError("The stream ended before a brief was filed.");
         setPhase("form");
       }
     } catch (err) {
-      if (runId.current === myRun) {
+      if (runIdRef.current === myRun) {
         setError(err instanceof Error ? err.message : "Something went wrong.");
         setPhase("form");
       }
+    }
+  }
+
+  async function verifyWithKane(targetRunId?: string) {
+    const id = targetRunId ?? runId;
+    if (!id || verifying) return;
+    const myRun = runIdRef.current;
+    setVerifying(true);
+    setVerifyEvents([]);
+    setKaneVerdict(null);
+    setKaneTestUrl(null);
+    setError(null);
+    try {
+      const res = await fetch("/api/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ runId: id, repair: true }),
+      });
+      if (!res.ok || !res.body) {
+        const j = (await res.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(j?.error ?? `Verification refused (${res.status}).`);
+      }
+      await readSSE(res.body, myRun, (ev) => {
+        setVerifyEvents((prev) => [...prev, ev]);
+        if (ev.type === "verifyDone") {
+          setKaneVerdict(ev.verdict);
+          setKaneTestUrl(ev.verdict.testUrl ?? null);
+          if (ev.runId !== id) void loadRun(ev.runId);
+          return false;
+        }
+        if (ev.type === "error") {
+          setError(ev.message);
+          return false;
+        }
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Verification failed to start.");
+    } finally {
+      setVerifying(false);
     }
   }
 
@@ -126,7 +222,9 @@ export default function Page() {
           Tell Doorknock who you&apos;re meeting and when. A four-agent crew sweeps
           the last 30 days of news through Tavily, drafts a one-page brief, and an
           auditor rejects any claim that can&apos;t be traced to a fetched source —{" "}
-          <em>agents propose, code disposes.</em>
+          <em>agents propose, code disposes.</em> Then Kane CLI opens the finished
+          brief in a real browser; if it fails, the failure goes back to the crew
+          and the brief is repaired and re-verified.
         </p>
       </header>
 
@@ -222,10 +320,25 @@ export default function Page() {
                   gateway · {gatewayVerdict.verdict}
                 </span>
               )}
+              {kaneVerdict && (
+                <span className={`stamp ${kaneVerdict.status === "passed" ? "stamp-pass" : ""}`}>
+                  kane · {kaneVerdict.status}
+                  {kaneVerdict.credits ? ` · ${kaneVerdict.credits.toFixed(0)}cr` : ""}
+                </span>
+              )}
               <span className="mono-label">
                 {sources.length} sources · {searchEvents.length} Tavily queries · 30-day window
               </span>
               <div className="ml-auto flex gap-3">
+                {runId && (
+                  <button
+                    className="knock !py-2 !px-4 !text-[11px]"
+                    onClick={() => void verifyWithKane(runId)}
+                    disabled={verifying}
+                  >
+                    {verifying ? "Kane is watching…" : kaneVerdict ? "Re-verify with Kane" : "Verify with Kane"}
+                  </button>
+                )}
                 <button className="knock !py-2 !px-4 !text-[11px]" onClick={() => window.print()}>
                   Print brief
                 </button>
@@ -234,9 +347,42 @@ export default function Page() {
                 </button>
               </div>
             </div>
+
+            {(verifying || verifyEvents.length > 0) && (
+              <div className="no-print mt-4 border border-[var(--color-rule)] px-4 py-3">
+                <p className="mono-label mb-2">
+                  Kane CLI — real-browser verification
+                  {kaneVerdict ? ` · ${kaneVerdict.status} in ${kaneVerdict.durationSec}s` : ""}
+                </p>
+                <div>
+                  {verifyEvents.map((ev, i) => (
+                    <FeedRow key={i} ev={ev} />
+                  ))}
+                </div>
+                {kaneVerdict && (
+                  <p className="mt-2 font-mono text-xs text-[var(--color-ink-soft)]">
+                    {kaneVerdict.summary}
+                    {kaneTestUrl && (
+                      <>
+                        {" · "}
+                        <a className="underline decoration-dotted" href={kaneTestUrl} target="_blank" rel="noreferrer">
+                          watch the run
+                        </a>
+                      </>
+                    )}
+                  </p>
+                )}
+              </div>
+            )}
           </section>
 
-          <BriefDoc briefing={briefing} uncertain={uncertain} sources={sources} />
+          <BriefDoc
+            briefing={briefing}
+            uncertain={uncertain}
+            sources={sources}
+            kane={kaneVerdict}
+            kaneTestUrl={kaneTestUrl}
+          />
 
           <section className="no-print pb-16">
             <details className="mt-6">
@@ -266,7 +412,8 @@ export default function Page() {
 
       <footer className="no-print border-t border-[var(--color-rule)] py-6">
         <p className="mono-label">
-          Crew: Scout → Clerk → Scribe → Auditor · models via Bifrost · research via Tavily
+          Crew: Scout → Clerk → Scribe → Auditor · models via Bifrost · research via Tavily ·
+          Kane CLI watches the rendered brief in a real browser
         </p>
       </footer>
     </div>
@@ -326,6 +473,28 @@ function FeedRow({ ev }: { ev: RunEvent }) {
       </div>
     );
   }
+  if (ev.type === "kane") {
+    const ok = ev.verdict.status === "passed";
+    return (
+      <div className="feed-row">
+        <span className="agent-tag">KANE</span>
+        <span className={`font-mono text-xs ${ok ? "text-[var(--color-verified)]" : "text-[var(--color-stamp)]"}`}>
+          attempt {ev.attempt} — {ev.verdict.status}
+          {ev.verdict.oneLiner ? ` — ${ev.verdict.oneLiner}` : ` — ${ev.verdict.summary.slice(0, 160)}`}
+        </span>
+      </div>
+    );
+  }
+  if (ev.type === "verifyDone") {
+    return (
+      <div className="feed-row">
+        <span className="agent-tag">DESK</span>
+        <span className="font-mono text-xs text-[var(--color-ink-soft)]">
+          verification closed — {ev.repairs} repair{ev.repairs === 1 ? "" : "s"} used
+        </span>
+      </div>
+    );
+  }
   if (ev.type === "error") {
     return (
       <div className="feed-row">
@@ -341,10 +510,14 @@ function BriefDoc({
   briefing,
   uncertain,
   sources,
+  kane,
+  kaneTestUrl,
 }: {
   briefing: Briefing;
   uncertain: Development[];
   sources: string[];
+  kane: KaneVerdict | null;
+  kaneTestUrl: string | null;
 }) {
   const now = new Date().toLocaleDateString(undefined, {
     year: "numeric",
@@ -418,6 +591,20 @@ function BriefDoc({
           </ul>
         </div>
       </div>
+
+      {kane && (
+        <p className="mono-label mt-6">
+          Browser-verified by Kane CLI — {kane.status} in {kane.durationSec}s
+          {kaneTestUrl && (
+            <>
+              {" · "}
+              <a className="underline decoration-dotted" href={kaneTestUrl} target="_blank" rel="noreferrer">
+                watch the run
+              </a>
+            </>
+          )}
+        </p>
+      )}
 
       <hr className="doc-rule-double my-6" />
       <span className="mono-label">Sources ({sources.length})</span>
