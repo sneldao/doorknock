@@ -8,6 +8,12 @@
 //   NEBIUS_API_KEY        the provider key to register (required)
 //   BRIEF_MODEL           e.g. nebius/nvidia/nemotron-3-super-120b-a12b (default)
 //   VK_NAME               virtual key name (default doorknock-web)
+//   GROUNDING_MODE        grounding-gate plugin mode: annotate | enforce
+//                         (default annotate — enforce 422s rejected drafts)
+//
+// Also registers the grounding-gate .so plugin shipped in the custom
+// gateway image (bifrost/Dockerfile). Non-fatal if unavailable — the app
+// skips the layer when no verdict headers come back.
 //
 // Prints the virtual key value on stdout (last line). Safe to re-run.
 
@@ -69,6 +75,39 @@ async function ensureProviderKey() {
   console.log("bootstrap-bifrost: registered nebius provider key");
 }
 
+async function ensureGroundingPlugin() {
+  const listed = await api("/api/plugins", { method: "GET" });
+  const plugins = Array.isArray(listed.json) ? listed.json : listed.json?.plugins ?? [];
+  const existing = plugins.find((p) => p.name === "grounding-gate" || p.actualName === "grounding-gate");
+  if (existing?.enabled) {
+    console.log("bootstrap-bifrost: grounding-gate plugin already registered");
+    return;
+  }
+  if (existing) {
+    const updated = await api("/api/plugins/grounding-gate", {
+      method: "PUT",
+      body: JSON.stringify({ enabled: true, config: { mode: process.env.GROUNDING_MODE || "annotate" } }),
+    });
+    console.log(`bootstrap-bifrost: grounding-gate re-enable -> ${updated.status}`);
+    return;
+  }
+  const created = await api("/api/plugins", {
+    method: "POST",
+    body: JSON.stringify({
+      name: "grounding-gate",
+      enabled: true,
+      path: "/app/plugins/grounding-gate.so",
+      config: { mode: process.env.GROUNDING_MODE || "annotate" },
+    }),
+  });
+  if (created.status >= 300) {
+    // Non-fatal: the app treats a missing plugin as "skip the layer".
+    console.error("bootstrap-bifrost: grounding-gate registration failed:", JSON.stringify(created.json).slice(0, 300));
+    return;
+  }
+  console.log("bootstrap-bifrost: registered grounding-gate plugin");
+}
+
 async function ensureVirtualKey() {
   const listed = await api("/api/governance/virtual-keys", { method: "GET" });
   const vks = Array.isArray(listed.json) ? listed.json : listed.json?.virtual_keys ?? [];
@@ -94,4 +133,5 @@ async function ensureVirtualKey() {
 }
 
 await ensureProviderKey();
+await ensureGroundingPlugin();
 await ensureVirtualKey();

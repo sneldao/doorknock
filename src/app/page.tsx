@@ -297,6 +297,17 @@ function FeedRow({ ev }: { ev: RunEvent }) {
       </div>
     );
   }
+  if (ev.type === "gatewayGate") {
+    return (
+      <div className="feed-row">
+        <span className="agent-tag">GATEWAY</span>
+        <span className={`font-mono text-xs ${ev.verdict.pass ? "text-[var(--color-verified)]" : "text-[var(--color-stamp)]"}`}>
+          bifrost grounding-gate — {ev.verdict.verdict}
+          {ev.verdict.reason ? ` — ${ev.verdict.reason}` : ""}
+        </span>
+      </div>
+    );
+  }
   if (ev.type === "sources") {
     return (
       <div className="feed-row">

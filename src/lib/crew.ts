@@ -1,5 +1,12 @@
 import { askObject } from "./llm";
 import { auditBriefing, rejectionReport, repairBriefing, GATE_THRESHOLD } from "./gate";
+import {
+  buildGroundingPayload,
+  groundingHeaders,
+  newGroundingRef,
+  onGateway,
+  readGroundingVerdict,
+} from "./grounding";
 import { dedupedHits, EXCERPT_CHARS, runSearchRounds, transcriptUrls } from "./tavily";
 import {
   BriefRequestSchema,
@@ -103,6 +110,21 @@ export async function runBriefing(
     return;
   }
 
+  // Seal the transcript into the Scribe's requests for the gateway's
+  // grounding-gate plugin (PS-04). The evidence rides inside the chat body
+  // itself — transport hooks only run on inference routes — so every draft
+  // call carries the same sealed set. Off the Bifrost path: skipped quietly.
+  const groundingRef = onGateway() ? newGroundingRef() : null;
+  const groundingPayload = groundingRef ? buildGroundingPayload(groundingRef, hits, context) : null;
+  if (groundingPayload) {
+    emit({
+      type: "stage",
+      agent: AGENTS.auditor,
+      stage: "sealed",
+      note: `transcript sealed into Scribe requests — grounding-gate ref ${groundingRef}`,
+    });
+  }
+
   // ── 3. CLERK clusters the transcript ───────────────────────────────────────
   emit({ type: "stage", agent: AGENTS.clerk, stage: "synthesising", note: `${hits.length} sources · clustering into developments` });
 
@@ -154,7 +176,18 @@ export async function runBriefing(
   const maxAttempts = 2;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     emit({ type: "stage", agent: AGENTS.scribe, stage: "drafting", note: attempt === 1 ? "First draft" : "Redraft after auditor rejection" });
-    briefing = await askObject(BriefingSchema, attempt === 1 ? basePrompt : `${basePrompt}\n\n${rejectionReport(verdict!)}`);
+    briefing = await askObject(
+      BriefingSchema,
+      attempt === 1 ? basePrompt : `${basePrompt}\n\n${rejectionReport(verdict!)}`,
+      {
+        headers: groundingHeaders(groundingPayload ? groundingRef : null),
+        providerOptions: groundingPayload ? { bifrost: { grounding: groundingPayload } } : undefined,
+        onResponseHeaders: (h) => {
+          const gv = readGroundingVerdict(h);
+          if (gv) emit({ type: "gatewayGate", attempt, verdict: gv });
+        },
+      },
+    );
     verdict = auditBriefing(briefing, rounds, context, today);
     emit({ type: "gate", attempt, verdict });
     if (verdict.pass) break;

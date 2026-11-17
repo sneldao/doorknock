@@ -102,6 +102,15 @@ export interface GateVerdict {
   verdictLine: string;
 }
 
+// ── Gateway gate (Bifrost plugin, PS-04) ──────────────────────────────────
+
+export interface GroundingVerdict {
+  pass: boolean;
+  verdict: string; // PASS | REJECT | NO_EVIDENCE | SKIP
+  reason?: string;
+  citedUrls?: number;
+}
+
 // ── Live run events (SSE) ─────────────────────────────────────────────────
 
 export type RunEvent =
@@ -109,6 +118,7 @@ export type RunEvent =
   | { type: "search"; query: string; topic: "news" | "general"; days: number | null; hits: number }
   | { type: "sources"; urls: string[] }
   | { type: "gate"; attempt: number; verdict: GateVerdict }
+  | { type: "gatewayGate"; attempt: number; verdict: GroundingVerdict }
   | {
       type: "done";
       briefing: Briefing;

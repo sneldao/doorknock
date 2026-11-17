@@ -41,11 +41,13 @@ services:
           property: port
 
   # Bifrost AI Gateway (title partner) — private, internal only.
+  # Custom image: upstream gateway + the grounding-gate plugin (PS-04),
+  # built inside the matching transports module for plugin ABI parity.
   - type: pserv
     name: doorknock-bifrost
-    runtime: image
-    image:
-      url: docker.io/maximhq/bifrost:latest
+    runtime: docker
+    dockerfilePath: bifrost/Dockerfile
+    dockerContext: bifrost
     plan: starter
     # Bifrost listens on 8080.
     envVars:
