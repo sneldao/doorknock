@@ -45,4 +45,4 @@ Built 15 November 2026, inside the hackathon build window. MIT, open source, tes
 - [x] PS-04 plugin wired live: `grounding-gate` active on the deployed gateway (custom dynamic image — official Bifrost images are fully static and cannot `dlopen` plugins). Live run 2026-11-17: gateway `REJECT` (unsupported figure) on draft 1 → `PASS` on draft 2, verdicts surfaced as `gatewayGate` events in the feed
 - [x] Upload PPT + (optional) video link in the Submissions tab — submission `6afbb6b581c08db9f87827d0` saved 2026-11-17 as combined entry: primary PS **Open-Source Bifrost Gateway** + Tavily integration **Pre-Meeting Briefing Agent**, GitHub link, `Doorknock.pdf`, video `https://youtu.be/hsBm8ZDyWZc` (unlisted). Status **Pending** — final "Submit for Evaluation" left for the human
 - [ ] Confirm team members on the hackathon dashboard (up to 4)
-- [ ] Click "Submit for Evaluation" before Nov 21 11:59 PM (required for judging)
+- [x] Click "Submit for Evaluation" before Nov 21 11:59 PM (required for judging) — done 2026-11-17
