@@ -323,6 +323,7 @@ export default function Page() {
               {kaneVerdict && (
                 <span className={`stamp ${kaneVerdict.status === "passed" ? "stamp-pass" : ""}`}>
                   kane · {kaneVerdict.status}
+                  {kaneVerdict.policy ? ` · policy ${kaneVerdict.policy.result}` : ""}
                   {kaneVerdict.credits ? ` · ${kaneVerdict.credits.toFixed(0)}cr` : ""}
                 </span>
               )}
@@ -362,6 +363,14 @@ export default function Page() {
                 {kaneVerdict && (
                   <p className="mt-2 font-mono text-xs text-[var(--color-ink-soft)]">
                     {kaneVerdict.summary}
+                    {kaneVerdict.policy && kaneVerdict.policy.result !== "pass" && (
+                      <>
+                        {" · policy "}
+                        {kaneVerdict.policy.result}
+                        {kaneVerdict.policy.failedGates.length > 0 &&
+                          ` (${kaneVerdict.policy.failedGates.join(", ")})`}
+                      </>
+                    )}
                     {kaneTestUrl && (
                       <>
                         {" · "}
@@ -480,6 +489,7 @@ function FeedRow({ ev }: { ev: RunEvent }) {
         <span className="agent-tag">KANE</span>
         <span className={`font-mono text-xs ${ok ? "text-[var(--color-verified)]" : "text-[var(--color-stamp)]"}`}>
           attempt {ev.attempt} — {ev.verdict.status}
+          {ev.verdict.policy ? ` · policy ${ev.verdict.policy.result}` : ""}
           {ev.verdict.oneLiner ? ` — ${ev.verdict.oneLiner}` : ` — ${ev.verdict.summary.slice(0, 160)}`}
         </span>
       </div>
@@ -595,6 +605,7 @@ function BriefDoc({
       {kane && (
         <p className="mono-label mt-6">
           Browser-verified by Kane CLI — {kane.status} in {kane.durationSec}s
+          {kane.policy ? ` · evidence policy ${kane.policy.result}` : ""}
           {kaneTestUrl && (
             <>
               {" · "}

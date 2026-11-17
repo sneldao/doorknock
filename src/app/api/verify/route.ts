@@ -1,7 +1,7 @@
 import { askObject } from "@/lib/llm";
 import { llmEnabled } from "@/lib/llm";
 import { auditBriefing, repairBriefing } from "@/lib/gate";
-import { briefVerificationObjective, kaneEnabled, kaneVerify } from "@/lib/kane";
+import { briefVerificationObjective, kaneAvailable, kaneEnabled, kaneVerify } from "@/lib/kane";
 import { getRun, newRunId, saveRun, type StoredRun } from "@/lib/runs";
 import { transcriptUrls } from "@/lib/tavily";
 import {
@@ -95,9 +95,9 @@ export async function POST(req: Request): Promise<Response> {
   if (!run) {
     return Response.json({ error: "run not found or expired" }, { status: 404 });
   }
-  if (!kaneEnabled()) {
+  if (!kaneEnabled() || !(await kaneAvailable())) {
     return Response.json(
-      { error: "Kane verification is disabled (KANE_VERIFY=off)." },
+      { error: "Kane verification is unavailable on this host (kane-cli missing or KANE_VERIFY=off)." },
       { status: 503 },
     );
   }

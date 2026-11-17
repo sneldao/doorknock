@@ -122,6 +122,15 @@ export interface KaneVerdict {
   testUrl?: string;
   sessionDir?: string;
   reason?: string;
+  /** Result of judging the run's sealed evidence pack against
+   *  kane/policy.yaml — Kane certifying its own evidence, not just
+   *  pass/fail. Absent when no pack sealed or judging failed. */
+  policy?: {
+    id: string;
+    result: "pass" | "fail" | "errored";
+    failedGates: string[];
+    warnings: string[];
+  };
 }
 
 // ── Live run events (SSE) ─────────────────────────────────────────────────

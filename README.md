@@ -54,7 +54,11 @@ The auditor proves claims trace to sources; **Kane CLI proves the brief actually
 
 Kane answers in structured NDJSON (`run_end`), which the app parses into a verdict. On **FAIL**, the report doesn't stop at a red X — it goes back to the crew: the **FIXER** agent rewrites the brief strictly against the sealed transcript URL list, the deterministic AUDITOR re-gates the rewrite, and Kane opens a fresh `/?run=<id2>` and audits again. Fail → repair → re-verify, until green or out of repairs — the Hydra loop from the Kane CLI hackathon brief, running live in the feed.
 
-Kane needs `kane-cli` installed and logged in plus Chrome on the host serving the app (`KANE_VERIFY=off` disables; `KANE_CLI_BIN`, `KANE_CHROME_PROFILE`, `KANE_TARGET_ORIGIN` tune it). On hosts without it — e.g. the Render deploy — the verify endpoint reports itself unavailable and the recorded Kane run in `docs/` is the fallback.
+Kane needs `kane-cli` installed and logged in plus Chrome on the host serving the app (`KANE_VERIFY=off` disables; `KANE_CLI_BIN`, `KANE_CHROME_PROFILE`, `KANE_TARGET_ORIGIN`, `KANE_POLICY` tune it). The app probes the binary once — hosts without it (e.g. the Render deploy) report verification unavailable instead of erroring, and the recorded Kane run in `docs/` is the fallback.
+
+**Evidence policy.** Every verify run seals a Kane evidence pack, which is then judged against [`kane/policy.yaml`](kane/policy.yaml) — a contract requiring zero failed/broken steps, zero unexplained failures, every test asserting something, and warnings on heal-drift or flaky tests. The verdict rides on `KaneVerdict.policy` and shows up as `policy pass|fail` on the brief stamp and in print. The same policy is stored in Test Manager (`doorknock-brief-gate`) and enforced in CI: `.github/workflows/kane.yml` replays the committed `tests/kane/` suite on every PR against a locally-built app and on dispatch against the live deploy — `kane-cli testmd run --policy kane/policy.yaml` exits non-zero if the policy fails, so a PR can't merge on an uncertified build.
+
+**Kane-native tests.** `tests/kane/` holds replayable `_test.md` suites with their recordings — `doorknock-home_test.md` audits the landing page (runs in CI); `doorknock-brief-flow_test.md` drives the full form → crew → rendered-brief flow end to end (manual/dispatch — it spends a real research run).
 
 ## Architecture
 
