@@ -1,0 +1,24 @@
+event: stage
+data: {"type":"stage","agent":"KANE","stage":"watching","note":"real-browser audit of /?run=run-mwl9uv2c-p7ht4c"}
+
+event: stage
+data: {"type":"stage","agent":"KANE","stage":"step","note":"step 6 failed: assert: a \"Key developments\" section lists at least one development, and EVERY developme"}
+
+event: kane
+data: {"type":"kane","attempt":1,"verdict":{"status":"failed","summary":"The document rendered development summaries without the required source link for each one.\nAdd at least one visible, usable source link to every Key developments card, then re-run the complete briefing check.\nevidence: objective_contradiction: Checkpoint assertion failed: \"a \"Key developments\" section lists at least one development, and EVERY development shown d","oneLiner":"The briefing shows key developments, but the displayed development cards have no source links.","durationSec":85,"credits":19.295069999999996,"testUrl":"https://test-manager.lambdatest.com/projects/01M7NPNZQ7KW5WZGTJQR1EC99S/test-cases/01M7NTFN2FPPWAWNCBDFTWWBH8/dashboard/share/US_W0CV0QHAA80KUZJEHH2JIMGANJA9USLM5PGRZ8W0WSRJIRE32B4ICCDEZR4G3DHT?type=summary&agentView=true&fqdn=summary-page","sessionDir":"/Users/udingethe/.testmuai/kaneai/sessions/43128e04-0fc4-4b8f-9b53-7a664ffcacf1","reason":"Checkpoint assertion failed: \"a \"Key developments\" section lists at least one development, and EVERY development shown displays at least one source link\""}}
+
+event: stage
+data: {"type":"stage","agent":"FIXER","stage":"repairing","note":"Kane failed — rewriting the brief against the transcript (repair 1/1)"}
+
+event: gate
+data: {"type":"gate","attempt":1,"verdict":{"pass":true,"score":1,"findings":[],"verdictLine":"PASS — 3/3 developments source-traced (grounding 100%)"}}
+
+event: stage
+data: {"type":"stage","agent":"KANE","stage":"watching","note":"real-browser audit of /?run=run-mwl9xh3j-0ryh10"}
+
+event: kane
+data: {"type":"kane","attempt":2,"verdict":{"status":"passed","summary":"Reviewed the completed partnership briefing article.\nConfirmed that the top of the article includes a masthead line and headline.\nConfirmed that Key developments contains entries and that every entry includes a source link.\nConfirmed that Discussion points and Open questions are present and contain items.\nConfirmed that the Sources section appears at the bottom with numbered source links.\nThe requested briefing-page checks were completed successfully.","oneLiner":"Verified briefing article content on localhost.","durationSec":84,"credits":19.0469175,"testUrl":"https://test-manager.lambdatest.com/projects/01M7NPNZQ7KW5WZGTJQR1EC99S/test-cases/01M7NTK8TWRPZD5YJMHR68N7QQ/dashboard/share/US_2S4O95RFDG2XTIA0IJHYEJVNLTLJZS9VXIIZ23QGGZWUYFE9PHJSHIZ3PPMML5W2?type=summary&agentView=true&fqdn=summary-page","sessionDir":"/Users/udingethe/.testmuai/kaneai/sessions/25e09fea-cddd-49ec-a36d-ae38f057f880","reason":"Objective completed"}}
+
+event: verifyDone
+data: {"type":"verifyDone","runId":"run-mwl9xh3j-0ryh10","verdict":{"status":"passed","summary":"Reviewed the completed partnership briefing article.\nConfirmed that the top of the article includes a masthead line and headline.\nConfirmed that Key developments contains entries and that every entry includes a source link.\nConfirmed that Discussion points and Open questions are present and contain items.\nConfirmed that the Sources section appears at the bottom with numbered source links.\nThe requested briefing-page checks were completed successfully.","oneLiner":"Verified briefing article content on localhost.","durationSec":84,"credits":19.0469175,"testUrl":"https://test-manager.lambdatest.com/projects/01M7NPNZQ7KW5WZGTJQR1EC99S/test-cases/01M7NTK8TWRPZD5YJMHR68N7QQ/dashboard/share/US_2S4O95RFDG2XTIA0IJHYEJVNLTLJZS9VXIIZ23QGGZWUYFE9PHJSHIZ3PPMML5W2?type=summary&agentView=true&fqdn=summary-page","sessionDir":"/Users/udingethe/.testmuai/kaneai/sessions/25e09fea-cddd-49ec-a36d-ae38f057f880","reason":"Objective completed"},"repairs":1}
+

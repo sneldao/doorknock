@@ -30,6 +30,8 @@ Doorknock is that agent, end to end:
 | **CLERK** · synthesis | Clusters the fetched hits into distinct developments, each citing exact transcript URLs |
 | **SCRIBE** · drafting | Writes the one-page brief for the meeting at hand |
 | **AUDITOR** · verification | **Deterministic code, no model.** Every development must cite a URL that exists in the Scout's transcript. Untraced claims → REJECT, the Scribe redrafts; if a redraft still fails, the repair pass moves untraceable items to the *uncertain* section. A grounding score ships on the finished brief |
+| **KANE** · browser proof | **Kane CLI** (`kane-cli run --agent --headless`) opens the finished brief at its stable `/?run=<id>` URL in a real Chrome browser and audits that every section renders populated — developments with source links, discussion points, open questions, the sources list |
+| **FIXER** · repair | On a Kane FAIL, the failure report goes back to the crew: the FIXER rewrites the brief strictly against the sealed transcript, the AUDITOR re-gates it, and Kane re-verifies. Fail → repair → re-verify, until green or out of repairs |
 
 The whole run streams live over SSE: you watch each query fly, see Tavily hit counts, watch the auditor's verdicts — including the rejections.
 
@@ -45,6 +47,14 @@ The interesting part of Doorknock is that its most important agent isn't a model
 6. Fail → REJECT with a machine-readable report naming the offending claims → the Scribe redrafts once → still failing, the repair pass strips untraceable, name-unsupported, figure-unsupported or stale developments into the *uncertain — treat with caution* section and cuts offending sentences from the prose. The user always sees what was kept, what was flagged, and why.
 
 This is a small instance of a general pattern for making LLM agents safe to ship: **models draft, deterministic code verifies against ground truth the models can't touch.** The gate's tests (`tests/gate.test.ts`, driven by the shared fixture `tests/gate-cases.json` — 44 cases plus targeted tests, shared verbatim with the Anna app) run with no network, no keys, no models — the auditor's behavior is fully specified in code.
+
+## The Kane loop
+
+The auditor proves claims trace to sources; **Kane CLI proves the brief actually renders**. Every finished run is stored and re-opened at a stable URL (`/?run=<id>`), then `POST /api/verify` shells out to `kane-cli run --agent --headless` — a real Chrome browser audits that the masthead, headline, key developments (each with source links), discussion points, open questions and sources list all render populated.
+
+Kane answers in structured NDJSON (`run_end`), which the app parses into a verdict. On **FAIL**, the report doesn't stop at a red X — it goes back to the crew: the **FIXER** agent rewrites the brief strictly against the sealed transcript URL list, the deterministic AUDITOR re-gates the rewrite, and Kane opens a fresh `/?run=<id2>` and audits again. Fail → repair → re-verify, until green or out of repairs — the Hydra loop from the Kane CLI hackathon brief, running live in the feed.
+
+Kane needs `kane-cli` installed and logged in plus Chrome on the host serving the app (`KANE_VERIFY=off` disables; `KANE_CLI_BIN`, `KANE_CHROME_PROFILE`, `KANE_TARGET_ORIGIN` tune it). On hosts without it — e.g. the Render deploy — the verify endpoint reports itself unavailable and the recorded Kane run in `docs/` is the fallback.
 
 ## Architecture
 
@@ -62,6 +72,10 @@ Browser ──POST /api/brief (SSE)──▶ Next.js route handler
                         │                            │
                         │  AUDITOR (pure code)       │  source-tracing gate,
                         │                            │  deterministic
+                        │                            │
+                        │  KANE · FIXER              │  real-browser audit via
+                        │  (kane-cli → Chrome)       │  Kane CLI; failures go
+                        │                            │  back to the crew
                         └────────────────────────────┘
 ```
 
@@ -111,12 +125,14 @@ bun run build
 
 | Path | What |
 |---|---|
-| `/` | The desk — brief request form, live crew feed (Tavily queries as they fly, auditor verdicts as they land), the finished one-page brief (print-optimized) |
-| `POST /api/brief` | Starts a run, streams `stage` / `search` / `sources` / `gate` / `done` / `error` events as SSE |
+| `/` | The desk — brief request form, live crew feed (Tavily queries as they fly, auditor verdicts as they land), the finished one-page brief (print-optimized). `/?run=<id>` re-opens a stored brief — the URL Kane audits |
+| `POST /api/brief` | Starts a run, streams `stage` / `search` / `sources` / `gate` / `done` (with `runId`) / `error` events as SSE |
+| `GET /api/runs/<id>` | The stored brief behind `/?run=<id>` (30-minute TTL) |
+| `POST /api/verify` | `{runId, repair?}` → streams `kane` verdicts, optional FIXER repair + AUDITOR re-gate, ends `verifyDone` |
 
 ## Tech
 
-Next.js 16 (App Router, Turbopack) · TypeScript strict · Tailwind CSS v4 · AI SDK (`generateText` over OpenAI-compatible) · zod v4 · Tavily search API · Bifrost AI Gateway v2 · fonts: Fraunces / Inter / JetBrains Mono.
+Next.js 16 (App Router, Turbopack) · TypeScript strict · Tailwind CSS v4 · AI SDK (`generateText` over OpenAI-compatible) · zod v4 · Tavily search API · Bifrost AI Gateway v2 · Kane CLI (browser verification) · fonts: Fraunces / Inter / JetBrains Mono.
 
 The design is a deliberate *intelligence brief*: paper, ink, telex rules, an oxblood grounding stamp. A brief should read like a document, not a dashboard.
 

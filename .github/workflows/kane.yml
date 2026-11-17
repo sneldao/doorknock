@@ -1,0 +1,43 @@
+name: kane-verify
+
+# Replays the committed Kane CLI test against the live deployment.
+# Manual trigger only — each run spends Kane credits.
+#
+# Required secrets (TestMu AI account → Kane CLI basic-auth credentials):
+#   KANE_USERNAME   basic-auth username
+#   KANE_ACCESS_KEY basic-auth access key
+# Optional:
+#   KANE_TARGET_URL defaults to the production deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: "URL to verify"
+        required: false
+        default: "https://doorknock-2azp.onrender.com"
+
+jobs:
+  kane:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Kane CLI
+        run: npm install -g @testmuai/kane-cli
+
+      - name: Replay committed Kane test
+        env:
+          KANE_CLI_USER_AGENT: github-actions-doorknock
+          KANE_TARGET_URL: ${{ inputs.target_url }}
+        run: |
+          kane-cli testmd run tests/kane/doorknock-home_test.md \
+            --agent --headless \
+            --url "$KANE_TARGET_URL" \
+            --username "${{ secrets.KANE_USERNAME }}" \
+            --access-key "${{ secrets.KANE_ACCESS_KEY }}"

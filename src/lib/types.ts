@@ -111,6 +111,19 @@ export interface GroundingVerdict {
   citedUrls?: number;
 }
 
+// ── Kane CLI verification ─────────────────────────────────────────────────
+
+export interface KaneVerdict {
+  status: "passed" | "failed" | "error";
+  summary: string;
+  oneLiner?: string;
+  durationSec: number;
+  credits?: number;
+  testUrl?: string;
+  sessionDir?: string;
+  reason?: string;
+}
+
 // ── Live run events (SSE) ─────────────────────────────────────────────────
 
 export type RunEvent =
@@ -121,9 +134,14 @@ export type RunEvent =
   | { type: "gatewayGate"; attempt: number; verdict: GroundingVerdict }
   | {
       type: "done";
+      runId?: string;
+      /** Server wants the client to auto-start Kane verification. */
+      autoVerify?: boolean;
       briefing: Briefing;
       uncertain: Development[];
       gate: GateVerdict;
       sources: string[];
     }
+  | { type: "kane"; attempt: number; verdict: KaneVerdict }
+  | { type: "verifyDone"; runId: string; verdict: KaneVerdict; repairs: number }
   | { type: "error"; message: string };

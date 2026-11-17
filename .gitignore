@@ -25,5 +25,9 @@ tsconfig.tsbuildinfo
 # render
 render.yaml.orig
 
+# kane cli local artifacts
+.kane/
+.testmuai/
+
 # anna app (own toolchain)
 anna/node_modules/
