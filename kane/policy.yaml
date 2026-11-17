@@ -1,0 +1,29 @@
+policy: doorknock-brief-gate
+requires:
+  catalog: kane-cli
+  version: ">=1"
+gates:
+  - id: no-failed-steps
+    metric: totals.failed
+    equals: 0
+    severity: blocking
+  - id: no-broken-tests
+    metric: totals.broken
+    equals: 0
+    severity: blocking
+  - id: every-test-asserts
+    metric: metrics.tests_without_checks
+    equals: 0
+    severity: blocking
+  - id: no-unexplained-failures
+    metric: failures.count
+    equals: 0
+    severity: blocking
+  - id: no-heal-drift
+    metric: metrics.heal.healed_tests
+    max: 0
+    severity: warning
+    message: Kane had to heal the test — the app drifted from the recorded flow
+  - id: no-flaky-verification
+    expr: "tests.all(t, !t.flaky)"
+    severity: warning

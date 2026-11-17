@@ -1,15 +1,20 @@
 name: kane-verify
 
-# Replays the committed Kane CLI test against the live deployment.
-# Manual trigger only — each run spends Kane credits.
+# Replays the committed Kane CLI test — the repo's verification gate.
+#
+# pull_request: builds the app, serves it locally, and Kane audits it —
+# a PR cannot honestly claim "ships verified" without a green run.
+# workflow_dispatch: same test against the live deployment (or a URL you
+# pass), for post-deploy verification.
 #
 # Required secrets (TestMu AI account → Kane CLI basic-auth credentials):
 #   KANE_USERNAME   basic-auth username
 #   KANE_ACCESS_KEY basic-auth access key
-# Optional:
-#   KANE_TARGET_URL defaults to the production deploy
+# Optional repo variable:
+#   KANE_TARGET_URL defaults to the production deploy for dispatch runs
 
 on:
+  pull_request:
   workflow_dispatch:
     inputs:
       target_url:
@@ -20,24 +25,60 @@ on:
 jobs:
   kane:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
 
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build app
+        if: github.event_name == 'pull_request'
+        run: bun run build
+
+      - name: Start app
+        if: github.event_name == 'pull_request'
+        run: |
+          bun run start &
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:3000 >/dev/null && exit 0
+            sleep 2
+          done
+          echo "app did not come up" >&2
+          exit 1
+
       - name: Install Kane CLI
         run: npm install -g @testmuai/kane-cli
 
-      - name: Replay committed Kane test
+      - name: Replay committed Kane test (PR build)
+        if: github.event_name == 'pull_request'
         env:
           KANE_CLI_USER_AGENT: github-actions-doorknock
-          KANE_TARGET_URL: ${{ inputs.target_url }}
         run: |
           kane-cli testmd run tests/kane/doorknock-home_test.md \
             --agent --headless \
-            --url "$KANE_TARGET_URL" \
+            --url http://localhost:3000 \
+            --policy kane/policy.yaml \
+            --username "${{ secrets.KANE_USERNAME }}" \
+            --access-key "${{ secrets.KANE_ACCESS_KEY }}"
+
+      - name: Replay committed Kane test (deployed target)
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          KANE_CLI_USER_AGENT: github-actions-doorknock
+          TARGET_URL: ${{ inputs.target_url || vars.KANE_TARGET_URL || 'https://doorknock-2azp.onrender.com' }}
+        run: |
+          kane-cli testmd run tests/kane/doorknock-home_test.md \
+            --agent --headless \
+            --url "$TARGET_URL" \
+            --policy kane/policy.yaml \
             --username "${{ secrets.KANE_USERNAME }}" \
             --access-key "${{ secrets.KANE_ACCESS_KEY }}"

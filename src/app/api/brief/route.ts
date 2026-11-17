@@ -1,5 +1,5 @@
 import { runBriefing, type RunResult } from "@/lib/crew";
-import { kaneEnabled } from "@/lib/kane";
+import { kaneAvailable, kaneEnabled } from "@/lib/kane";
 import { llmEnabled } from "@/lib/llm";
 import { newRunId, saveRun } from "@/lib/runs";
 import { tavilyEnabled } from "@/lib/tavily";
@@ -36,6 +36,10 @@ export async function POST(req: Request): Promise<Response> {
 
   const encoder = new TextEncoder();
   inFlight++;
+  const autoVerify =
+    kaneEnabled() &&
+    process.env.KANE_AUTO_VERIFY !== "off" &&
+    (await kaneAvailable());
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -63,7 +67,7 @@ export async function POST(req: Request): Promise<Response> {
             send("done", {
               ...(typed as object),
               runId,
-              autoVerify: kaneEnabled() && process.env.KANE_AUTO_VERIFY !== "off",
+              autoVerify,
             });
             return;
           }
