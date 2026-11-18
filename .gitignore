@@ -31,3 +31,5 @@ render.yaml.orig
 
 # anna app (own toolchain)
 anna/node_modules/
+docs/video/kane-terminal/renders/
+docs/video/kane-terminal/.hyperframes/

@@ -1,0 +1,51 @@
+<!-- hyperframes-registry-item: kane-terminal -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8" /><title>Kane Terminal</title></head>
+<body>
+<template id="kt-template">
+  <div id="kt-root" data-composition-id="kane-terminal" data-start="0" data-duration="18" data-width="1920" data-height="1080">
+    <style>
+      #kt-root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#0a0c10;font-family:"SF Mono",Menlo,monospace;display:flex;align-items:center;justify-content:center}
+      #kt-win{width:1500px;background:#10141b;border:1px solid #232a36;border-radius:14px;box-shadow:0 40px 120px rgba(0,0,0,.6);overflow:hidden}
+      #kt-bar{display:flex;gap:8px;align-items:center;padding:14px 18px;background:#161c26;border-bottom:1px solid #232a36}
+      #kt-bar i{width:12px;height:12px;border-radius:50%;display:block}
+      #kt-bar .r{background:#ff5f57}.kt-bar .y{background:#febc2e}.kt-bar .g{background:#28c840}
+      #kt-title{margin-left:14px;color:#5b6b80;font-size:20px;letter-spacing:.04em}
+      #kt-body{padding:34px 40px 44px;min-height:760px}
+      .kt-line{white-space:pre-wrap;word-break:break-word;font-size:24px;line-height:1.75;color:#c8d3e0;opacity:0;transform:translateY(6px)}
+      .kt-line.dim{color:#5f7186}
+      .kt-line.pass{color:#4ade80}
+      .kt-line.fail{color:#f87171}
+      .kt-line .cursor{display:inline-block;width:12px;height:26px;background:#4ade80;vertical-align:-4px;margin-left:4px;animation:ktblink 1s steps(1) infinite}
+      @keyframes ktblink{50%{opacity:0}}
+    </style>
+    <div id="kt-win">
+      <div id="kt-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span id="kt-title">zsh — doorknock verify</span></div>
+      <div id="kt-body"></div>
+    </div>
+  </div>
+  <script>
+    (function(){
+      var EVENTS_URL = "assets/events.json";
+      var root = document.getElementById("kt-root");
+      var body = document.getElementById("kt-body");
+      var DUR = 18, PER = DUR / 19;
+      fetch(EVENTS_URL).then(function(r){return r.json()}).then(function(events){
+        events.forEach(function(ev,i){
+          var d = document.createElement("div");
+          d.className = "kt-line " + (ev.c||"");
+          d.textContent = ev.t;
+          body.appendChild(d);
+          gsap.to(d,{opacity:1,y:0,duration:.25,ease:"power2.out",delay:i*PER});
+        });
+        var c = document.createElement("span"); c.className="cursor";
+        var cur = document.createElement("div"); cur.className="kt-line";
+        cur.appendChild(c); body.appendChild(cur);
+        gsap.to(cur,{opacity:1,duration:.01,delay:events.length*PER});
+      });
+    })();
+  </script>
+</template>
+</body>
+</html>
