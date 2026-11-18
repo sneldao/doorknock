@@ -84,3 +84,28 @@ never fake footage. The evidence files exist precisely for this.
 6. VO pass (if used) + burned captions; loudness-normalize (`ffmpeg -af loudnorm`).
 7. Export `doorknock-kane-demo.mp4`, upload unlisted, paste into
    `docs/plan/kane-submission.md` checklist.
+
+## Assembly (cut v1 — 2:02, `raw/demo-cut-v1.mp4`)
+
+Sources: `raw/session-a2.mp4` (clean run, attempt-1 pass + repair flake),
+`raw/session-b2.mp4` (sabotage run — the money take),
+`raw/final-pass.png` (held frame — `PASSED IN 82S · 0 repairs`),
+`kane-terminal/renders/kane-cards.mp4` (cold open / "Now break it." / end card),
+`kane-terminal/renders/kane-terminal_*.mp4` (30s terminal arc from real SSE).
+
+Beat map (source timestamps):
+- a2 0–12s @1.5x — form → knock → feed starts
+- a2 25–75s @5x — SCOUT queries → transcript sealed → CLERK/SCRIBE
+- a2 88–118s @4x — AUDITOR reject → brief renders
+- a2 118–125s @1x — "KANE IS WATCHING"
+- final-pass.png 4s hold — green stamp
+- b2 630–675s @3x — sabotage brief (no links) + KANE watching
+- b2 695–753s @2.5x — FAIL → FIXER → AUDITOR PASS → re-verify
+- terminal render 0–30s — honest NDJSON recap incl. attempt 2 PASSED
+
+All footage normalized to 1920x1080: browser recordings (1280x578) scaled to
+1600w and centered on `#0a0c10` with mono caption strips. ffmpeg concat,
+libx264 crf 18, no audio (silent cut — VO/captions pass still open).
+
+Note: agent-browser recording drops the last few seconds under load — final
+verdicts land after the last frame. Hold `final-pass.png` for the green state.
