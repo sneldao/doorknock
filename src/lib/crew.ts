@@ -169,7 +169,7 @@ export async function runBriefing(
     `Background: ${synthesis.context}`,
     ``,
     `Write the briefing. Rules:`,
-    `- keyDevelopments: re-craft the developments above for the meeting at hand; copy each sourceUrls array EXACTLY as given — do not add, remove, or edit any URL.`,
+    `- keyDevelopments: at most 6 — re-craft the developments above for the meeting at hand; copy each sourceUrls array EXACTLY as given — do not add, remove, or edit any URL.`,
     `- Only developments with happenedWithinWindow=true belong in keyDevelopments.`,
     `- masthead: a short field-tag for the top of the brief (e.g. "Partnership briefing — <subject>").`,
     `- headline: the single most meeting-relevant line, one sentence.`,

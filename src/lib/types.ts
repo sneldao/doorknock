@@ -71,9 +71,9 @@ export const BriefingSchema = z.object({
   masthead: z.string().trim().min(6).max(140),
   headline: z.string().trim().min(8).max(160),
   situation: z.string().trim().min(30).max(900),
-  keyDevelopments: z.array(DevelopmentSchema).min(1).max(6),
-  discussionPoints: z.array(z.string().trim().min(10).max(280)).min(2).max(6),
-  openQuestions: z.array(z.string().trim().min(10).max(280)).min(2).max(6),
+  keyDevelopments: z.array(DevelopmentSchema).min(1).transform((a) => a.slice(0, 6)),
+  discussionPoints: z.array(z.string().trim().min(10).max(280)).min(2).transform((a) => a.slice(0, 6)),
+  openQuestions: z.array(z.string().trim().min(10).max(280)).min(2).transform((a) => a.slice(0, 6)),
 });
 export type Briefing = z.infer<typeof BriefingSchema>;
 
