@@ -1,0 +1,74 @@
+[
+ {
+  "t": "$ doorknock \u2014 hydra loop (recorded run, docs/kane/)",
+  "c": "dim"
+ },
+ {
+  "t": "",
+  "c": "dim"
+ },
+ {
+  "t": "[SCOUT] planning \u2014 Deriving queries for a partnership discussion",
+  "c": "dim"
+ },
+ {
+  "t": "[SCOUT] sweeping \u2014 5 queries \u00b7 Tavily \u00b7 30-day news window",
+  "c": "dim"
+ },
+ {
+  "t": "[AUDITOR] sealed \u2014 transcript sealed into Scribe requests \u2014 grounding-gate ref doorknock-mwl9tfvk-hc8vx2",
+  "c": "dim"
+ },
+ {
+  "t": "[CLERK] synthesising \u2014 28 sources \u00b7 clustering into developments",
+  "c": "dim"
+ },
+ {
+  "t": "[SCRIBE] drafting \u2014 First draft",
+  "c": "dim"
+ },
+ {
+  "t": "[AUDITOR] FAIL \u2014 REJECT \u2014 3 of 3 developments fail source tracing; 3 unsupported figure findings; 1 unsupported name finding (g",
+  "c": "fail"
+ },
+ {
+  "t": "[SCRIBE] drafting \u2014 Redraft after auditor rejection",
+  "c": "dim"
+ },
+ {
+  "t": "[AUDITOR] PASS \u2014 PASS \u2014 3/3 developments source-traced (grounding 100%)",
+  "c": "pass"
+ },
+ {
+  "t": "[KANE] watching \u2014 real-browser audit of /?run=run-mwl9uv2c-p7ht4c",
+  "c": "dim"
+ },
+ {
+  "t": "[KANE] step \u2014 step 6 failed: assert: a \"Key developments\" section lists at least one development, and EVERY developme",
+  "c": "dim"
+ },
+ {
+  "t": "[KANE] attempt 1 \u2014 FAILED \u2014 The briefing shows key developments, but the displayed development cards have no source links.",
+  "c": "fail"
+ },
+ {
+  "t": "[FIXER] repairing \u2014 Kane failed \u2014 rewriting the brief against the transcript (repair 1/1)",
+  "c": "dim"
+ },
+ {
+  "t": "[AUDITOR] PASS \u2014 PASS \u2014 3/3 developments source-traced (grounding 100%)",
+  "c": "pass"
+ },
+ {
+  "t": "[KANE] watching \u2014 real-browser audit of /?run=run-mwl9xh3j-0ryh10",
+  "c": "dim"
+ },
+ {
+  "t": "[KANE] attempt 2 \u2014 PASSED \u2014 Verified briefing article content on localhost.",
+  "c": "pass"
+ },
+ {
+  "t": "[DESK] verification closed \u2014 1 repair(s) \u2014 final: PASSED",
+  "c": "pass"
+ }
+]
