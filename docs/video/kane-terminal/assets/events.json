@@ -1,6 +1,6 @@
 [
  {
-  "t": "$ doorknock \u2014 hydra loop (recorded run, docs/kane/)",
+  "t": "$ doorknock \u2014 clean run (recorded, docs/kane/)",
   "c": "dim"
  },
  {
@@ -13,6 +13,22 @@
  },
  {
   "t": "[SCOUT] sweeping \u2014 5 queries \u00b7 Tavily \u00b7 30-day news window",
+  "c": "dim"
+ },
+ {
+  "t": "[SCOUT] \u00bb Anthropic is an artificial intelligence research lab focused on building safe and controllable large",
+  "c": "dim"
+ },
+ {
+  "t": "[SCOUT] \u00bb Anthropic releases new Claude 3.5 model features November 2026",
+  "c": "dim"
+ },
+ {
+  "t": "[SCOUT] \u00bb Anthropic announces partnership with major cloud provider October 2026",
+  "c": "dim"
+ },
+ {
+  "t": "[SCOUT] transcript sealed \u2014 28 URLs recorded",
   "c": "dim"
  },
  {
@@ -38,6 +54,38 @@
  {
   "t": "[AUDITOR] PASS \u2014 PASS \u2014 3/3 developments source-traced (grounding 100%)",
   "c": "pass"
+ },
+ {
+  "t": "[DESK] done \u2014 brief stored at /?run=<id>",
+  "c": "dim"
+ },
+ {
+  "t": "",
+  "c": "dim"
+ },
+ {
+  "t": "[KANE] watching \u2014 real-browser audit of /?run=run-mwl9offh-dkrxk8",
+  "c": "dim"
+ },
+ {
+  "t": "[KANE] attempt 1 \u2014 PASSED \u2014 reviewed a Stripe partnership briefing on the local document page",
+  "c": "pass"
+ },
+ {
+  "t": "[DESK] verification closed \u2014 0 repairs \u2014 verdict PASS",
+  "c": "pass"
+ },
+ {
+  "t": "",
+  "c": "dim"
+ },
+ {
+  "t": "\u2500\u2500 DOORKNOCK_SABOTAGE=strip-source-links \u2500\u2500",
+  "c": "fail"
+ },
+ {
+  "t": "",
+  "c": "dim"
  },
  {
   "t": "[KANE] watching \u2014 real-browser audit of /?run=run-mwl9uv2c-p7ht4c",
@@ -68,7 +116,7 @@
   "c": "pass"
  },
  {
-  "t": "[DESK] verification closed \u2014 1 repair(s) \u2014 final: PASSED",
+  "t": "[DESK] verification closed \u2014 1 repair(s) \u2014 final PASS",
   "c": "pass"
  }
 ]
