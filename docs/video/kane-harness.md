@@ -109,3 +109,16 @@ libx264 crf 18, no audio (silent cut — VO/captions pass still open).
 
 Note: agent-browser recording drops the last few seconds under load — final
 verdicts land after the last frame. Hold `final-pass.png` for the green state.
+
+## Cut v2 — 1:56, with VO + karaoke captions + BGM (`raw/demo-cut-v2-loud.mp4`)
+
+- VO: ElevenLabs `George` via `with-timestamps` (eleven_flash_v2_5), 7 line
+  files in `audio/0*.mp3` + `*.align.json` char alignments
+- Karaoke captions: `assets-captions.ass` — `\kf` fills generated from word
+  timings grouped 6/row, Menlo 30px, green highlight
+- BGM: ElevenLabs `/v1/music`, 125s ambient pad (`audio/bgm.mp3`), at ~0.10
+  gain with 1.5s in / 4s out fades
+- Terminal v2 (`compositions/terminal.html`, 21s): reconstructed per
+  product-launch-motion shot 13 — typed command, determinate progress bars,
+  boxed FAIL/PASS rows, 2% camera push, scanlines+vignette
+- Loudness: −14.7 LUFS integrated (volume +4.3dB + alimiter 0.89 post-pass)
