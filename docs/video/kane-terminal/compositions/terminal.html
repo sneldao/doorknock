@@ -4,7 +4,7 @@
 <head><meta charset="UTF-8" /><title>Kane Terminal</title></head>
 <body>
 <template id="kt-template">
-  <div id="kt-root" data-composition-id="kane-terminal" data-start="0" data-duration="18" data-width="1920" data-height="1080">
+  <div id="kt-root" data-composition-id="kane-terminal" data-start="0" data-duration="30" data-width="1920" data-height="1080">
     <style>
       #kt-root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#0a0c10;font-family:"SF Mono",Menlo,monospace;display:flex;align-items:center;justify-content:center}
       #kt-win{width:1500px;background:#10141b;border:1px solid #232a36;border-radius:14px;box-shadow:0 40px 120px rgba(0,0,0,.6);overflow:hidden}
@@ -30,19 +30,19 @@
       var EVENTS_URL = "assets/events.json";
       var root = document.getElementById("kt-root");
       var body = document.getElementById("kt-body");
-      var DUR = 18, PER = DUR / 19;
+      var DUR = 30;
       fetch(EVENTS_URL).then(function(r){return r.json()}).then(function(events){
         events.forEach(function(ev,i){
           var d = document.createElement("div");
           d.className = "kt-line " + (ev.c||"");
           d.textContent = ev.t;
           body.appendChild(d);
-          gsap.to(d,{opacity:1,y:0,duration:.25,ease:"power2.out",delay:i*PER});
+          gsap.to(d,{opacity:1,y:0,duration:.25,ease:"power2.out",delay:i*(DUR/31)});
         });
         var c = document.createElement("span"); c.className="cursor";
         var cur = document.createElement("div"); cur.className="kt-line";
         cur.appendChild(c); body.appendChild(cur);
-        gsap.to(cur,{opacity:1,duration:.01,delay:events.length*PER});
+        gsap.to(cur,{opacity:1,duration:.01,delay:events.length*(DUR/31)});
       });
     })();
   </script>
