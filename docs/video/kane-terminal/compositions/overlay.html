@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;height:100%;background:transparent}
+  #ov{position:relative;width:1920px;height:1080px;overflow:hidden;
+    font-family:"JetBrains Mono","SF Mono",Menlo,monospace}
+  .el{position:absolute;opacity:0}
+  .chip{display:flex;align-items:center;gap:10px;background:rgba(10,12,16,.82);border:1px solid #2a3444;
+    border-radius:10px;padding:10px 18px;font-size:21px;color:#c8d3e0;letter-spacing:.04em}
+  .chip b{color:#4ade80;font-weight:600}
+  .chip.warn b{color:#f87171}
+  .dot{width:11px;height:11px;border-radius:50%;background:#4ade80}
+  .dot.amber{background:#fbbf24}
+  .dot.red{background:#f87171}
+  /* speed chip */
+  .speed{top:206px;right:184px;font-size:22px;color:#8b94a7}
+  /* pipeline tracker */
+  #track{left:160px;bottom:64px;display:flex;align-items:center;gap:0}
+  .node{display:flex;align-items:center;gap:12px;background:rgba(10,12,16,.82);border:1px solid #2a3444;
+    padding:9px 16px;font-size:20px;color:#5f7186;letter-spacing:.08em}
+  .node.on{color:#e8ecf3;border-color:#4ade80}
+  .node.on i{background:#4ade80}
+  .node i{width:9px;height:9px;border-radius:50%;background:#39455a;display:block}
+  .link{width:34px;height:2px;background:#2a3444}
+  /* counters */
+  #counter{left:160px;top:206px}
+  /* kane auditing */
+  #audit{left:160px;top:206px}
+  /* missing callouts */
+  .miss{right:184px;display:flex;align-items:center;gap:12px;background:rgba(10,12,16,.82);
+    border:1px dashed #f87171;border-radius:10px;padding:10px 18px;font-size:21px;color:#f87171;letter-spacing:.04em}
+  .miss svg{flex:none}
+  #miss1{top:620px}
+  #miss2{top:760px}
+  .missline{position:absolute;right:1500px;border-top:2px dashed rgba(248,113,113,.7);height:2px}
+  /* fail / state flags */
+  #flag-fail{left:160px;top:206px;border-color:#f87171;color:#f87171}
+  #flag-fix{left:160px;top:206px}
+  #flag-gate{left:160px;top:206px}
+  #flag-re{left:160px;top:206px}
+  .st{display:flex;align-items:center;gap:12px;background:rgba(10,12,16,.85);border:1px solid #2a3444;
+    border-radius:10px;padding:10px 18px;font-size:22px;letter-spacing:.05em;color:#c8d3e0}
+  /* re-verify checklist */
+  #verify{right:160px;top:290px;width:560px;background:rgba(10,12,16,.88);border:1px solid #2a3444;
+    border-radius:12px;padding:20px 24px}
+  .ptitle{display:flex;align-items:center;gap:10px;font-size:20px;color:#fbbf24;letter-spacing:.07em;
+    margin-bottom:14px;text-transform:uppercase}
+  .chk{display:flex;align-items:center;gap:12px;font-size:19px;color:#5f7186;padding:6px 0;letter-spacing:.03em}
+  .chk::before{content:'○';color:#39455a;font-size:15px;flex:none}
+  .chk.done{color:#c8d3e0}
+  .chk.done::before{content:'●';color:#4ade80}
+</style>
+</head>
+<body>
+<div id="ov" data-composition-id="kane-overlay" data-start="0" data-duration="118.25" data-width="1920" data-height="1080">
+
+  <div class="chip speed el" id="sp3">▸▸ 5× crew feed</div>
+  <div class="chip speed el" id="sp4">▸▸ 4× auditor → brief</div>
+  <div class="chip speed el" id="sp8">▸▸ 4× sabotage run</div>
+  <div class="chip speed el" id="sp9">▸▸ 2× verify + repair</div>
+
+  <div class="chip el" id="counter"><span class="dot"></span><span id="cnt">0 queries · 0 sources sealed</span></div>
+  <div class="chip el" id="audit"><span class="dot amber"></span><span id="aud">KANE auditing — real browser</span></div>
+
+  <div id="track" class="el">
+    <div class="node" id="n0"><i></i>SCOUT</div><div class="link"></div>
+    <div class="node" id="n1"><i></i>CLERK</div><div class="link"></div>
+    <div class="node" id="n2"><i></i>SCRIBE</div><div class="link"></div>
+    <div class="node" id="n3"><i></i>AUDITOR</div>
+  </div>
+
+  <div class="missline el" id="ml1" style="top:648px;width:120px"></div>
+  <div class="miss el" id="miss1"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 2l8 14H2z" fill="none" stroke="#f87171" stroke-width="2"/><path d="M10 7v5" stroke="#f87171" stroke-width="2"/><circle cx="10" cy="14.5" r="1.2" fill="#f87171"/></svg>source link — missing</div>
+  <div class="missline el" id="ml2" style="top:788px;width:120px"></div>
+  <div class="miss el" id="miss2"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 2l8 14H2z" fill="none" stroke="#f87171" stroke-width="2"/><path d="M10 7v5" stroke="#f87171" stroke-width="2"/><circle cx="10" cy="14.5" r="1.2" fill="#f87171"/></svg>source link — missing</div>
+
+  <div class="st el" id="flag-fail"><span class="dot red"></span>KANE — FAILED · development cards have no source links</div>
+  <div class="st el" id="flag-fix"><span class="dot amber"></span>FIXER — rewriting against the sealed transcript</div>
+  <div class="st el" id="flag-gate"><span class="dot"></span>AUDITOR — PASS 5/5 · grounding 100%</div>
+  <div class="st el" id="flag-re"><span class="dot amber"></span>KANE — attempt 2 · re-verifying repaired brief</div>
+
+  <div class="el" id="verify">
+    <div class="ptitle"><span class="dot amber"></span>attempt 2 — real-browser checklist</div>
+    <div class="chk" id="c0">masthead + headline render</div>
+    <div class="chk" id="c1">"Key developments" section listed</div>
+    <div class="chk" id="c2">every development exposes ≥ 1 source link</div>
+    <div class="chk" id="c3">"Discussion points" present</div>
+    <div class="chk" id="c4">"Open questions" present</div>
+    <div class="chk" id="c5">"Sources" section + verdict stamp</div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script>
+(function(){
+  function on(sel,t){gsap.to(sel,{opacity:1,duration:.25,ease:'power2.out',delay:t});}
+  function off(sel,t){gsap.to(sel,{opacity:0,duration:.2,delay:t});}
+  function seg(sel,t0,t1){on(sel,t0);off(sel,t1);}
+
+  // speed chips on ramped segments
+  seg('#sp3',14,24); seg('#sp4',24,31.5); seg('#sp8',46,57.25); seg('#sp9',57.25,86.25);
+
+  // pipeline tracker during crew zone
+  on('#track',6);
+  [7.5,20.5,23.5,27.5].forEach(function(t,i){gsap.delayedCall(t,function(){document.getElementById('n'+i).classList.add('on');});});
+  off('#track',31.5);
+
+  // counter ticking during feed
+  on('#counter',14);
+  var c={q:0,s:0},lbl=document.getElementById('cnt');
+  gsap.to(c,{q:5,s:28,duration:9,ease:'none',delay:14.5,onUpdate:function(){
+    lbl.textContent=Math.round(c.q)+' queries · '+Math.round(c.s)+' sources sealed';}});
+  off('#counter',24);
+
+  // kane auditing checklist during watch+pass zone
+  on('#audit',31.5);
+  var a={n:0},al=document.getElementById('aud');
+  gsap.to(a,{n:6,duration:6,ease:'none',delay:32,onUpdate:function(){
+    al.textContent='KANE auditing — '+Math.round(a.n)+' / 6 assertions · real browser';}});
+  gsap.delayedCall(38.6,function(){al.innerHTML='<b>KANE · PASSED · POLICY PASS · 19cr</b>';});
+  off('#audit',42.5);
+
+  // sabotage: missing-link callouts over the defect zone
+  on('#ml1',47.5); on('#miss1',47.5);
+  on('#ml2',49.5); on('#miss2',49.5);
+  off('#ml1',57.25); off('#miss1',57.25); off('#ml2',57.25); off('#miss2',57.25);
+  // gentle pulse on the callouts
+  gsap.to(['#miss1','#miss2'],{opacity:.55,duration:.9,repeat:7,yoyo:true,ease:'sine.inOut',delay:50});
+
+  // state flags through fail → repair → re-verify (b2 @2x: fail ~59.8, fixer ~64, gate ~74, re-verify ~78)
+  seg('#flag-fail',59.8,63.8);
+  seg('#flag-fix',63.8,74);
+  seg('#flag-gate',74,78);
+  seg('#flag-re',78,86.25);
+
+  // re-verify checklist — the real assertions from tests/kane/doorknock-brief-flow_test.md
+  on('#verify',76.5);
+  [78,79.6,81.2,82.8,84.4,85.8].forEach(function(t,i){
+    gsap.delayedCall(t,function(){document.getElementById('c'+i).classList.add('done');});});
+  off('#verify',86.25);
+})();
+</script>
+</body>
+</html>

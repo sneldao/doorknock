@@ -15,21 +15,21 @@ Dialogue: 0,0:00:07.02,0:00:09.13,Cap,,0,0,0,,{\kf44}Doorknock {\kf26}runs {\kf4
 Dialogue: 0,0:00:09.02,0:00:11.42,Cap,,0,0,0,,{\kf43}clerk, {\kf56}scribe {\kf7}-- {\kf14}and {\kf2}a {\kf74}deterministic
 Dialogue: 0,0:00:11.34,0:00:13.49,Cap,,0,0,0,,{\kf44}auditor {\kf17}that {\kf48}refuses {\kf20}any {\kf29}claim {\kf7}it
 Dialogue: 0,0:00:13.40,0:00:14.99,Cap,,0,0,0,,{\kf25}can't {\kf31}trace {\kf7}to {\kf2}a {\kf57}source.
-Dialogue: 0,0:00:37.82,0:00:39.82,Cap,,0,0,0,,{\kf17}Then {\kf29}Kane {\kf37}opens {\kf7}the {\kf36}finished {\kf29}brief
-Dialogue: 0,0:00:39.74,0:00:42.35,Cap,,0,0,0,,{\kf8}in {\kf2}a {\kf22}real {\kf60}browser. {\kf51}Passed. {\kf42}Policy
-Dialogue: 0,0:00:42.26,0:00:42.94,Cap,,0,0,0,,{\kf53}pass.
+Dialogue: 0,0:00:37.02,0:00:39.02,Cap,,0,0,0,,{\kf17}Then {\kf29}Kane {\kf37}opens {\kf7}the {\kf36}finished {\kf29}brief
+Dialogue: 0,0:00:38.94,0:00:41.55,Cap,,0,0,0,,{\kf8}in {\kf2}a {\kf22}real {\kf60}browser. {\kf51}Passed. {\kf42}Policy
+Dialogue: 0,0:00:41.46,0:00:42.14,Cap,,0,0,0,,{\kf53}pass.
 Dialogue: 0,0:00:42.73,0:00:43.70,Cap,,0,0,0,,{\kf17}Now {\kf26}break {\kf26}it.
-Dialogue: 0,0:00:46.22,0:00:48.29,Cap,,0,0,0,,{\kf14}We {\kf30}strip {\kf30}every {\kf35}source {\kf21}link {\kf27}before
-Dialogue: 0,0:00:48.17,0:00:50.69,Cap,,0,0,0,,{\kf7}the {\kf24}brief {\kf56}ships. {\kf31}Kane {\kf32}fails {\kf13}it
-Dialogue: 0,0:00:50.61,0:00:52.93,Cap,,0,0,0,,{\kf5}-- {\kf15}and {\kf27}names {\kf7}the {\kf64}defect. {\kf12}The
-Dialogue: 0,0:00:52.85,0:00:54.56,Cap,,0,0,0,,{\kf38}failure {\kf17}goes {\kf16}back {\kf6}to {\kf7}the {\kf48}crew:
-Dialogue: 0,0:00:54.73,0:00:56.81,Cap,,0,0,0,,{\kf8}the {\kf35}fixer {\kf52}rewrites {\kf30}against {\kf7}the {\kf31}sealed
-Dialogue: 0,0:00:56.68,0:00:59.66,Cap,,0,0,0,,{\kf75}transcript, {\kf12}the {\kf41}auditor {\kf62}re-gates, {\kf13}and {\kf31}Kane
-Dialogue: 0,0:00:59.56,0:01:00.68,Cap,,0,0,0,,{\kf96}re-verifies.
-Dialogue: 0,0:01:24.22,0:01:26.44,Cap,,0,0,0,,{\kf26}That's {\kf7}the {\kf27}loop {\kf5}-- {\kf51}draft, {\kf49}audit,
-Dialogue: 0,0:01:26.38,0:01:29.54,Cap,,0,0,0,,{\kf53}repair, {\kf72}verify. {\kf19}Not {\kf2}a {\kf23}green {\kf69}checkmark.
-Dialogue: 0,0:01:29.90,0:01:30.67,Cap,,0,0,0,,{\kf62}Evidence.
-Dialogue: 0,0:01:45.22,0:01:48.21,Cap,,0,0,0,,{\kf39}Committed {\kf27}Kane {\kf60}tests. {\kf7}A {\kf34}policy {\kf72}contract.
-Dialogue: 0,0:01:48.11,0:01:50.40,Cap,,0,0,0,,{\kf8}A {\kf35}CI {\kf26}gate {\kf13}that {\kf30}blocks {\kf69}unverified
-Dialogue: 0,0:01:50.31,0:01:52.93,Cap,,0,0,0,,{\kf67}merges. {\kf49}Doorknock {\kf5}-- {\kf25}build {\kf7}it {\kf13}with
-Dialogue: 0,0:01:52.82,0:01:55.24,Cap,,0,0,0,,{\kf16}any {\kf53}agent. {\kf46}Verify {\kf7}it {\kf12}with {\kf44}Kane.
+Dialogue: 0,0:00:46.52,0:00:48.59,Cap,,0,0,0,,{\kf14}We {\kf30}strip {\kf30}every {\kf35}source {\kf21}link {\kf27}before
+Dialogue: 0,0:00:48.47,0:00:50.99,Cap,,0,0,0,,{\kf7}the {\kf24}brief {\kf56}ships. {\kf31}Kane {\kf32}fails {\kf13}it
+Dialogue: 0,0:00:50.91,0:00:53.23,Cap,,0,0,0,,{\kf5}-- {\kf15}and {\kf27}names {\kf7}the {\kf64}defect. {\kf12}The
+Dialogue: 0,0:00:53.15,0:00:54.86,Cap,,0,0,0,,{\kf38}failure {\kf17}goes {\kf16}back {\kf6}to {\kf7}the {\kf48}crew:
+Dialogue: 0,0:00:55.03,0:00:57.11,Cap,,0,0,0,,{\kf8}the {\kf35}fixer {\kf52}rewrites {\kf30}against {\kf7}the {\kf31}sealed
+Dialogue: 0,0:00:56.98,0:00:59.95,Cap,,0,0,0,,{\kf75}transcript, {\kf12}the {\kf41}auditor {\kf62}re-gates, {\kf13}and {\kf31}Kane
+Dialogue: 0,0:00:59.86,0:01:00.98,Cap,,0,0,0,,{\kf96}re-verifies.
+Dialogue: 0,0:01:26.27,0:01:28.49,Cap,,0,0,0,,{\kf26}That's {\kf7}the {\kf27}loop {\kf5}-- {\kf51}draft, {\kf49}audit,
+Dialogue: 0,0:01:28.43,0:01:31.59,Cap,,0,0,0,,{\kf53}repair, {\kf72}verify. {\kf19}Not {\kf2}a {\kf23}green {\kf69}checkmark.
+Dialogue: 0,0:01:31.95,0:01:32.72,Cap,,0,0,0,,{\kf62}Evidence.
+Dialogue: 0,0:01:47.27,0:01:50.26,Cap,,0,0,0,,{\kf39}Committed {\kf27}Kane {\kf60}tests. {\kf7}A {\kf34}policy {\kf72}contract.
+Dialogue: 0,0:01:50.16,0:01:52.45,Cap,,0,0,0,,{\kf8}A {\kf35}CI {\kf26}gate {\kf13}that {\kf30}blocks {\kf69}unverified
+Dialogue: 0,0:01:52.36,0:01:54.98,Cap,,0,0,0,,{\kf67}merges. {\kf49}Doorknock {\kf5}-- {\kf25}build {\kf7}it {\kf13}with
+Dialogue: 0,0:01:54.87,0:01:57.29,Cap,,0,0,0,,{\kf16}any {\kf53}agent. {\kf46}Verify {\kf7}it {\kf12}with {\kf44}Kane.

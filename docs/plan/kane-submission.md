@@ -1,6 +1,6 @@
 # Kane CLI Online Hackathon — submission tracker
 
-Event: https://www.kaneclihack.sh/ · Deadline **19 Nov 2026, 11:59 PM IST**
+Event: https://www.kaneclihack.sh/ · Deadline **26 Nov 2026, 11:59 PM IST** (extended from 19 Nov)
 Repo: https://github.com/sneldao/doorknock (public, MIT)
 Live app: https://doorknock-2azp.onrender.com (Kane verify runs locally —
 Render has no kane-cli/Chrome; recorded evidence is the fallback)
