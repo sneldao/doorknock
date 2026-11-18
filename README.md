@@ -8,7 +8,7 @@ A pre-meeting briefing agent built for the [Global AI Hackathon](https://hackcul
 
 Built 15 November 2026, inside the hackathon build window (1–15 Nov).
 
-**Live:** https://doorknock-2azp.onrender.com · **Deck:** [`docs/deck/Doorknock.pdf`](docs/deck/Doorknock.pdf) · **Demo video:** [`docs/video/doorknock-demo.mp4`](docs/video/doorknock-demo.mp4) (1:38, real run)
+**Live:** https://doorknock-2azp.onrender.com · **Deck:** [`docs/deck/Doorknock.pdf`](docs/deck/Doorknock.pdf) · **Demo:** [youtu.be/Gi9SCwrX6nk](https://youtu.be/Gi9SCwrX6nk) (1:58 — Kane fail → repair → re-verify, [Kane CLI Online Hackathon](https://www.kaneclihack.sh/) entry) · earlier product cut: [`docs/video/doorknock-demo.mp4`](docs/video/doorknock-demo.mp4)
 
 ## Why
 

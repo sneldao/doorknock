@@ -32,9 +32,16 @@ Render has no kane-cli/Chrome; recorded evidence is the fallback)
 - [x] Evidence policy in repo + Test Manager
 - [x] CI gate: PRs can't merge without `kane-verify / kane` green
 - [x] Recorded evidence pack (`docs/kane/*.sse` + Test Manager share links)
-- [ ] **3–5 min YouTube demo** — script: `docs/video/kane-script.md`
-- [ ] **≥2 public posts** (HN Show + LinkedIn/X) — draft alongside video
-- [ ] **Submission form** — repo, video link, posts, description, creds:
+- [x] **YouTube demo** — https://youtu.be/Gi9SCwrX6nk (1:58, public,
+      published 18 Nov on OnchainAIGuy). Cut v4: real session captures +
+      HyperFrames terminal/overlay/cards, ElevenLabs VO + karaoke captions.
+- [x] **≥2 public posts** — X: https://x.com/UNgethe/status/2123065877499384193 ·
+      Reddit (profile post; subreddit posts were spam-filtered on the fresh
+      account): https://www.reddit.com/user/papalish/comments/1xzgxke/ ·
+      the YouTube video itself counts as a third post.
+- [x] **Submission form** — submitted 18 Nov at
+      https://www.kaneclihack.sh/o/submit (team PAPA JAMS, editable until
+      deadline). Showcase: https://www.kaneclihack.sh/o/p/papa-jams
       - Tavily: `TAVILY_API_KEY` (user has it)
       - LLM: Bifrost gateway (`BIFROST_BASE_URL`/`BIFROST_API_KEY`) or
         `LLM_BASE_URL`/`LLM_API_KEY` — see `.env.example`
@@ -42,7 +49,7 @@ Render has no kane-cli/Chrome; recorded evidence is the fallback)
         (username `thepapajams` + access key from Settings → Keys;
         CI secrets already set on the repo)
       - Fallback: recorded Kane runs in `docs/kane/` replay the whole story
-- [ ] Submit before deadline
+- [x] Submit before deadline — done 18 Nov 2026
 
 ## Demo-video shot list (see kane-script.md for VO)
 
