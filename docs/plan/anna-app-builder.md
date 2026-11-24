@@ -192,5 +192,10 @@ were uploaded to the Console on 2026-11-24 (app 938, handle `papa`). CLI is on
 `0.1.68` and the manifest is schema 4 against platform `1.1.0-beta.234`; the
 `storage.list` call now follows the documented `{prefix, cursor}` contract.
 
-Remaining human steps: run the fresh-install Cloud Agent Tier-3 pass (needs
-quota), cut v0.1.2, then `submit-review`.
+v0.1.2 was cut (`version_id=2902`) and submitted on 2026-11-24 — the app is
+`pending_review`, pinned to that cut (`npm test`, `test:browser` and
+`validate --strict` all green at cut time). Any cut after this point is not
+part of the round, so a fix means re-cutting and re-running `submit-review`.
+
+Remaining human step: the fresh-install Cloud Agent Tier-3 pass (needs a real
+chat and account quota).

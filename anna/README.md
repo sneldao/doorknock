@@ -5,11 +5,12 @@ subject + meeting time → host `web.search` 30-day sweep → `llm.complete`
 draft → the deterministic auditor gate → a saved, source-audited one-page
 briefing.
 
-**Status:** REJECTED on review (dev@anna.partners) — v0.1.1 (`version_id=2399`),
-app id 938. Three findings: (1) listing missing logo + screenshots,
-(2) external data sources need clarification, (3) analysis flow errored and
-could not complete. Resubmission candidate is v0.1.2 with all three fixed
-(see "Resubmission" below). Program context and checklist:
+**Status:** PENDING_REVIEW — v0.1.2 (`version_id=2902`) submitted for review
+2026-11-24, app id 938. The prior build, v0.1.1 (`version_id=2399`), was
+rejected on three findings: (1) listing missing logo + screenshots, (2)
+external data sources need clarification, (3) analysis flow errored and could
+not complete. v0.1.2 answers all three (see "Resubmission" below); the review
+round is pinned to that cut, so any later cut needs a fresh `submit-review`. Program context and checklist:
 `../docs/plan/anna-app-builder.md`.
 
 ## Layout
@@ -171,7 +172,12 @@ sending an undocumented `limit`.
    truncate strings to cap, drop sourceless developments, coerce
    `"true"/"false"` flags) instead of failing the run — the auditor gate
    itself is untouched and still rejects untraceable claims.
-4. **Fresh-install Cloud Agent pass** per the Tier-3 checklist above, then
-   `anna-app apps submit-review` (or Console → Versions → Submit).
-   `anna-app validate --strict` is green; `npm test` (gate + parser +
-   recovery, 33 smoke) is green; `npm run test:browser` is green.
+4. **Cut and submitted — done 2026-11-24.** `anna-app apps publish` staged the
+   working bundle (13 files, 7 deduped) and cut immutable v0.1.2
+   (`version_id=2902`); `anna-app apps submit-review doorknock` moved it to
+   `pending_review` and pinned the round to v0.1.2. `anna-app validate
+   --strict` was green at cut time; `npm test` (gate + parser + recovery,
+   33 smoke) and `npm run test:browser` were green.
+5. **Fresh-install Cloud Agent pass** per the Tier-3 checklist above is the
+   one item still outstanding — it needs a real Anna chat and account quota,
+   so it cannot be run from the CLI. Do it before the reviewer asks.
