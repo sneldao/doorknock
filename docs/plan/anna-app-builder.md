@@ -142,12 +142,14 @@ community, the live demo at doorknock-2azp.onrender.com with an "open in
 Anna" link, the DoraHacks BUIDL page, and the forum's show-your-build thread.
 Paying or trading for runs is prohibited and audited.
 
-## Status, 2026-11-16
+## Status, 2026-11-16 — superseded
 
 **Submitted for review.** App id 938, slug `doorknock`, review candidate
-**v0.1.1** (`version_id=2399`), status `pending_review`. v0.1.0 was cut first
-to obtain the app id; v0.1.1 adds the id to the system prompt addendum and is
-otherwise identical.
+**v0.1.1** (`version_id=2399`). v0.1.0 was cut first to obtain the app id;
+v0.1.1 adds the id to the system prompt addendum and is otherwise identical.
+
+> Superseded 2026-11-24: v0.1.1 came back **rejected** (next section), v0.1.2
+> (`version_id=2902`) is the review candidate, and the app is `pending_review`.
 
 Submitted without a fresh-install Cloud Agent pass (the developer account's
 Anna quota is spent) and without listing images in the Developer Console —
@@ -191,6 +193,13 @@ Listing assets, logo, cover, support/privacy URLs and the long description
 were uploaded to the Console on 2026-11-24 (app 938, handle `papa`). CLI is on
 `0.1.68` and the manifest is schema 4 against platform `1.1.0-beta.234`; the
 `storage.list` call now follows the documented `{prefix, cursor}` contract.
+
+The listing's short description is not independently editable: every metadata
+PATCH (`push`, `publish`, `sync-meta`) rewrites it from the manifest `tagline`,
+and the app schema has no field for it — so the tagline is written to double as
+the listing line. The public store page (`/store/@papa/doorknock`) 404s until
+the app is `PUBLISHED`, so the listing cannot be reviewed in the store before
+approval.
 
 v0.1.2 was cut (`version_id=2902`) and submitted on 2026-11-24 — the app is
 `pending_review`, pinned to that cut (`npm test`, `test:browser` and

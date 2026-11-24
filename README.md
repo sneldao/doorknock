@@ -142,7 +142,7 @@ The design is a deliberate *intelligence brief*: paper, ink, telex rules, an oxb
 
 ## The Anna app
 
-`anna/` is a bundle-only port of the same pipeline to the Anna AI OS marketplace — host `web.search` + `llm.complete` replace Tavily/Bifrost, `bundle/gate.js` is a 1:1 port of the auditor. Submitted 16 Nov 2026 and rejected on review (app id 938): listing needed a logo and screenshots, the data sources needed clarifying, and the analysis flow could not complete. v0.1.2 fixes all three and adds a saved-brief library, one-tap examples, support/privacy pages and a cover. See `anna/README.md` and `docs/plan/anna-app-builder.md`.
+`anna/` is a bundle-only port of the same pipeline to the Anna AI OS marketplace — host `web.search` + `llm.complete` replace Tavily/Bifrost, `bundle/gate.js` is a 1:1 port of the auditor. The first submission (16 Nov 2026, app id 938) was rejected on three findings: the listing needed a logo and screenshots, the data sources needed clarifying, and the analysis flow could not complete. **v0.1.2** fixes all three, adds a saved-brief library, one-tap examples, support/privacy pages and a cover, and is now in review (`pending_review`, `version_id=2902`). See `anna/README.md` and `docs/plan/anna-app-builder.md`.
 
 ## Provenance & license
 

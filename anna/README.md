@@ -128,8 +128,10 @@ sending an undocumented `limit`.
 - **Listing uploaded 2026-11-24** (Console → Listing, app 938): logo cropped
   by the platform to
   `https://cdn.anna.partners/production/app-logos/938-doorknock/20261124130244_b4949380.webp`;
-  short description is the source-audited one-page promise; long description
-  is `app.json` verbatim (2,396 chars); homepage = the GitHub repo; support
+  short description is `app.json`'s `tagline` ("Read the room before you walk
+  in — a source-audited one-page brief.", 67 chars — see the note below on
+  why it cannot be edited independently); long description is `app.json`
+  verbatim (2,396 chars); homepage = the GitHub repo; support
   and privacy = `anna/SUPPORT.md` / `anna/PRIVACY.md`; cover =
   `listing/cover.png`; six screenshots (`home-1280`, `run-1280`,
   `result-shopify-1280`, `result-monzo-1280`, `home-390`,
@@ -159,8 +161,9 @@ sending an undocumented `limit`.
   `PRIVACY.md`) — use those in the Console Support and Privacy fields.
 - `app.json` description now carries the data-source disclosure the review
   asked for (host-managed `web.search` + `llm.complete` only, no keys, no
-  external DBs, runtime-only fetching, own-storage privacy); mirror it into
-  the Console long-description field on resubmit.
+  external DBs, runtime-only fetching, own-storage privacy). The Console
+  long-description field already carries it verbatim, and `apps sync-meta`
+  keeps that field in step with the manifest.
 - One fresh-install Cloud Agent check: ask for "prepare for a meeting with
   <company>" and confirm the window opens prefilled and the run saves a
   brief (uses real quota — one chat only, per release checklist).
