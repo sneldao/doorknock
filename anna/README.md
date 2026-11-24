@@ -109,6 +109,32 @@ Fixed checklist, each step in a NEW chat (context size drives cost):
 4. Close the window mid-run, reopen it, Resume — confirm the saved brief
    reloads and no second sweep runs.
 
+**Run log, 2026-11-24.** Ran on BYOK `anthropic/claude-haiku-5.5`: Anna-hosted
+models are plan-gated on this account (`Quota exhausted`, then
+`403 — An active plan is required`), so the chat path can only be exercised
+through a paid BYOK provider here.
+
+- **Step 2 proven with an explicit call.** Sending
+  `open_app_view(app_id=938, payload={"subject":"Shopify","kind":"partnership"})`
+  in the message produced the tool call ("Used 1 tool"), the window prefilled
+  `subject="Shopify"` and `kind="partnership"`, and a visible reply that was
+  exactly the fixed sentence. The payload → prefill → fixed-line contract
+  works in a real Anna window.
+- **Natural phrasing still failed on this model.** The same mention and
+  addendum with "prepare for a meeting with Shopify tomorrow at 3pm about a
+  partnership" produced coaching prose and no tool call. That is an
+  instruction-following limit of Haiku 5.5, not a manifest or app defect —
+  Anna's hosted defaults (Gemini 3.8 Flash, Qwen3.8 Flash) are materially
+  stronger at tool-first compliance.
+- **Mention ambiguity — unresolved, do not over-read failures.** Typing `#`
+  and picking Doorknock leaves the composer value as `"#"` and exposed no chip
+  node (`chipNodes: []`), so whether a picker mention actually attaches cannot
+  be confirmed from the DOM. A natural-phrasing failure is equally consistent
+  with an unattached mention as with the addendum being ignored.
+- **Steps 3–4 not run.** No full Knock, no "Source-traced" stamp check, no
+  resume test. Repeat all four steps on a hosted default model before claiming
+  a Tier-3 pass.
+
 ## Platform versions (checked 2026-11-24)
 
 | Surface | Current | This app |

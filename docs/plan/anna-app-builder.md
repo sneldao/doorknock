@@ -215,5 +215,13 @@ subject instead of swallowing the submit. It is the pinned review candidate;
 any cut after this point is not part of the round until `submit-review` runs
 again.
 
+The Tier-3 run log lives in `anna/README.md` (Tier 3). In short: with the tool
+named explicitly, the call landed with the Shopify payload, the window
+prefilled `subject=Shopify` / `kind=partnership`, and the reply was exactly the
+fixed sentence; natural phrasing still failed on Haiku 5.5; and whether a
+composer `#` mention attaches is not observable from the DOM, so a
+natural-phrasing failure is not evidence that the addendum was ignored. Steps
+3–4 (full Knock, stamp, resume) remain unrun.
+
 Remaining human step: the fresh-install Cloud Agent Tier-3 pass (needs a real
 chat and account quota).
