@@ -237,10 +237,13 @@ sending an undocumented `limit`.
    inline error instead of a silent no-op".
 8. **Search failures are no longer disguised as bad spelling** (v0.1.4,
    `version_id=2906`). `web.search` bills the main CU pool and answers
-   `APP_NOT_GRANTED` when the account has no subscription; the pipeline caught
-   every search error and then told the person to "check the subject
+   `APP_QUOTA_EXCEEDED` once that pool is spent (`APP_NOT_GRANTED` means no
+   subscription or web grant); the pipeline caught every search error and then told the person to "check the subject
    spelling". Each round now keeps its error, and the run distinguishes
    `search_failed` (every query failed), `search_partial` (some failed, none
    returned sources) and `no_hits` (calls succeeded, nothing recent found).
    Covered by two unit tests in `test/brief.mjs` and the browser-QA case
-   "zero hits -> honest error, nothing saved".
+   "zero hits -> honest error, nothing saved". Confirmed live on v0.1.4: the
+   real window shows "Anna's managed search failed for all 4 queries
+   (APP_QUOTA_EXCEEDED) — that is an account or host problem, not the subject
+   spelling. Check the Anna plan or quota, then retry."

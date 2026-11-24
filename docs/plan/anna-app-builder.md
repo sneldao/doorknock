@@ -225,10 +225,16 @@ natural-phrasing failure is not evidence that the addendum was ignored. Steps
 
 Pressing Knock in the real window produced a finding of its own: 0 hits for
 Shopify and Monzo alike. `web.search` bills the main CU pool and answers
-`APP_NOT_GRANTED` without a subscription, and the pipeline was catching every
+`APP_QUOTA_EXCEEDED` once that pool is spent, and the pipeline was catching every
 search error and then telling the person to check their spelling. v0.1.4
 (`version_id=2906`) keeps each round's error and separates `search_failed`,
 `search_partial` and `no_hits`. It is the pinned review candidate.
+
+A live Knock on v0.1.4 confirmed the new copy in the real window:
+"Anna's managed search failed for all 4 queries (APP_QUOTA_EXCEEDED) — that is
+an account or host problem, not the subject spelling." The Source-traced stamp
+and the Uncertain section stay unprovable until the CU pool is topped up, and
+that is the only thing blocking steps 3–4.
 
 Remaining human step: the fresh-install Cloud Agent Tier-3 pass (needs a real
 chat and account quota).
