@@ -151,6 +151,41 @@ otherwise identical.
 
 Submitted without a fresh-install Cloud Agent pass (the developer account's
 Anna quota is spent) and without listing images in the Developer Console —
-the eight images in `anna/listing/` are ready to upload there. Local work is
-uncommitted. A version cut after this point is not part of the review until
-`anna-app apps submit-review` is run again.
+the eight images in `anna/listing/` are ready to upload there. A version cut
+after this point is not part of the review until `anna-app apps submit-review`
+is run again.
+
+## Rejection → v0.1.2 (2026-11-24)
+
+Review returned three findings (dev@anna.partners): listing missing a logo and
+screenshots, external data sources unexplained, analysis flow errored and
+could not complete. Fixes, all local and green:
+
+- **Analysis failure.** Storage calls dropped the non-spec `scope: "user"`
+  arg (iframe Host API takes `{key}` / `{key, value}` on the own app bucket);
+  the draft parser now clamps model over-runs — six developments max, strings
+  truncated to cap, sourceless developments dropped, `"true"/"false"`
+  coerced — instead of failing the run. The auditor gate is untouched.
+- **Data sources.** Disclosed in `anna/app.json` and, visibly, on the form and
+  brief screens: host-managed `web.search` + `llm.complete` only, no keys,
+  no external DBs, fetch at run time only, own-storage privacy.
+- **Listing.** Logo, cover, six screenshots, `SUPPORT.md`, `PRIVACY.md`, long
+  description from `app.json`; `anna-app validate --strict` green.
+
+## Differentiation & packaging
+
+No pre-meeting briefing app exists in the Anna marketplace — the nearest
+neighbours are calendar-scanning morning-brief agents and Meeting AI's generic
+`summarize_meeting`. Outside Anna, every comparable (Similarweb Meeting Prep,
+calendar-scanning brief agents) requires calendar OAuth. The wedge stays:
+no calendar access, no credentials, a deterministic source auditor, and a
+bundle-only app that spends the user's own quota.
+
+Packaging built to make that legible in the first ten seconds: example
+subjects that prefill a valid form, a **saved-brief library** on the form
+screen (`storage.list` over `briefs/`, best-effort so it never blocks a run),
+cover art in the product's paper/ink identity, and support/privacy pages that
+answer the data-source question without a reviewer having to ask.
+
+Remaining human steps: upload the listing assets in the Console, run the
+fresh-install Cloud Agent Tier-3 pass, cut v0.1.2, then `submit-review`.

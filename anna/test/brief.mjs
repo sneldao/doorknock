@@ -50,14 +50,19 @@ test("parser rejects prose with no object", () => {
   assert.throws(() => parseBriefing("Here is your briefing, no JSON."), DraftError);
 });
 
-test("parser rejects over-cap fields", () => {
+test("parser rejects under-min fields but clamps over-cap arrays", () => {
   const bad = { ...goodBrief, headline: "short" };
   assert.throws(() => parseBriefing(JSON.stringify(bad)), /bad headline/);
   const tooMany = {
     ...goodBrief,
     keyDevelopments: Array.from({ length: 7 }, () => goodBrief.keyDevelopments[0]),
   };
-  assert.throws(() => parseBriefing(JSON.stringify(tooMany)), /keyDevelopments/);
+  // over-run no longer hard-fails the run (web clamp 7ccf0ef): sliced to 6
+  const clamped = parseBriefing(JSON.stringify(tooMany));
+  assert.equal(clamped.keyDevelopments.length, 6);
+  // over-long strings truncate to cap instead of failing
+  const long = parseBriefing(JSON.stringify({ ...goodBrief, headline: "x".repeat(500) }));
+  assert.equal(long.headline.length, 160);
 });
 
 test("parser rejects missing fields and bad types", () => {
@@ -66,7 +71,14 @@ test("parser rejects missing fields and bad types", () => {
     ...goodBrief,
     keyDevelopments: [{ ...goodBrief.keyDevelopments[0], sourceUrls: [] }],
   };
-  assert.throws(() => parseBriefing(JSON.stringify(noUrls)), /sourceUrls/);
+  // sourceless developments are dropped, not shipped: sole dev dropped, nothing salvageable
+  assert.throws(() => parseBriefing(JSON.stringify(noUrls)), /keyDevelopments/);
+  // mixed: the sourced development survives, the sourceless one is dropped
+  const mixed = {
+    ...goodBrief,
+    keyDevelopments: [goodBrief.keyDevelopments[0], { ...goodBrief.keyDevelopments[0], sourceUrls: [] }],
+  };
+  assert.equal(parseBriefing(JSON.stringify(mixed)).keyDevelopments.length, 1);
 });
 
 test("query plan parses fenced JSON", () => {

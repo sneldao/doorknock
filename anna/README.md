@@ -5,8 +5,11 @@ subject + meeting time → host `web.search` 30-day sweep → `llm.complete`
 draft → the deterministic auditor gate → a saved, source-audited one-page
 briefing.
 
-**Status:** submitted for review 16 Nov 2026 — v0.1.1 (`version_id=2399`),
-app id 938, `pending_review`. Program context and checklist:
+**Status:** REJECTED on review (dev@anna.partners) — v0.1.1 (`version_id=2399`),
+app id 938. Three findings: (1) listing missing logo + screenshots,
+(2) external data sources need clarification, (3) analysis flow errored and
+could not complete. Resubmission candidate is v0.1.2 with all three fixed
+(see "Resubmission" below). Program context and checklist:
 `../docs/plan/anna-app-builder.md`.
 
 ## Layout
@@ -19,13 +22,21 @@ bundle/
   brief.js      prompt builders, strict parsers, the run pipeline (no DOM)
   gate.js       the auditor — 1:1 port of ../src/lib/gate.ts, one contract
   recovery.js   doorknock/active-task checkpoint envelope + brief storage keys
-  session.js    unwrap/storage helpers, withTimeout
+  session.js    unwrap/storage helpers, withTimeout (no `scope` arg — the
+                iframe Host API takes `{key}` / `{key, value}`; the app bucket
+                needs no declaration)
 test/
   gate.mjs      runs ../tests/gate-cases.json — the SAME fixture as the web app
   brief.mjs     parser + query-plan fallback cases
   recovery.mjs  checkpoint validation/resume/stale-id cases
   fake-anna.js  in-memory fake host (storage, web.search, llm.complete)
   smoke.mjs     end-to-end: form → run → gate → saved brief, via the pipeline
+listing/
+  logo.png      512×512 marketplace logo (Console → Upload)
+  cover.png     1200×630 cover for the forum / launch post (from cover.svg)
+  home-*, run-*, result-*   1280 / 390 captures replayed from the fake host
+SUPPORT.md      support page — Console Support field
+PRIVACY.md      data-handling page — Console Privacy field
 ```
 
 The auditor contract is shared: `../src/lib/gate.ts` and `bundle/gate.js`
@@ -37,14 +48,21 @@ must stay in sync, and changes are covered by cases in
 1. **Form** — subject, when, meeting kind (sales / partnership / investor /
    bizdev / general), optional notes (≤600 chars). An `open_app_view`
    payload `{subject, kind, notes}` only prefills — the person presses
-   Knock.
+   Knock. Two example buttons (Shopify · partnership, Monzo · general)
+   prefill a valid form — including the next full hour as the meeting time
+   — so a first run needs one press and no typing.
 2. **Run feed** — one query-planning `llm.complete` (falls back to
    deterministic templates on any failure), 1 identity + 3 news searches
    (`search_depth: "basic"`), one drafting `llm.complete`, auditor verdicts.
-3. **Brief** — saved to `briefs/<ts>` + `briefs/last` in user-scope storage;
-   Uncertain section when the repair pass flagged anything; copy-as-text.
+3. **Brief** — saved to `briefs/<ts>` + `briefs/last` in your own Anna app
+   storage (private app bucket, no cross-app scopes); Uncertain section
+   when the repair pass flagged anything; copy-as-text.
 4. **Checkpoint** — `doorknock/active-task` seals the sweep; on reopen a
    `drafting` checkpoint offers Resume (no re-search) or Start over.
+5. **Library** — the form lists saved briefs newest-first (subject,
+   headline, date) via `storage.list` on `briefs/`, one click to reopen.
+   The library is best-effort by design: a failed `list`, a missing key or
+   an unreadable record hides that entry and never blocks the form.
 
 ## Tests
 
@@ -91,12 +109,48 @@ Fixed checklist, each step in a NEW chat (context size drives cost):
 ## Before publish
 
 - App id 938 (slug `doorknock`); identity cached in `.anna/app.json`.
-- Listing images / screenshots still needed for the store page.
+- Listing assets live in `listing/` — upload them in the Developer Console
+  Listing tab (logo via Upload, screenshots one URL per line, max 6):
+  `logo.png` (512×512, paper/ink "D" stamp) + 6 screenshots —
+  `home-1280`, `run-1280`, `result-shopify-1280`, `result-monzo-1280`,
+  `home-390`, `result-shopify-390` (raw GitHub URLs:
+  `https://raw.githubusercontent.com/sneldao/doorknock/main/anna/listing/<file>`).
   `test/capture-listing.mjs` replays `test/recordings/{shopify,monzo}.json`
-  through the fake host (light scheme pinned) and writes to `listing/`.
+  through the fake host (light scheme pinned) and writes the screenshots.
   The images are real model output (Reflection Beam, recorded 16 Nov 2026)
   replayed in a local host — not captured inside Anna. Listing images must
-  not show a named private individual.
+  not show a named private individual (companies only: Shopify, Monzo).
+  Cover art for the forum/launch post: `listing/cover.png` (1200×630, from
+  `cover.svg`). Support / privacy URLs point at `SUPPORT.md` and
+  `PRIVACY.md` in this folder (\n  `https://github.com/sneldao/doorknock/blob/main/anna/SUPPORT.md`, same for
+  `PRIVACY.md`) — use those in the Console Support and Privacy fields.
+- `app.json` description now carries the data-source disclosure the review
+  asked for (host-managed `web.search` + `llm.complete` only, no keys, no
+  external DBs, runtime-only fetching, own-storage privacy); mirror it into
+  the Console long-description field on resubmit.
 - One fresh-install Cloud Agent check: ask for "prepare for a meeting with
   <company>" and confirm the window opens prefilled and the run saves a
   brief (uses real quota — one chat only, per release checklist).
+
+## Resubmission (v0.1.2 — answers the rejection)
+
+1. **Listing complete.** Logo + 6 screenshots uploaded in the Console
+   (field max is 6 — `result-monzo-390` and `run-390` stay in-repo only),
+   Support URL = `SUPPORT.md`, Privacy URL = `PRIVACY.md`.
+   Long description = `app.json` description (data sources, credentials:
+   none, refresh: runtime-only per run, storage: own app bucket).
+2. **Data sources clarified.** In-app too: the form carries a
+   no-keys/no-background-refresh/own-storage note, the brief screen states
+   the live sweep shape (1 identity + 3 last-30-day news searches, basic
+   depth, via Anna managed search).
+3. **Analysis failure fixed.** Two hardening changes since the reviewed
+   build: (a) storage calls dropped the non-spec `scope: "user"` arg —
+   iframe Host API is `{key}` / `{key, value}` on the own app bucket;
+   (b) the draft parser clamps model over-runs (slice arrays to 6,
+   truncate strings to cap, drop sourceless developments, coerce
+   `"true"/"false"` flags) instead of failing the run — the auditor gate
+   itself is untouched and still rejects untraceable claims.
+4. **Fresh-install Cloud Agent pass** per the Tier-3 checklist above, then
+   `anna-app apps submit-review` (or Console → Versions → Submit).
+   `anna-app validate --strict` is green; `npm test` (gate + parser +
+   recovery, 33 smoke) is green; `npm run test:browser` is green.

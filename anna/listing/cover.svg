@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f4efe4"/>
+  <rect x="24" y="24" width="1152" height="582" fill="none" stroke="#1a1a18" stroke-width="8"/>
+  <rect x="44" y="44" width="1112" height="542" fill="none" stroke="#7a1f1f" stroke-width="3"/>
+
+  <text x="80" y="112" font-family="Georgia, serif" font-size="28" letter-spacing="5" fill="#1a1a18">DOORKNOCK · PRE-MEETING BRIEFING</text>
+
+  <g transform="rotate(-7 980 118)">
+    <rect x="880" y="62" width="196" height="112" fill="none" stroke="#1f5c2e" stroke-width="4"/>
+    <rect x="888" y="70" width="180" height="96" fill="none" stroke="#1f5c2e" stroke-width="2"/>
+    <text x="978" y="112" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#1f5c2e">SOURCE-</text>
+    <text x="978" y="142" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#1f5c2e">TRACED</text>
+  </g>
+
+  <text x="80" y="318" font-family="Georgia, serif" font-weight="bold" font-size="96" fill="#1a1a18">Read the room</text>
+  <text x="80" y="436" font-family="Georgia, serif" font-weight="bold" font-size="96" fill="#1a1a18">before you walk in.</text>
+
+  <line x1="80" y1="482" x2="1120" y2="482" stroke="#1a1a18" stroke-width="2"/>
+
+  <text x="80" y="528" font-family="Georgia, serif" font-size="27" fill="#1a1a18">30-day sweep · deterministic source audit</text>
+  <text x="80" y="568" font-family="Georgia, serif" font-size="27" fill="#1a1a18">Uncertain claims flagged, never hidden</text>
+</svg>

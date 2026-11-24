@@ -37,9 +37,15 @@ export function withTimeout(promise, ms, label = "operation") {
 }
 
 export async function storageGet(anna, key) {
-  return storageValue(await anna.storage.get({ key, scope: "user" }));
+  return storageValue(await anna.storage.get({ key }));
 }
 
 export async function storageSet(anna, key, value) {
-  return unwrap(await anna.storage.set({ key, value, scope: "user" }));
+  return unwrap(await anna.storage.set({ key, value }));
+}
+
+export async function storageList(anna, prefix) {
+  const r = unwrap(await anna.storage.list({ prefix, limit: 100 }));
+  const items = r != null && typeof r === "object" && Array.isArray(r.items) ? r.items : [];
+  return items.map((it) => (it != null && typeof it === "object" ? it.key : null)).filter((k) => typeof k === "string");
 }

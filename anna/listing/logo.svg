@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#f4efe4"/>
+  <rect x="18" y="18" width="476" height="476" fill="none" stroke="#1a1a18" stroke-width="6"/>
+  <rect x="34" y="34" width="444" height="444" fill="none" stroke="#7a1f1f" stroke-width="2"/>
+  <text x="256" y="330" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="240" font-weight="bold" fill="#1a1a18">D</text>
+  <line x1="96" y1="380" x2="416" y2="380" stroke="#7a1f1f" stroke-width="4"/>
+  <line x1="96" y1="392" x2="416" y2="392" stroke="#7a1f1f" stroke-width="2"/>
+  <text x="256" y="436" text-anchor="middle" font-family="Georgia, serif" font-size="44" letter-spacing="10" fill="#1a1a18">DOORKNOCK</text>
+</svg>

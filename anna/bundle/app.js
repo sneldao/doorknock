@@ -9,8 +9,9 @@ import {
   clearCheckpoint,
   saveBrief,
   readLastBrief,
+  listBriefs,
 } from "./recovery.js";
-import { withTimeout, storageSet } from "./session.js";
+import { withTimeout, storageSet, storageGet } from "./session.js";
 
 const SDK_URL = "/static/anna-apps/_sdk/latest/index.js";
 // Localhost test hook: the fake host sets __DOORKNOCK_BOOT_WATCHDOG_MS via
@@ -44,6 +45,11 @@ const els = {
   lastBriefCard: $("last-brief-card"),
   lastBriefLine: $("last-brief-line"),
   btnLastBrief: $("btn-last-brief"),
+  libraryCard: $("library-card"),
+  libraryList: $("library-list"),
+  btnExampleShopify: $("btn-example-shopify"),
+  btnExampleMonzo: $("btn-example-monzo"),
+  btnKnock: $("btn-knock"),
   feed: $("run-feed"),
   stamp: $("brief-stamp"),
   meta: $("brief-meta"),
@@ -137,6 +143,7 @@ async function boot() {
 
   showScreen("form");
   refreshLastBrief();
+  refreshLibrary();
 }
 
 // ── entry payload — prefill only, never starts a run ────────────────────
@@ -254,6 +261,8 @@ function wireButtons() {
   els.btnLastBrief.onclick = () => {
     if (lastBriefRecord) renderBrief(lastBriefRecord);
   };
+  els.btnExampleShopify.onclick = () => prefillExample("Shopify", "partnership");
+  els.btnExampleMonzo.onclick = () => prefillExample("Monzo", "general");
   els.btnSaveRetry.onclick = async () => {
     if (!currentBrief) return;
     els.btnSaveRetry.disabled = true;
@@ -314,6 +323,7 @@ async function startRun(req, sealedRounds) {
 
     renderBrief(record);
     refreshLastBrief();
+    refreshLibrary();
   } catch (e) {
     if (activeRunId !== runId) return;
     const msg =
@@ -525,6 +535,51 @@ function briefAsText(record) {
   }
   if (verdict?.verdictLine) lines.push("", verdict.verdictLine);
   return lines.join("\n");
+}
+
+/** Prefill the form from an example — meeting time defaults to the next
+ *  full hour so Knock is immediately valid. */
+function prefillExample(subject, kind) {
+  els.subject.value = subject;
+  els.kind.value = kind;
+  els.notes.value = "";
+  if (!els.when.value) {
+    const d = new Date(Date.now() + 3600_000);
+    d.setMinutes(0, 0, 0);
+    const pad = (n) => String(n).padStart(2, "0");
+    els.when.value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:00`;
+  }
+  els.btnKnock.focus();
+}
+
+async function refreshLibrary() {
+  try {
+    const items = await listBriefs(anna);
+    if (!items.length) {
+      els.libraryCard.hidden = true;
+      return;
+    }
+    els.libraryList.replaceChildren();
+    for (const it of items) {
+      const li = document.createElement("li");
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "textlink";
+      const date = it.ts ? new Date(it.ts).toLocaleDateString() : "";
+      b.textContent = `${it.subject || "Brief"} — ${it.headline.slice(0, 80)}${date ? ` (${date})` : ""}`;
+      b.onclick = async () => {
+        try {
+          const record = await storageGet(anna, it.key);
+          if (record?.briefing?.headline) renderBrief(record);
+        } catch { /* library entry unreadable — stay on the form */ }
+      };
+      li.append(b);
+      els.libraryList.append(li);
+    }
+    els.libraryCard.hidden = false;
+  } catch {
+    els.libraryCard.hidden = true; // library never blocks the form
+  }
 }
 
 async function refreshLastBrief() {

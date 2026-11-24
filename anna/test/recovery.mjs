@@ -11,6 +11,7 @@ import {
   clearCheckpoint,
   saveBrief,
   readLastBrief,
+  listBriefs,
 } from "../bundle/recovery.js";
 import { fakeAnna } from "./fake-anna.js";
 
@@ -73,6 +74,32 @@ test("saveBrief writes briefs/<ts> and the briefs/last pointer", async () => {
   assert.equal(key, "briefs/1700000000000");
   const back = await readLastBrief(anna);
   assert.equal(back.briefing.headline, "h");
+});
+
+test("the library lists saved briefs newest first, excluding the pointer", async () => {
+  const anna = fakeAnna();
+  for (const ts of [1700000000000, 1700000500000, 1700000100000]) {
+    await saveBrief(anna, { ts, request: REQ, briefing: { headline: `h-${ts}` }, uncertain: [], verdict: {}, sources: [] });
+  }
+  const lib = await listBriefs(anna);
+  assert.deepEqual(lib.map((it) => it.ts), [1700000500000, 1700000100000, 1700000000000]);
+  assert.equal(lib[0].headline, "h-1700000500000");
+  assert.equal(lib[0].subject, "Acme Corp");
+  assert.ok(!lib.some((it) => it.key.endsWith("last")));
+});
+
+test("an unreadable brief is skipped, the rest of the library still lists", async () => {
+  const anna = fakeAnna();
+  await saveBrief(anna, { ts: 1700000000000, request: REQ, briefing: { headline: "good" }, uncertain: [], verdict: {}, sources: [] });
+  anna.store.set("briefs/1800000000000", "not a record");
+  const lib = await listBriefs(anna);
+  assert.deepEqual(lib.map((it) => it.headline), ["good"]);
+});
+
+test("a failing storage.list yields an empty library, never a throw", async () => {
+  const anna = fakeAnna();
+  anna.storage.list = async () => { throw new Error("list unavailable"); };
+  assert.deepEqual(await listBriefs(anna), []);
 });
 
 // The stale-run guard: an abandoned run id must not write checkpoints or

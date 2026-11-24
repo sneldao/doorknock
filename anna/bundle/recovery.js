@@ -2,7 +2,7 @@
 // window. Pattern follows brume/anna/bundle/recovery.js (versioned
 // envelope, strict validation, corrupt-is-never-auto-erased).
 
-import { storageGet, storageSet, unwrap } from "./session.js";
+import { storageGet, storageSet, unwrap, storageList } from "./session.js";
 
 export const ACTIVE_TASK_KEY = "doorknock/active-task";
 export const LAST_BRIEF_KEY = "briefs/last";
@@ -86,6 +86,37 @@ export async function saveBrief(anna, record) {
   await storageSet(anna, key, record);
   await storageSet(anna, LAST_BRIEF_KEY, { key });
   return key;
+}
+
+/** Newest-first library of saved briefs (cap 20). Never throws — a
+ *  library failure must not block the form. */
+export async function listBriefs(anna, limit = 20) {
+  try {
+    const keys = (await storageList(anna, BRIEF_PREFIX))
+      .filter((k) => k !== LAST_BRIEF_KEY && k.startsWith(BRIEF_PREFIX))
+      .sort()
+      .reverse()
+      .slice(0, limit);
+    const out = [];
+    for (const key of keys) {
+      try {
+        const record = await storageGet(anna, key);
+        if (isObj(record) && isObj(record.briefing) && str(record.briefing.headline, 500)) {
+          out.push({
+            key,
+            ts: typeof record.ts === "number" ? record.ts : 0,
+            subject: isObj(record.request) && typeof record.request.subject === "string"
+              ? record.request.subject
+              : "",
+            headline: record.briefing.headline,
+          });
+        }
+      } catch { /* one unreadable brief hides, the rest show */ }
+    }
+    return out;
+  } catch {
+    return [];
+  }
 }
 
 export async function readLastBrief(anna) {

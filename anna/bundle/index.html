@@ -40,12 +40,31 @@
             days, drafts a one-page brief, and an auditor rejects any claim —
             and any figure — that can't be traced to a fetched source.
           </p>
+          <p class="lede small">
+            Runs only when you press Knock, using Anna's managed search and
+            your model on your quota — no keys, no background refresh. Briefs
+            stay in your own Anna storage. Use a company or a public-role
+            person; read the cited sources before you rely on a claim.
+          </p>
         </header>
 
         <div id="last-brief-card" class="last-brief" hidden>
           <span class="mono-label">Last brief</span>
           <p id="last-brief-line"></p>
           <button id="btn-last-brief" type="button" class="textlink">Reopen it</button>
+        </div>
+
+        <div id="library-card" class="last-brief" hidden>
+          <span class="mono-label">Library — saved briefs on this device</span>
+          <ul id="library-list" class="library-list"></ul>
+        </div>
+
+        <div class="examples">
+          <span class="mono-label">Try an example — prefills the form, you press Knock</span>
+          <div class="resume-actions">
+            <button id="btn-example-shopify" type="button" class="textlink">Shopify · partnership</button>
+            <button id="btn-example-monzo" type="button" class="textlink">Monzo · general</button>
+          </div>
         </div>
 
         <form id="brief-form">
@@ -97,8 +116,7 @@
         <p class="hint" id="save-warn" hidden>
           This brief could not be saved to your library — it is only on screen.
           <button id="btn-save-retry" type="button" class="textlink">Retry save</button>
-        </p>
-        <p class="hint">Sources and figures were checked against the fetched excerpts. Read the sources before you rely on a claim.</p>
+        </p>          <p class="hint">Sources and figures were checked against the fetched excerpts. Fetched live at run time (1 identity + 3 last-30-day news searches) via Anna's managed search — no third-party keys. Read the sources before you rely on a claim.</p>
         <article id="brief-doc" class="brief-doc"></article>
       </section>
 

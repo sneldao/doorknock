@@ -175,6 +175,26 @@ try {
     assert.ok((await ev('document.getElementById("brief-doc").textContent')).includes("Ana Ruiz"));
   });
 
+  await ok("library lists saved briefs; an example button prefills a valid form", async () => {
+    await fresh();
+    await seed([{ text: PLAN }, { text: GOOD }]);
+    await waitScreen("screen-form");
+    assert.equal(await ev('document.getElementById("library-card").hidden'), true);
+    await ev('document.getElementById("btn-example-shopify").click()');
+    assert.equal(await ev('document.getElementById("in-subject").value'), "Shopify");
+    assert.equal(await ev('document.getElementById("in-kind").value'), "partnership");
+    assert.ok((await ev('document.getElementById("in-when").value')).length > 0, "example sets a meeting time");
+    await submit();
+    await waitScreen("screen-brief", 80);
+    await cli("reload");
+    await sleep(1400);
+    await waitScreen("screen-form");
+    assert.equal(await ev('document.getElementById("library-card").hidden'), false);
+    assert.ok((await ev('document.getElementById("library-list").textContent')).includes("Shopify"));
+    await ev('document.querySelector("#library-list button").click()');
+    await waitScreen("screen-brief");
+  });
+
   await ok("reload mid-draft -> resume banner -> resume makes zero new searches", async () => {
     await fresh();
     await seed([{ text: PLAN }, { hang: true }]);

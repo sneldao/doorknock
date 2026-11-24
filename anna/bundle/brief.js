@@ -140,9 +140,14 @@ const DRAFT_NUDGE =
 const isStr = (v, min, max) =>
   typeof v === "string" && v.trim().length >= min && v.length <= max;
 
-/** Strict, hand-rolled validation — mirrors BriefingSchema/DevelopmentSchema
- *  caps in src/lib/types.ts. Throws DraftError on prose, missing fields or
- *  over-cap values. */
+/** Tolerant validation — mirrors BriefingSchema/DevelopmentSchema caps in
+ *  src/lib/types.ts, but clamps model over-runs instead of hard-failing the
+ *  run (web app commit 7ccf0ef: a real run produced >6 developments and the
+ *  max(6) schema turned it into a schema error). Over-long strings are
+ *  truncated to their cap, over-long arrays are sliced to 6, under-min
+ *  items are dropped; only drafts with nothing salvageable throw
+ *  DraftError. The deterministic auditor gate stays strict — clamping never
+ *  invents sources, figures or names. */
 export function parseBriefing(text) {
   let obj;
   try {
@@ -153,42 +158,64 @@ export function parseBriefing(text) {
   if (!obj || typeof obj !== "object" || Array.isArray(obj)) {
     throw new DraftError("draft is not an object");
   }
-  if (!isStr(obj.masthead, 6, 140)) throw new DraftError("bad masthead");
-  if (!isStr(obj.headline, 8, 160)) throw new DraftError("bad headline");
-  if (!isStr(obj.situation, 30, 900)) throw new DraftError("bad situation");
-  if (!Array.isArray(obj.keyDevelopments) || obj.keyDevelopments.length < 1 || obj.keyDevelopments.length > 6) {
+  const trunc = (v, max) => String(v ?? "").trim().slice(0, max).trimEnd();
+  const coerceFlag = (v) => {
+    if (typeof v === "boolean") return v;
+    if (typeof v === "string") {
+      const t = v.trim().toLowerCase();
+      if (t === "true") return true;
+      if (t === "false") return false;
+    }
+    if (v === 1) return true;
+    if (v === 0) return false;
+    throw new DraftError("bad happenedWithinWindow");
+  };
+  const masthead = trunc(obj.masthead, 140);
+  const headline = trunc(obj.headline, 160);
+  const situation = trunc(obj.situation, 900);
+  if (masthead.length < 6) throw new DraftError("bad masthead");
+  if (headline.length < 8) throw new DraftError("bad headline");
+  if (situation.length < 30) throw new DraftError("bad situation");
+  if (!Array.isArray(obj.keyDevelopments) || obj.keyDevelopments.length < 1) {
     throw new DraftError("bad keyDevelopments");
   }
-  const devs = obj.keyDevelopments.map((d) => {
+  const devs = [];
+  for (const d of obj.keyDevelopments.slice(0, 6)) {
     if (!d || typeof d !== "object") throw new DraftError("bad development");
-    if (!isStr(d.headline, 8, 200)) throw new DraftError("bad development headline");
-    if (!isStr(d.summary, 20, 900)) throw new DraftError("bad development summary");
-    if (!isStr(d.whyItMatters, 10, 400)) throw new DraftError("bad development whyItMatters");
-    if (!Array.isArray(d.sourceUrls) || d.sourceUrls.length < 1 || d.sourceUrls.length > 6
-        || !d.sourceUrls.every((u) => isStr(u, 8, 400))) {
-      throw new DraftError("bad development sourceUrls");
-    }
-    if (typeof d.happenedWithinWindow !== "boolean") {
-      throw new DraftError("bad happenedWithinWindow");
-    }
-    return {
-      headline: d.headline.trim(),
-      summary: d.summary.trim(),
-      whyItMatters: d.whyItMatters.trim(),
-      sourceUrls: d.sourceUrls.map((u) => u.trim()),
-      happenedWithinWindow: d.happenedWithinWindow,
-    };
-  });
+    const dh = trunc(d.headline, 200);
+    const ds = trunc(d.summary, 900);
+    const dw = trunc(d.whyItMatters, 400);
+    if (dh.length < 8 || ds.length < 20 || dw.length < 10) continue; // drop, don't fail
+    if (!Array.isArray(d.sourceUrls)) throw new DraftError("bad development sourceUrls");
+    const urls = d.sourceUrls
+      .filter((u) => typeof u === "string")
+      .map((u) => u.trim())
+      .filter((u) => u.length >= 8 && u.length <= 400)
+      .slice(0, 6);
+    if (urls.length < 1) continue; // drop, don't fail
+    devs.push({
+      headline: dh,
+      summary: ds,
+      whyItMatters: dw,
+      sourceUrls: urls,
+      happenedWithinWindow: coerceFlag(d.happenedWithinWindow),
+    });
+  }
+  if (devs.length < 1) throw new DraftError("bad keyDevelopments");
   const list = (v, name) => {
-    if (!Array.isArray(v) || v.length < 2 || v.length > 6 || !v.every((s) => isStr(s, 10, 280))) {
-      throw new DraftError(`bad ${name}`);
-    }
-    return v.map((s) => s.trim());
+    if (!Array.isArray(v)) throw new DraftError(`bad ${name}`);
+    const out = v
+      .filter((s) => typeof s === "string")
+      .map((s) => trunc(s, 280))
+      .filter((s) => s.length >= 10)
+      .slice(0, 6);
+    if (out.length < 2) throw new DraftError(`bad ${name}`);
+    return out;
   };
   return {
-    masthead: obj.masthead.trim(),
-    headline: obj.headline.trim(),
-    situation: obj.situation.trim(),
+    masthead,
+    headline,
+    situation,
     keyDevelopments: devs,
     discussionPoints: list(obj.discussionPoints, "discussionPoints"),
     openQuestions: list(obj.openQuestions, "openQuestions"),
