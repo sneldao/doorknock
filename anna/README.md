@@ -135,11 +135,15 @@ sending an undocumented `limit`.
   `result-shopify-1280`, `result-monzo-1280`, `home-390`,
   `result-shopify-390`) as raw GitHub URLs
   (`https://raw.githubusercontent.com/sneldao/doorknock/main/anna/listing/<file>`).
-  The source assets stay in `listing/` for re-uploads. **Watch this on every
-  cut:** staging a new working draft reseeds the Console `short_description`
-  from the manifest `tagline` ("Read the room before you walk in.", 33 chars),
-  silently replacing the 81-char promise line — re-check the field after any
-  `apps publish` / `push` and Save it back. The public page is
+  The source assets stay in `listing/` for re-uploads. **The manifest
+  `tagline` IS the listing's short description.** Any metadata PATCH (`apps
+  push`, `apps publish`, `apps sync-meta`) sets the server's
+  `short_description` to `tagline`, and `@anna-ai/app-schema` has no
+  `short_description` field to send separately — so a Console-only edit to
+  that field is reverted by the next publish (verified 2026-11-24: a
+  no-op `sync-meta` with unchanged values still reset it). Keep `tagline`
+  informative and ≤160 chars; it is currently "Read the room before you walk
+  in — a source-audited one-page brief." (67). The public page is
   `https://anna.partners/store/@papa/doorknock` and 404s until the app is
   `PUBLISHED` (verified 2026-11-24: `PENDING_REVIEW` and `REJECTED` apps both
   return `{"detail":"Not Found"}`, while an `APPROVED` app renders), so the
