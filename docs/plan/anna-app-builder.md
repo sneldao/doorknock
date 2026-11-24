@@ -187,5 +187,10 @@ screen (`storage.list` over `briefs/`, best-effort so it never blocks a run),
 cover art in the product's paper/ink identity, and support/privacy pages that
 answer the data-source question without a reviewer having to ask.
 
-Remaining human steps: upload the listing assets in the Console, run the
-fresh-install Cloud Agent Tier-3 pass, cut v0.1.2, then `submit-review`.
+Listing assets, logo, cover, support/privacy URLs and the long description
+were uploaded to the Console on 2026-11-24 (app 938, handle `papa`). CLI is on
+`0.1.68` and the manifest is schema 4 against platform `1.1.0-beta.234`; the
+`storage.list` call now follows the documented `{prefix, cursor}` contract.
+
+Remaining human steps: run the fresh-install Cloud Agent Tier-3 pass (needs
+quota), cut v0.1.2, then `submit-review`.

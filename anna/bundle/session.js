@@ -44,8 +44,22 @@ export async function storageSet(anna, key, value) {
   return unwrap(await anna.storage.set({ key, value }));
 }
 
+/** Keys under `prefix`, following next_cursor (bounded at 5 pages). The
+ *  spec takes {prefix, cursor} and returns {items:[{key}], next_cursor} —
+ *  no limit argument is sent, since unknown params are not ours to assume. */
 export async function storageList(anna, prefix) {
-  const r = unwrap(await anna.storage.list({ prefix, limit: 100 }));
-  const items = r != null && typeof r === "object" && Array.isArray(r.items) ? r.items : [];
-  return items.map((it) => (it != null && typeof it === "object" ? it.key : null)).filter((k) => typeof k === "string");
+  const keys = [];
+  let cursor;
+  for (let page = 0; page < 5; page += 1) {
+    const r = unwrap(await anna.storage.list(cursor ? { prefix, cursor } : { prefix }));
+    const items = r != null && typeof r === "object" && Array.isArray(r.items) ? r.items : [];
+    for (const it of items) {
+      if (it != null && typeof it === "object" && typeof it.key === "string") keys.push(it.key);
+    }
+    cursor = r != null && typeof r === "object" && typeof r.next_cursor === "string" && r.next_cursor
+      ? r.next_cursor
+      : null;
+    if (!cursor) break;
+  }
+  return keys;
 }

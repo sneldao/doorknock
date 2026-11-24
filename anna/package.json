@@ -3,12 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "Doorknock \u2014 Anna App. Primary function is a saved, source-audited one-page meeting briefing. Bundle-only (no executas). Isolated from the parent Next.js toolchain.",
+  "description": "Doorknock — Anna App. Primary function is a saved, source-audited one-page meeting briefing. Bundle-only (no executas). Isolated from the parent Next.js toolchain.",
   "scripts": {
     "test": "node --test test/gate.mjs test/brief.mjs test/recovery.mjs && node test/smoke.mjs",
     "test:browser": "node test/browser-qa.mjs"
   },
   "devDependencies": {
-    "@anna-ai/cli": "^0.1.64"
+    "@anna-ai/cli": "^0.1.68"
   }
 }

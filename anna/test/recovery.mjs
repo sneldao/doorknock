@@ -96,6 +96,23 @@ test("an unreadable brief is skipped, the rest of the library still lists", asyn
   assert.deepEqual(lib.map((it) => it.headline), ["good"]);
 });
 
+test("listBriefs follows next_cursor across pages", async () => {
+  const anna = fakeAnna();
+  await saveBrief(anna, { ts: 1700000000000, request: REQ, briefing: { headline: "old" }, uncertain: [], verdict: {}, sources: [] });
+  await saveBrief(anna, { ts: 1700000500000, request: REQ, briefing: { headline: "new" }, uncertain: [], verdict: {}, sources: [] });
+  const realList = anna.storage.list;
+  let call = 0;
+  anna.storage.list = async (args) => {
+    call += 1;
+    if (call === 1) return { items: [{ key: "briefs/1700000000000" }], next_cursor: "p2" };
+    return { items: [{ key: "briefs/1700000500000" }], next_cursor: null };
+  };
+  const lib = await listBriefs(anna);
+  assert.deepEqual(lib.map((it) => it.headline), ["new", "old"]);
+  assert.equal(call, 2);
+  anna.storage.list = realList;
+});
+
 test("a failing storage.list yields an empty library, never a throw", async () => {
   const anna = fakeAnna();
   anna.storage.list = async () => { throw new Error("list unavailable"); };

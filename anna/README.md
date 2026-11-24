@@ -106,15 +106,35 @@ Fixed checklist, each step in a NEW chat (context size drives cost):
 4. Close the window mid-run, reopen it, Resume — confirm the saved brief
    reloads and no second sweep runs.
 
+## Platform versions (checked 2026-11-24)
+
+| Surface | Current | This app |
+|---|---|---|
+| Anna platform | `1.1.0-beta.234` (20 Nov 2026) | — |
+| `@anna-ai/cli` | `0.1.68` (npm latest) | `^0.1.68` |
+| `@anna-ai/app-schema` / dispatcher | `0.36.0` | manifest `schema: 4` |
+| `@anna-ai/app-runtime` (host SDK) | `0.29.0`, loaded via `/_sdk/latest/` | unpinned, always latest |
+
+Nothing in beta.229–234 requires a change here: the app declares no Executas,
+so the Deploy Gate is always open; it uses no `share.*`; `storage.quota` is
+optional and not called. `storage.list` follows the documented `{prefix,
+cursor}` → `{items, next_cursor}` contract (bounded at 5 pages) rather than
+sending an undocumented `limit`.
+
 ## Before publish
 
 - App id 938 (slug `doorknock`); identity cached in `.anna/app.json`.
-- Listing assets live in `listing/` — upload them in the Developer Console
-  Listing tab (logo via Upload, screenshots one URL per line, max 6):
-  `logo.png` (512×512, paper/ink "D" stamp) + 6 screenshots —
-  `home-1280`, `run-1280`, `result-shopify-1280`, `result-monzo-1280`,
-  `home-390`, `result-shopify-390` (raw GitHub URLs:
-  `https://raw.githubusercontent.com/sneldao/doorknock/main/anna/listing/<file>`).
+- **Listing uploaded 2026-11-24** (Console → Listing, app 938): logo cropped
+  by the platform to
+  `https://cdn.anna.partners/production/app-logos/938-doorknock/20261124130244_b4949380.webp`;
+  short description is the source-audited one-page promise; long description
+  is `app.json` verbatim (2,396 chars); homepage = the GitHub repo; support
+  and privacy = `anna/SUPPORT.md` / `anna/PRIVACY.md`; cover =
+  `listing/cover.png`; six screenshots (`home-1280`, `run-1280`,
+  `result-shopify-1280`, `result-monzo-1280`, `home-390`,
+  `result-shopify-390`) as raw GitHub URLs
+  (`https://raw.githubusercontent.com/sneldao/doorknock/main/anna/listing/<file>`).
+  The source assets stay in `listing/` for re-uploads.
   `test/capture-listing.mjs` replays `test/recordings/{shopify,monzo}.json`
   through the fake host (light scheme pinned) and writes the screenshots.
   The images are real model output (Reflection Beam, recorded 16 Nov 2026)
@@ -134,11 +154,12 @@ Fixed checklist, each step in a NEW chat (context size drives cost):
 
 ## Resubmission (v0.1.2 — answers the rejection)
 
-1. **Listing complete.** Logo + 6 screenshots uploaded in the Console
-   (field max is 6 — `result-monzo-390` and `run-390` stay in-repo only),
-   Support URL = `SUPPORT.md`, Privacy URL = `PRIVACY.md`.
-   Long description = `app.json` description (data sources, credentials:
-   none, refresh: runtime-only per run, storage: own app bucket).
+1. **Listing complete — done 2026-11-24.** Logo uploaded and cropped by the
+   platform; 6 screenshots (field max is 6, so `result-monzo-390` and
+   `run-390` stay in-repo only); Support URL = `SUPPORT.md`, Privacy URL =
+   `PRIVACY.md`, cover = `listing/cover.png`. Long description =
+   `app.json` description (data sources, credentials: none, refresh:
+   runtime-only per run, storage: own app bucket + brief library).
 2. **Data sources clarified.** In-app too: the form carries a
    no-keys/no-background-refresh/own-storage note, the brief screen states
    the live sweep shape (1 identity + 3 last-30-day news searches, basic
