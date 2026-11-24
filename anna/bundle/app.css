@@ -379,3 +379,11 @@ button.textlink, .textlink {
   .stamp { filter: none; }
   a { color: inherit; text-decoration: none; }
 }
+
+/* Inline form validation: a bare mention can open the window with an
+   empty form, so the missing subject is stated, never swallowed. */
+.form-error {
+  margin: 6px 0 0;
+  color: color-mix(in srgb, #b23a26 78%, var(--ink));
+}
+[aria-invalid="true"] { border-color: color-mix(in srgb, #b23a26 78%, var(--ink)); }

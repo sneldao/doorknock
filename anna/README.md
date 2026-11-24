@@ -5,8 +5,10 @@ subject + meeting time → host `web.search` 30-day sweep → `llm.complete`
 draft → the deterministic auditor gate → a saved, source-audited one-page
 briefing.
 
-**Status:** PENDING_REVIEW — v0.1.2 (`version_id=2902`) submitted for review
-2026-11-24, app id 938. The prior build, v0.1.1 (`version_id=2399`), was
+**Status:** PENDING_REVIEW — v0.1.3 (`version_id=2905`) submitted for review
+2026-11-24, app id 938. v0.1.2 (`version_id=2902`) held the listing fixes;
+v0.1.3 supersedes it the same day with the app-open prompt hardening and
+inline form validation ("Resubmission" 5–7). The prior build, v0.1.1 (`version_id=2399`), was
 rejected on three findings: (1) listing missing logo + screenshots, (2)
 external data sources need clarification, (3) analysis flow errored and could
 not complete. v0.1.2 answers all three (see "Resubmission" below); the review
@@ -193,6 +195,17 @@ sending an undocumented `limit`.
    `pending_review` and pinned the round to v0.1.2. `anna-app validate
    --strict` was green at cut time; `npm test` (gate + parser + recovery,
    33 smoke) and `npm run test:browser` were green.
-5. **Fresh-install Cloud Agent pass** per the Tier-3 checklist above is the
-   one item still outstanding — it needs a real Anna chat and account quota,
-   so it cannot be run from the CLI. Do it before the reviewer asks.
+5. **Fresh-install Cloud Agent pass — attempted 2026-11-24, partly blocked.**
+   Chat turns on Anna-hosted models fail with `Quota exhausted` or `403 — An
+   active plan is required`, so the pass ran on a BYOK provider (SandBase,
+   `anthropic/claude-haiku-5.5`), which does bypass the plan gate.
+6. **What the attempt proved.** The addendum is only injected when the app is
+   `#`-mentioned through the composer picker — a typed `#Doorknock` is plain
+   text and injects nothing. A bare mention also auto-opens the default view
+   (`view.default`) with no payload, so an empty form is a normal arrival.
+7. **Fixes shipped in v0.1.3** (`version_id=2905`): the manifest now leads with
+   a FIRST ACTION RULE (call `open_app_view` in the same turn, never interview
+   the user) plus a `user_message_prefix_template`; and the form now states
+   what is missing instead of silently ignoring a submit with an empty
+   subject — covered by the new browser-QA case "empty subject shows an
+   inline error instead of a silent no-op".

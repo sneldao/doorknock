@@ -70,13 +70,13 @@
         <form id="brief-form">
           <label class="field-label">
             <span class="mono-label">Who are you meeting? — company, or a person in a public role</span>
-            <input id="in-subject" class="field" type="text" maxlength="120" required
-              placeholder="e.g. Stripe" />
+            <input id="in-subject" class="field" type="text" maxlength="120"
+              placeholder="e.g. Stripe" autocomplete="off" />
           </label>
           <div class="field-row">
             <label class="field-label">
               <span class="mono-label">Meeting time</span>
-              <input id="in-when" class="field" type="datetime-local" required />
+              <input id="in-when" class="field" type="datetime-local" />
             </label>
             <label class="field-label">
               <span class="mono-label">Meeting type</span>
@@ -94,6 +94,7 @@
             <textarea id="in-notes" class="field" rows="2" maxlength="600"
               placeholder="e.g. first meeting; we're pitching payments infrastructure"></textarea>
           </label>
+          <p id="form-error" class="hint form-error" role="alert" hidden></p>
           <button id="btn-knock" class="knock" type="submit">Knock</button>
         </form>
       </section>

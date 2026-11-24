@@ -110,6 +110,19 @@ try {
     await waitScreen("screen-form", 40);
   });
 
+  await ok("empty subject shows an inline error instead of a silent no-op", async () => {
+    await fresh();
+    await waitScreen("screen-form");
+    await submit();
+    await sleep(250);
+    assert.equal(await ev('document.getElementById("form-error").hidden'), false);
+    assert.ok((await ev('document.getElementById("form-error").textContent')).includes("Tell Doorknock who"));
+    assert.equal(await activeScreen(), "screen-form");
+    await ev('document.getElementById("in-subject").value="Meridian Bank"');
+    await ev('document.getElementById("in-subject").dispatchEvent(new Event("input",{bubbles:true}))');
+    assert.equal(await ev('document.getElementById("form-error").hidden'), true);
+  });
+
   await ok("connect that never resolves -> error + Retry within the timeout", async () => {
     await fresh();
     await post("/__startup", { hang: true });

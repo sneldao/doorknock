@@ -201,10 +201,19 @@ the listing line. The public store page (`/store/@papa/doorknock`) 404s until
 the app is `PUBLISHED`, so the listing cannot be reviewed in the store before
 approval.
 
-v0.1.2 was cut (`version_id=2902`) and submitted on 2026-11-24 — the app is
-`pending_review`, pinned to that cut (`npm test`, `test:browser` and
-`validate --strict` all green at cut time). Any cut after this point is not
-part of the round, so a fix means re-cutting and re-running `submit-review`.
+v0.1.2 was cut (`version_id=2902`) and submitted on 2026-11-24. The Tier-3
+attempt the same day found two things that mattered more than the listing:
+Anna-hosted chat models are gated on a plan (`403`), so a BYOK provider is the
+only way to exercise the chat path on this account; and the assistant obeys
+the app addendum only when the app is `#`-mentioned through the composer
+picker, while a bare mention auto-opens the default view with an empty form.
+
+v0.1.3 (`version_id=2905`) answers both: the manifest opens with a FIRST
+ACTION RULE (call `open_app_view` in the same turn, never interview the user)
+plus a 254-char `user_message_prefix_template`, and the form reports a missing
+subject instead of swallowing the submit. It is the pinned review candidate;
+any cut after this point is not part of the round until `submit-review` runs
+again.
 
 Remaining human step: the fresh-install Cloud Agent Tier-3 pass (needs a real
 chat and account quota).

@@ -50,6 +50,7 @@ const els = {
   btnExampleShopify: $("btn-example-shopify"),
   btnExampleMonzo: $("btn-example-monzo"),
   btnKnock: $("btn-knock"),
+  formError: $("form-error"),
   feed: $("run-feed"),
   stamp: $("brief-stamp"),
   meta: $("brief-meta"),
@@ -224,6 +225,22 @@ function prefillRequest(req) {
 // ── run ─────────────────────────────────────────────────────────────────
 
 function wireForm() {
+  const clearFormError = () => {
+    if (els.formError.hidden) return;
+    els.formError.hidden = true;
+    els.formError.textContent = "";
+    els.subject.removeAttribute("aria-invalid");
+  };
+  const showFormError = (message) => {
+    els.formError.textContent = message;
+    els.formError.hidden = false;
+    els.subject.setAttribute("aria-invalid", "true");
+    els.subject.focus();
+  };
+  // The window can be opened by a bare mention (open_app_view with no payload),
+  // so an empty form is a normal arrival, not an error state — say what is
+  // missing instead of silently swallowing the submit.
+  els.subject.addEventListener("input", clearFormError);
   els.form.addEventListener("submit", (e) => {
     e.preventDefault();
     const req = {
@@ -232,7 +249,11 @@ function wireForm() {
       kind: els.kind.value,
       notes: els.notes.value.trim(),
     };
-    if (req.subject.length < 2) return;
+    if (req.subject.length < 2) {
+      showFormError("Tell Doorknock who you're meeting — a company name or a public-role person.");
+      return;
+    }
+    clearFormError();
     startRun(req, null);
   });
 }
