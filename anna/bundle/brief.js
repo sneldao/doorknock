@@ -291,8 +291,17 @@ export async function runSearchRounds(anna, plan, emit) {
     let round;
     try {
       round = await searchRound(anna, s);
-    } catch {
-      round = { query: s.query, topic: s.topic, days: s.days, hits: [] };
+    } catch (e) {
+      // A failed call is not an empty result set. Keep the reason so the run
+      // can say "search is unavailable" instead of blaming the subject.
+      round = {
+        query: s.query,
+        topic: s.topic,
+        days: s.days,
+        hits: [],
+        error: e?.code || e?.message || "search failed",
+      };
+      emit({ type: "stage", agent: "SCOUT", stage: "sweeping", note: `Search failed for “${s.query}” (${round.error})` });
     }
     rounds.push(round);
     emit({ type: "search", query: round.query, topic: round.topic, days: round.days, hits: round.hits.length });
@@ -326,7 +335,8 @@ export class PipelineError extends Error {
  *  sealed sweep without re-searching; `opts.sweepSealed(rounds)` fires when
  *  the transcript closes (checkpoint moment). Returns
  *  {briefing, uncertain, verdict, rounds, sources, plan}. Throws
- *  PipelineError("no_hits" | "draft_failed" | "empty_brief"). */
+ *  PipelineError("no_hits" | "search_failed" | "search_partial" |
+ *  "draft_failed" | "empty_brief"). */
 export async function runBriefing(anna, req, emit, opts = {}) {
   const meetingLabel = KIND_LABEL[req.kind] ?? "a meeting";
   // both forms of the meeting time so either passes the figure rule
@@ -342,7 +352,27 @@ export async function runBriefing(anna, req, emit, opts = {}) {
 
   const hits = rounds.flatMap((r) => r.hits);
   if (hits.length === 0) {
-    throw new PipelineError("no_hits", "The sweep returned nothing — check the subject spelling, or try again.");
+    // Three different failures used to share one message that told the person
+    // to check their spelling — wrong for the common case where the host
+    // search itself is unavailable (no plan / no web grant).
+    const failed = rounds.filter((r) => r.error);
+    const code = failed[0]?.error ?? "";
+    if (failed.length === rounds.length) {
+      throw new PipelineError(
+        "search_failed",
+        `Anna's managed search failed for all ${rounds.length} queries (${code}) — that is an account or host problem, not the subject spelling. Check the Anna plan or quota, then retry.`,
+      );
+    }
+    if (failed.length > 0) {
+      throw new PipelineError(
+        "search_partial",
+        `${rounds.length - failed.length} of ${rounds.length} searches ran and none returned sources (${code}) — retry once search recovers.`,
+      );
+    }
+    throw new PipelineError(
+      "no_hits",
+      `No sources came back for “${req.subject}” — check the spelling, or name a company instead of a person.`,
+    );
   }
   if (!opts.rounds) await opts.sweepSealed?.(rounds);
   emit({ type: "sources", urls: [...new Set(hits.map((h) => h.url))] });

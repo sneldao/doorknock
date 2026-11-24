@@ -223,5 +223,12 @@ composer `#` mention attaches is not observable from the DOM, so a
 natural-phrasing failure is not evidence that the addendum was ignored. Steps
 3–4 (full Knock, stamp, resume) remain unrun.
 
+Pressing Knock in the real window produced a finding of its own: 0 hits for
+Shopify and Monzo alike. `web.search` bills the main CU pool and answers
+`APP_NOT_GRANTED` without a subscription, and the pipeline was catching every
+search error and then telling the person to check their spelling. v0.1.4
+(`version_id=2906`) keeps each round's error and separates `search_failed`,
+`search_partial` and `no_hits`. It is the pinned review candidate.
+
 Remaining human step: the fresh-install Cloud Agent Tier-3 pass (needs a real
 chat and account quota).

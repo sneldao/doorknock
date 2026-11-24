@@ -5,10 +5,10 @@ subject + meeting time → host `web.search` 30-day sweep → `llm.complete`
 draft → the deterministic auditor gate → a saved, source-audited one-page
 briefing.
 
-**Status:** PENDING_REVIEW — v0.1.3 (`version_id=2905`) submitted for review
-2026-11-24, app id 938. v0.1.2 (`version_id=2902`) held the listing fixes;
-v0.1.3 supersedes it the same day with the app-open prompt hardening and
-inline form validation ("Resubmission" 5–7). The prior build, v0.1.1 (`version_id=2399`), was
+**Status:** PENDING_REVIEW — v0.1.4 (`version_id=2906`) submitted for review
+2026-11-24, app id 938. v0.1.2 (`version_id=2902`) held the listing fixes,
+v0.1.3 (`version_id=2905`) the app-open prompt and inline validation, and
+v0.1.4 reports search failures honestly ("Resubmission" 5–8). The prior build, v0.1.1 (`version_id=2399`), was
 rejected on three findings: (1) listing missing logo + screenshots, (2)
 external data sources need clarification, (3) analysis flow errored and could
 not complete. v0.1.2 answers all three (see "Resubmission" below); the review
@@ -235,3 +235,12 @@ sending an undocumented `limit`.
    what is missing instead of silently ignoring a submit with an empty
    subject — covered by the new browser-QA case "empty subject shows an
    inline error instead of a silent no-op".
+8. **Search failures are no longer disguised as bad spelling** (v0.1.4,
+   `version_id=2906`). `web.search` bills the main CU pool and answers
+   `APP_NOT_GRANTED` when the account has no subscription; the pipeline caught
+   every search error and then told the person to "check the subject
+   spelling". Each round now keeps its error, and the run distinguishes
+   `search_failed` (every query failed), `search_partial` (some failed, none
+   returned sources) and `no_hits` (calls succeeded, nothing recent found).
+   Covered by two unit tests in `test/brief.mjs` and the browser-QA case
+   "zero hits -> honest error, nothing saved".

@@ -148,3 +148,32 @@ test("zero hits across the sweep is an honest error, nothing drafted", async () 
   );
   assert.equal(anna.calls.llm.length, 1); // only the query plan, no drafts
 });
+
+test("every failed search call is reported as a search failure, not a spelling problem", async () => {
+  const anna = fakeAnna({
+    search: () => { const e = new Error("APP_NOT_GRANTED"); e.code = "APP_NOT_GRANTED"; throw e; },
+    llm: () => llmReply("{}"),
+  });
+  await assert.rejects(
+    runBriefing(anna, REQ, () => {}),
+    (e) => e instanceof PipelineError && e.kind === "search_failed"
+      && /APP_NOT_GRANTED/.test(e.message) && /not the subject spelling/.test(e.message),
+  );
+  assert.equal(anna.calls.llm.length, 1); // no draft attempted
+});
+
+test("a partial search failure is distinct from genuinely no results", async () => {
+  let n = 0;
+  const anna = fakeAnna({
+    search: () => {
+      n += 1;
+      if (n === 1) { const e = new Error("TIMEOUT"); e.code = "TIMEOUT"; throw e; }
+      return { results: [] };
+    },
+    llm: () => llmReply("{}"),
+  });
+  await assert.rejects(
+    runBriefing(anna, REQ, () => {}),
+    (e) => e instanceof PipelineError && e.kind === "search_partial" && /3 of 4 searches ran/.test(e.message),
+  );
+});

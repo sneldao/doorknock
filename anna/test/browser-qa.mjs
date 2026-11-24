@@ -321,7 +321,7 @@ try {
     await fillForm();
     await submit();
     await waitScreen("screen-error", 80);
-    assert.ok((await ev('document.getElementById("error-message").textContent')).includes("returned nothing"));
+    assert.ok((await ev('document.getElementById("error-message").textContent')).includes("No sources came back"));
     assert.equal((await post("/__dump")).kv["briefs/last"], undefined);
   });
 
