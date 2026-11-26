@@ -1,0 +1,57 @@
+{
+  "meeting": "Anthropic",
+  "meetingTime": "Thu 26 Nov 2026 \u00b7 10:00\u201310:30 Africa/Nairobi (07:00 UTC)",
+  "briefingsDelivered": 1,
+  "blocked": 0,
+  "verdictLine": "REPAIRED \u2014 6 source-traced developments retained; 0 moved to uncertain",
+  "initialGate": {
+    "pass": false,
+    "score": 0.8333333333333334,
+    "findings": [
+      {
+        "kind": "unsupported_name",
+        "field": "keyDevelopments",
+        "detail": "\u201cAnthropic's $26\u202fbillion private placement makes key suppliers shareholders\u201d names AI\u2011optimized \u2014 not in the cited excerpts.",
+        "urls": [
+          "https://futurumgroup.com/insights/anthropic-ipo-makes-its-biggest-suppliers-shareholders",
+          "https://www.capefearadvisors.com/strategy-lab/anthropic-four-of-eighteen-ties-named-on-both-sides"
+        ]
+      },
+      {
+        "kind": "unsupported_figure",
+        "field": "headline",
+        "detail": "\u201cAnthropic\u2019s IPO priced at $83 per share, began Nasdaq trading Nov\u202f19 and valu\u2026\u201d states 81b \u2014 not in the cited excerpts.",
+        "urls": []
+      },
+      {
+        "kind": "unsupported_figure",
+        "field": "situation",
+        "detail": "\u201cAnthropic completed its IPO pricing at $83 per share, launched Nasdaq trading\u2026\u201d states 81b \u2014 not in the cited excerpts.",
+        "urls": []
+      },
+      {
+        "kind": "unsupported_name",
+        "field": "discussionPoints",
+        "detail": "\u201cExplore how Anthropic\u2019s recent IPO proceeds and supplier equity structure cou\u2026\u201d names AI\u2011enhanced \u2014 not in the cited excerpts.",
+        "urls": []
+      }
+    ],
+    "verdictLine": "REJECT \u2014 1 of 6 developments fail source tracing; 2 unsupported figure findings; 2 unsupported name findings (grounding 83%)"
+  },
+  "finalGate": {
+    "pass": false,
+    "score": 1,
+    "findings": [
+      {
+        "kind": "unsupported_name",
+        "field": "situation",
+        "detail": "\u201cAnthropic, an AI safety and research company known for its Claude language mo\u2026\u201d names AI\u2011enabled \u2014 not in the cited excerpts.",
+        "urls": []
+      }
+    ],
+    "verdictLine": "REPAIRED \u2014 6 source-traced developments retained; 0 moved to uncertain"
+  },
+  "sourceCount": 27,
+  "uncertainCount": 0,
+  "eventId": "k68badmossn4vmeiq1v5prtei0"
+}

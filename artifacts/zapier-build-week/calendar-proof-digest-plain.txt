@@ -1,0 +1,79 @@
+Morning meeting briefings — Zapier Build Week proof digest
+
+Workflow: Google Calendar event detected via Zapier MCP → Doorknock source-audited brief → Gmail delivery via Zapier MCP
+
+Meetings considered: 1 synthetic external-attendee calendar event
+Briefs delivered: 1
+Briefs blocked: 0
+Audit repairs before delivery: 1 initial draft rejected; final draft repaired
+
+1. Anthropic — Thu 26 Nov 2026 · 10:00–10:30 Africa/Nairobi (07:00 UTC)
+Partnership briefing — Anthropic
+
+Anthropic's IPO pricing at $83 per share and its new supplier equity ties create fresh opportunities for deeper collaboration.
+
+Situation
+Anthropic, an AI safety and research company known for its Claude language models, priced its IPO at $83 per share in November 2026 and began trading on the Nasdaq shortly thereafter. Around the same time, the company updated its usage policy to govern physical AI actions, released two new Claude model variants, and completed a $26 billion private placement that turned several major chip, cloud, and software suppliers into shareholders.
+
+Key developments
+1. Anthropic prices IPO at $83 per share, begins Nasdaq trading November 19, 2026
+   Anthropic priced its initial public offering at $83 per share on November 18, 2026, and began trading on the Nasdaq on November 19, 2026.
+   Why it matters: This represents one of the largest AI-focused IPOs to date, providing substantial capital for continued AI research and signaling strong investor confidence in the generative AI sector despite market volatility.
+   Source: https://wolf.financial/blog/anthropic-ipo-timeline
+   Source: https://www.reuters.com/business/finance/anthropics-historic-debut-put-ais-promise-peril-wall-st-test-2026-11-19
+   Source: https://www.tmgm.com/en/academy/trading-academy/when-is-anthropic-ipo-everything-you-need-to-know
+   Source: https://finance.yahoo.com/technology/ai/article/anthropic-ipo-what-we-know-143321078.html
+   Source: https://www.anthropic.com/news/anthropic-prices-initial-public-offering
+   Source: https://futurumgroup.com/insights/anthropic-ipo-makes-its-biggest-suppliers-shareholders
+2. Anthropic updates usage policy effective November 12, 2026, adding governance for physical AI actions
+   Anthropic's 2026 Usage Policy took effect on November 12, binding Claude developers to updated safety requirements announced October 8. The policy introduces explicit governance for Claude deployments involving autonomous physical actions, mandating safety safeguards and compliance checks.
+   Why it matters: The update reflects Anthropic's commitment to safe AI deployment as its models are increasingly integrated into robotics and autonomous systems, reducing risk of harmful physical actions.
+   Source: https://techjacksolutions.com/ai-brief/anthropics-2026-usage-policy-now-effect-physical-action
+   Source: https://coheser.com/blog/anthropic-claude-usage-policy-november-2026-business
+   Source: https://saidwhen.org/documents/anthropic/usage-policy/46cbc05
+3. Anthropic releases two new Claude models in mid‑November 2026
+   During the week of November 9–15, 2026, Anthropic unveiled two new Claude model variants, expanding its frontier large language model lineup.
+   Why it matters: New model releases reinforce Anthropic's competitive position in the LLM market, offering improved capabilities and safety features for enterprise and developer customers.
+   Source: https://www.facebook.com/OPENDATASCI/posts/in-case-you-missed-it-last-week-in-ai-november-915-2026anthropic-released-two-ne/1560945989401443
+   Source: https://www.facebook.com/TechAmericaofficial/posts/anthropics-2026-expansion-included-major-claude-ai-model-launches-95-billion-in-/122196571130706176
+   Source: https://joinaiweek.com/blog/ai-news-roundup-november-2026
+4. Anthropic's $26 billion private placement turns several major suppliers into shareholders
+   Concurrent with its IPO, Anthropic completed a $26 billion private placement that turned several of its major chip, cloud, and software suppliers into shareholders, aligning supplier interests with the company's long‑term success.
+   Why it matters: Tying strategic suppliers to equity stakes strengthens supply chain relationships and may encourage deeper collaboration on hardware and services.
+   Source: https://futurumgroup.com/insights/anthropic-ipo-makes-its-biggest-suppliers-shareholders
+   Source: https://www.capefearadvisors.com/strategy-lab/anthropic-four-of-eighteen-ties-named-on-both-sides
+5. Anthropic CEO emphasizes cultural fit, rejecting talent that does not align
+   On November 13, 2026, Anthropic's CEO stated the company turns down talented individuals who do not fit its culture, noting he spends a significant portion of his time on talent and culture initiatives. A separate report noted an Anthropic hiring manager had stopped giving coding interviews.
+   Why it matters: A strong cultural focus helps maintain Anthropic's safety‑oriented, interdisciplinary work environment as it scales rapidly post‑IPO.
+   Source: https://www.instagram.com/reel/DgDJw9EDdOA
+   Source: https://shattered.io/anthropic-manager-drops-coding-interviews-hunger-beats-tenure-2026
+6. Anthropic publishes 'Working with AI' study showing enterprise adoption trends
+   Released November 23, 2026, Anthropic's qualitative 'Working with AI' report examines how enterprise Claude customers are adjusting hiring, contractor use, and organizational design based on sixty‑six interviews across fifty‑eight U.S. firms.
+   Why it matters: The study offers real‑world insight into AI's impact on workforce planning and helps businesses anticipate changes as they integrate advanced language models.
+   Source: https://explainx.ai/blog/anthropic-working-with-ai-enterprise-adoption-study-november-2026
+
+Discussion points
+- Explore how Anthropic's IPO proceeds and supplier equity alignment could fund joint AI safety initiatives.
+- Discuss integration of the new Claude model variants into workflow automation platforms.
+- Review implications of the updated usage policy for deploying Claude in physical robotics collaborations.
+- Examine insights from the 'Working with AI' study to inform workforce planning for joint projects.
+- Align on cultural expectations and talent strategies to ensure smooth collaboration post‑IPO.
+- Identify opportunities for co‑development of hardware‑optimized AI solutions with supplier shareholders.
+
+Open questions
+- What specific safety safeguards does Anthropic require for physical AI actions under its updated usage policy?
+- How will the $26 billion private placement and supplier equity stakes influence joint go‑to‑market strategies?
+- Which areas of the new Claude model releases offer the most immediate value for our automation use cases?
+- How can we leverage insights from the 'Working with AI' study to structure our internal AI adoption roadmap?
+- What cultural alignment mechanisms does Anthropic prioritize when partnering with external organizations?
+- What are the expected timelines for accessing the IPO proceeds for collaborative R&D funding?
+
+Trust gate
+REPAIRED — 6 source-traced developments retained; 0 moved to uncertain
+Initial draft audit: REJECT — 1 of 6 developments fail source tracing; 2 unsupported figure findings; 2 unsupported name findings (grounding 83%).
+Final audit note before delivery: “Anthropic, an AI safety and research company known for its Claude language mo…” names AI‑enabled — not in the cited excerpts.
+Uncertain items retained separately: 0
+Sources fetched/considered by the run: 27
+
+Generated by Doorknock: https://doorknock-2azp.onrender.com
+Source code: https://github.com/sneldao/doorknock
