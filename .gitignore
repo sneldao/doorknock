@@ -34,3 +34,7 @@ anna/node_modules/
 docs/video/kane-terminal/renders/
 docs/video/kane-terminal/.hyperframes/
 docs/video/raw/
+
+# video production media — keep local, never commit (scripts/docs stay tracked)
+docs/video/*.mp4
+docs/video/audio/
