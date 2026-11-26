@@ -28,6 +28,7 @@ Doorknock is a pre-meeting briefing agent. Tell it who you're meeting (a company
 The whole run streams live over SSE — you watch each query fly and the auditor's verdicts land, including the rejections.
 
 Details: [docs/verification.md](docs/verification.md) · [docs/architecture.md](docs/architecture.md) · [docs index](docs/README.md)
+Reviewing the browser-verification loop? Start at [docs/kane/](docs/kane/README.md) — evidence, demo video, reproduction steps.
 
 ## Quickstart
 

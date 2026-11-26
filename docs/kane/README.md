@@ -1,5 +1,20 @@
 # Kane CLI verification — recorded evidence
 
+> **Kane CLI hackathon reviewers — start here.**
+> Doorknock uses Kane CLI as its proof layer: every generated brief is opened
+> in real Chrome at a stable URL and audited, and failures feed back to the
+> agent crew for repair. Where each judging dimension is proven:
+>
+> | Dimension | Evidence |
+> |---|---|
+> | **Ships** | Live app: https://doorknock-2azp.onrender.com · committed Kane-native suite [`tests/kane/`](../../tests/kane/) · `kane-verify / kane` is a **required** check on `main` — PRs cannot merge uncertified |
+> | **Verified** | Three layers: deterministic claim-auditor ([`src/lib/gate.ts`](../../src/lib/gate.ts)) → real-browser Kane audit → evidence-policy contract [`kane/policy.yaml`](../../kane/policy.yaml) (zero failed/broken steps, every test asserting) |
+> | **Closed loop** | `hydra-loop.sse` below — Kane **failed** a sabotaged brief ("development cards have no source links"), the FIXER agent repaired it, the auditor re-gated, Kane re-verified **pass**. Literal fail → repair → re-verify, in the committed stream |
+> | **Craft** | The printable brief carries the Kane verdict stamp; `/?run=<id>` stable URLs; `DOORKNOCK_SABOTAGE` flag for honest reproduction |
+>
+> **Demo video (2 min):** https://youtu.be/Gi9SCwrX6nk — the loop above, on camera.
+> How it all works: [`../verification.md`](../verification.md) · reproduce it yourself: [Reproduce](#reproduce) below.
+
 Captured 17 November 2026 on localhost against the live crew, `kane-cli` 0.10.5,
 account `thepapajams`. These are the raw SSE streams the app's
 `POST /api/verify` endpoint emits — the same events the live feed renders.
