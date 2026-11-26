@@ -1,6 +1,8 @@
 # Zapier Build Week — trusted autonomous meeting prep
 
 > Seriously reassessed 2026-11-25 22:40 UTC. Build Week runs **23–29 Nov 2026**.
+> First proof completed and published 2026-11-25:
+> [Morning meeting briefings Build Week post](https://community.zapier.com/build-week-143/morning-meeting-briefings-google-calendar-source-audited-ai-brief-gmail-54141).
 > Direct Zapier MCP tool calls cost 0 tasks until **5 Jan 2027, noon ET**;
 > Free/trial plans are capped at 250 MCP calls/account/day. Sources:
 > [Build Week guide](https://community.zapier.com/build-week-143/build-week-challenge-guide-54120),
@@ -252,28 +254,246 @@ Use one operator's calendar, Gmail delivery, and a small controlled test set:
 - **Scheduling gap:** the saved skill is repeatable, but not self-running. True
   unattended operation requires an explicit scheduler.
 
-## Execution plan after Kane freeze
+## Progression plan
 
-Timebox this to a narrow vertical slice:
+### Strategic recommendation
 
-1. Connect Zapier MCP with only the scoped actions needed: Google Calendar read
-   and Gmail send. Do not add Webhooks/API by Zapier unless testing the portable
-   integration path.
-2. Create synthetic calendar events rather than exposing real meetings.
-3. Run the demo path once manually: Zapier MCP for Calendar/Gmail, direct agent
-   HTTP for Doorknock's SSE and run retrieval.
-4. Inspect every tool call and digest content.
-5. Save the working prompt as `.devin/skills/morning-meeting-briefings/` or the
-   equivalent skill in the AI tool actually used.
-6. Rerun from the one-line skill invocation.
-7. Capture the Gmail digest screenshot, redact private data, and post it to the
-   Build Week community with the appropriate challenge tag(s).
-8. If the artifact proves useful, add/test the smallest async automation contract
-   for `/api/brief`, then spec durable run storage and the portable Webhooks/API
-   integration path.
+Do **not** build a full or certified Zapier app next. Treat Zapier as the
+validation layer, not the product foundation.
+
+The durable product asset is an automation-ready trusted-briefing API. Zapier
+is one convenient way to validate whether people want unattended briefs before
+investing in native calendar/email/Slack plumbing.
+
+The progression is:
+
+1. Freeze feature work until the Kane deadline.
+2. Make Doorknock automation-ready with a small backend contract.
+3. Use Zapier to validate whether people actually want unattended briefs.
+4. Only then decide whether native calendar/email integrations deserve
+   investment.
+
+### Phase 0 — until the Kane deadline
+
+Do not change the product or core Kane submission now. At most, perform a final
+public judge-experience audit:
+
+- showcase opens logged out;
+- evidence links open;
+- attachments open;
+- X/Reddit/YouTube/Zapier links open;
+- demo still plays.
+
+The Zapier post has already been added to the Kane submission as an extra
+public post. It is launch-buzz and product-direction evidence, not part of the
+core Kane verification claims.
+
+### Phase 1 — automation-ready Doorknock contract
+
+This is the highest-value next technical step because it helps Zapier, native
+integrations, future agents, and scheduled jobs alike.
+
+#### Async briefing jobs
+
+Add:
+
+```http
+POST /api/brief?mode=async
+```
+
+Immediate response:
+
+```json
+{
+  "runId": "run_123",
+  "status": "queued",
+  "statusUrl": "/api/runs/run_123"
+}
+```
+
+Then make:
+
+```http
+GET /api/runs/run_123
+```
+
+return a machine-readable lifecycle:
+
+```json
+{
+  "status": "running | succeeded | failed",
+  "briefing": {},
+  "uncertain": [],
+  "gate": {},
+  "sources": []
+}
+```
+
+#### Durable run storage
+
+Move runs beyond the current in-memory 30-minute/24-run store. Automation
+results need to survive long enough for delivery, review, and debugging.
+
+#### Idempotency
+
+Accept an automation-stable reference such as:
+
+```json
+{
+  "externalRef": "google-calendar:event-id:start-time"
+}
+```
+
+A repeated submission should return the existing run instead of generating a
+duplicate brief.
+
+#### Callback support
+
+This is the key Zapier-friendly primitive. Allow the async request to include:
+
+```json
+{
+  "callbackUrl": "https://hooks.zapier.com/..."
+}
+```
+
+When the run finishes, Doorknock POSTs the completed result to the callback.
+That avoids fragile long polling inside Zapier.
+
+The callback payload should include substantive content, not just a link:
+
+- brief content;
+- source links;
+- gate verdict;
+- uncertain items;
+- failure/audit-blocked state;
+- externalRef.
+
+Sign the callback or include a user-specific secret so completions cannot be
+spoofed trivially.
+
+### Phase 2 — reference Zapier recipe, not a full Zapier app
+
+Once callbacks exist, document a copyable two-Zap pattern.
+
+#### Zap A — start the brief
+
+```text
+Google Calendar event start / upcoming event
+→ filter external attendees
+→ Webhooks by Zapier POST to Doorknock async API
+```
+
+#### Zap B — deliver the result
+
+```text
+Webhooks by Zapier Catch Hook receives Doorknock completion
+→ formatter/filter
+→ Gmail or Slack sends the digest
+```
+
+That is enough for validation. Do not invest in a certified/native Zapier app
+unless people actually use the recipe.
+
+### Phase 3 — validate with a tiny user group
+
+Recruit 3–5 technical users, ideally people already using Zapier, agents, or AI
+productivity tooling. Give them:
+
+- a setup guide;
+- a test calendar event format;
+- the Zapier recipe;
+- one clear success outcome: receive a source-audited digest before a real
+  external meeting.
+
+Measure:
+
+1. Can they connect it without help?
+2. Does the first digest arrive correctly?
+3. Do they use it again within a week?
+4. Do they trust the audit/uncertain sections?
+5. Which delivery channel do they prefer — Gmail, Slack, calendar description,
+   or something else?
+6. Are duplicates or false-positive meetings annoying?
+
+If nobody uses it twice, stop. If people use it repeatedly, invest further.
+
+### Phase 4 — decide the real product shape
+
+After validation, choose one of three paths.
+
+#### Path A — Zapier as the power-user layer
+
+Best if users are already Zapier-heavy. Invest in setup docs, template Zaps,
+delivery channels, error recovery, and Zapier-specific examples.
+
+#### Path B — native Google Calendar/Gmail integration
+
+Best if non-Zapier users want the feature. This is more product surface area,
+but better UX: connect Google once, select calendars, choose delivery
+preferences, and let Doorknock schedule and send everything itself.
+
+#### Path C — agent-native automation
+
+Best if the audience is primarily Devin/Claude/Cursor-style agent users. Invest
+in the saved skill, MCP instructions, and reusable prompts rather than
+classical SaaS integrations.
+
+Current expectation: **Path B is the best mainstream product path, while Zapier
+remains useful for power users and validation.** Validate before committing.
+
+### Explicitly deferred
+
+Do not build these yet:
+
+- a certified Zapier app;
+- full multi-user scheduling infrastructure;
+- broad reading of every calendar event;
+- Slack/Teams/Outlook support all at once;
+- complex digest preferences;
+- a paid automation tier.
+
+Those are scale problems. First prove the repeated behavior.
+
+## Immediate next milestone
+
+The best next milestone is:
+
+> **A user can trigger a Doorknock brief from a calendar event and receive the
+> completed, audit-gated result through a Zapier callback without keeping a
+> long-running request open.**
+
+That is the minimum architecture that turns the Build Week demo into something
+testable by others.
+
+## Completed first proof — 2026-11-25
+
+The Build Week proof has already validated the manual operator-level version of
+the loop:
+
+1. Created a synthetic external-attendee Google Calendar event for Anthropic.
+2. Read the event through Zapier MCP.
+3. Called the live Doorknock deployment directly from the agent.
+4. Doorknock's deterministic auditor rejected the first draft: 1 of 6
+   developments failed source tracing, with unsupported figure/name findings
+   and 83% grounding.
+5. The repair loop produced the delivered result: **REPAIRED — 6 source-traced
+   developments retained; 0 moved to uncertain**.
+6. Zapier MCP sent the finished digest through Gmail.
+7. Redacted digest screenshots were attached to the public Build Week post.
+8. The public post was added to the Kane submission under “posts anywhere
+   else.”
+
+Important security validation: Gmail reading through Zapier failed with
+“Insufficient Permission” because the Gmail grant was scoped for sending rather
+than mailbox reading. Sending worked.
+
+Evidence lives in `artifacts/zapier-build-week/`; the reusable skill lives in
+`.devin/skills/morning-meeting-briefings/`.
 
 ## Kane positioning
 
-Do not make Zapier part of the core Kane submission: it is unbuilt and does not
-score the verification loop. Its value is post-deadline product proof: the same
-trust gate operating when nobody manually opened the app.
+Do not make Zapier part of the core Kane verification narrative: it does not
+score the verification loop. Its value is additional launch buzz plus
+post-deadline product proof: the same trust gate operating when nobody manually
+opened the app.
